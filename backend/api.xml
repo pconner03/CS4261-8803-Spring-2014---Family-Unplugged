@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding="utf-8"?>
+<api>
+	<description>
+		Family Unplugged REST api.
+	</description>
+
+	<command id="activities" security="public">
+		<description>
+			Family Unplugged activities list
+		</description>
+		<index>
+			<description>
+				Lists all activities
+			</description>
+			<action file="backend.php">
+				<![CDATA[listActivities();]]>
+			</action>
+		</index>
+		<get>
+			<description>
+				Search activity by name
+			</description>
+			<action file="backend.php">
+				<![CDATA[getActivity($_REST['activities']);]]>
+			</action>
+		</get>
+
+	</command>
+
+</api>
