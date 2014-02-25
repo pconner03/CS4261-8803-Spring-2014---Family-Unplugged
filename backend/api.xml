@@ -13,7 +13,9 @@
 				Lists all activities
 			</description>
 			<action file="backend.php">
-				<![CDATA[listActivities();]]>
+				<![CDATA[
+					listActivities();
+				]]>
 			</action>
 		</index>
 		<get>
@@ -21,10 +23,48 @@
 				Search activity by name
 			</description>
 			<action file="backend.php">
-				<![CDATA[getActivity($_REST['activities']);]]>
+				<![CDATA[
+					getActivity($_REST['activities']);
+				]]>
 			</action>
 		</get>
 
 	</command>
+
+	<command id="userID" security="public">
+		<description>
+			Get userID to simplify future interactions
+		</description>
+		<index>
+			<description>
+				nothing
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					test();
+				]]>
+			</action>
+		</index>
+		<get>
+			<description><![CDATA[
+				Get user database field 'PersonID' given a username and password.
+				This should be run through SSL.
+
+				e.g. - https://dev.m.gatech.edu/.../api/userID/1?username={username}&password={password}
+
+				there must be something after userID/ before the parameters or
+				the action will be treated as an index
+
+				Maybe I should just put this in index?
+				]]>
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					getUserKey($_GET['username'], $_GET['password']);
+				]]>
+			</action>
+		</get>
+	</command>
+
 
 </api>
