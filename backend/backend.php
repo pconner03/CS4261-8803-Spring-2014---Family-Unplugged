@@ -32,5 +32,7 @@ function getUserKey($username, $password){
 	echo json_encode($result[0]); //Since there should only be one result, just return first array element
 }
 
-
+function test(){
+	echo "nothing here";
+}
 ?>
