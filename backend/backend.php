@@ -20,11 +20,11 @@ function getActivity($acName){
  * Retrieves a user's unique ID, which can be used for stateless data retrieval
  * from the REST api
  */
-function getUserKey($username, $password){
+function getUserKey($encUsername, $encPassword){
 	$dbQuery = sprintf("SELECT PersonID from Person WHERE 
 		LoginID='%s' AND PasswordHash=SHA2('%s', 256)", 
-		mysql_real_escape_string(base64_decode(urldecode($username))), 
-		mysql_real_escape_string(base64_decode(urldecode($password))));
+		mysql_real_escape_string(base64_decode(urldecode($encUsername))), 
+		mysql_real_escape_string(base64_decode(urldecode($encPassword))));
 	//We are using SHA-256 hashing
 
 	$result = getDBResultsArray($dbQuery);
@@ -32,17 +32,31 @@ function getUserKey($username, $password){
 	echo json_encode($result[0]); //Since there should only be one result, just return first array element
 }
 
-function test(){
-	/*
-	foreach($GLOBALS as $value){
-		if(gettype($value) == "array"){
-			var_dump($value);
-		}
-		else{
-			echo $value;
-		}
+function getUserInfo($attribute, $encUsername, $encPassword){
+
+	switch($attribute){
+		case "Email":
+		case "DateOfBirth":
+		case "Name":
+		case "TrackHours":
+			break;//make sure invalid field wasn't entered
+		default:
+			echo "";
+			return;
 	}
-	*/
-	var_dump($GLOBALS);
+	//Should I encode the attribute, too?
+	$dbQuery = sprintf("SELECT %s from Person WHERE 
+		LoginID='%s' AND PasswordHash=SHA2('%s', 256)", $attribute,
+		mysql_real_escape_string(base64_decode(urldecode($encUsername))), 
+		mysql_real_escape_string(base64_decode(urldecode($encPassword))));
+	$result = getDBResultsArray($dbQuery);
+	header("Content-type: text/plain");
+	echo json_encode($result[0]);
+
+}
+
+
+function test(){
+	echo "nothing";
 }
 ?>
