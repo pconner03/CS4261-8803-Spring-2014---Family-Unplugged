@@ -60,7 +60,7 @@
 			</description>
 			<action file="backend.php">
 				<![CDATA[
-					getUserKey($_GET['username'], $_GET['password']);
+					getUserKey($_GET['encUsername'], $_GET['encPassword']);
 				]]>
 			</action>
 		</get>

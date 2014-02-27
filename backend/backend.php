@@ -23,8 +23,8 @@ function getActivity($acName){
 function getUserKey($username, $password){
 	$dbQuery = sprintf("SELECT PersonID from Person WHERE 
 		LoginID='%s' AND PasswordHash=SHA2('%s', 256)", 
-		mysql_real_escape_string($username), 
-		mysql_real_escape_string($password));
+		mysql_real_escape_string(base64_decode(urldecode($username))), 
+		mysql_real_escape_string(base64_decode(urldecode($password))));
 	//We are using SHA-256 hashing
 
 	$result = getDBResultsArray($dbQuery);
@@ -33,6 +33,16 @@ function getUserKey($username, $password){
 }
 
 function test(){
-	echo "nothing here";
+	/*
+	foreach($GLOBALS as $value){
+		if(gettype($value) == "array"){
+			var_dump($value);
+		}
+		else{
+			echo $value;
+		}
+	}
+	*/
+	var_dump($GLOBALS);
 }
 ?>
