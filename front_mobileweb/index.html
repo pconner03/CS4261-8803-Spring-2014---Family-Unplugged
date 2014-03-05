@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css">
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+<body>
+
+<!--first page -->
+<div data-role="page" id="main-page">
+    <div data-role="header">
+    	<h1>Family Unplugged</h1>
+    </div>
+    <div data-role="content">
+    	<h1>Activity Log: <text id="_date">Date Not Found</text></h1>
+		<div data-role="controlgroup" data-type="horizontal">
+			<a href="index.html" data-role="button" data-icon="arrow-l" data-iconpos="left">Prev</a>
+			<a href="index.html" data-role="button" data-icon="arrow-r" data-iconpos="right">Next</a>
+		</div>
+			
+		<a href="edit.html" data-role="button" data-icon="plus" data-iconpos="left">Add New Activity</a>
+    
+        <ul data-role="listview" id="activity-list" data-inset="true">
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+    <div data-role="page" id="view-page">
+ 
+        <div data-role="header">
+            <h1>Family Unplugged</h1>
+        </div><!-- /header -->
+ 
+        <div data-role="content">
+            <h2>View Activity: <text id="_date">Date Not Found</text></h2>
+     			<p>
+     			Type: <strong id="_activity">Activity Not Found</strong><br><br>
+				
+     			Description: <strong id="_description">Description Not Found</strong><br><br>
+     			
+     			Duration: <strong id="_duration">Duration Not Found</strong><br><br>
+     			
+     			Provider: <strong id="_provider">Provider Not Found</strong>
+     			</p>
+     			
+				<p>Last updated: <text id="_timestamp">Timestamp Not Found</text></p>
+		
+	    		<a href="#main-page" data-role="button" data-icon="arrow-l">Back</a>
+			</form>
+        </div><!-- /content -->
+ 
+        <div data-role="footer">
+            <h4>Product of P-JJAM, inc.</h4>
+        </div><!-- /footer -->
+ 
+    </div><!-- /page -->
+
+
+
+
+
+	<div data-role="page" id="edit-page">
+ 
+        <div data-role="header">
+            <h1>Family Unplugged</h1>
+        </div><!-- /header -->
+ 
+        <div data-role="content">
+            <h2>Edit Activity: <text id="_date">Date Not Found</text></h2>
+	    	<form method="post" action="#main-page">
+     			<label for="_selectActivity" class="select">Type:</label>
+				<select name="selectActivity" id="_selectActivity">
+					<option value="browsing">Browsing the Web/Social Media</option>
+					<option value="creative">Creative</option>
+					<option value="education">Educational</option>
+    				<option value="ex_light">Exercise (Light)</option>
+    				<option value="ex_heavy">Exercise (Heavy)</option>
+    				<option value="social">Social/Relationship Building</option>
+    				<option value="TVmovies">TV/Movie</option>
+    				<option value="videogames">Videogames</option>
+    				<option value="volunteer">Volunteering</option>
+				</select>
+     			
+     			<label for="_description">Description:</label>
+     			<input type="text" name="description" id="_description" value="" autocomplete="on”/>
+     			
+     			<label for="_duration" class="select">Duration:</label>
+				<select name="select-choice-1" id="_duration">
+    				<option value="0.5">0.5 hours</option>
+    				<option value="1">1 hour</option>
+    				<option value="1.5">1.5 hours</option>
+    				<option value="2">2 hours</option>
+    				<option value="2.5">2.5 hour</option>
+    				<option value="3">3 hours</option>
+    				<option value="3.5">3.5 hours</option>
+    				<option value="4">4 hours</option>
+    				<option value="4.5">4.5 hour</option>
+    				<option value="5">5 hours</option>
+    				<option value="5.5">5.5 hours</option>
+    				<option value="6">6 hours</option>
+    				<option value="6.5">6.5 hour</option>
+    				<option value="7">7 hours</option>
+    				<option value="7.5">7.5 hours</option>
+    				<option value="8">8 hours</option>
+    				<option value="8.5">8.5 hour</option>
+    				<option value="9">9 hours</option>
+    				<option value="9.5">9.5 hour</option>
+    				<option value="10+">10+ hours</option>
+				</select>
+				<p>Last updated: <text id="_timestamp">Timestamp Not Found</text></p>
+		
+	    		<button type="submit" id="submitform">Save</button>
+			</form>
+        </div><!-- /content -->
+ 
+        <div data-role="footer">
+            <h4>Product of P-JJAM, inc.</h4>
+        </div><!-- /footer -->
+
+
+
+<script src="index.js"></script>
+</body>
+</html>
