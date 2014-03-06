@@ -1,31 +1,34 @@
 //assuming this comes from an ajax call
 var info = [
 	{
-		id: 111112,
-		date: "3/5/14",
-   		activityType: "ex_heavy",
-    	description: "Running",
+		EventID: 111112,
+		EventDate: "3/5/14",
+   		ActivityID: 123456,
+   		ActivityName: "Exercise (Heavy)",
+    	Note: "Running",
     	duration: 0.5,
-    	timestamp: "3/5/14, 11:57pm",
-    	provider: "me"
+    	EntryTimeStamp: "3/5/14, 11:57pm",
+    	ReportedBy: "me"
 	},
 	{
-		id: 111113,
-		date: "3/5/14",
-    	activityType: "social",
-    	description: "Chili's with the team",
+		EventID: 111113,
+		EventDate: "3/5/14",
+    	ActivityID: 123457,
+   		ActivityName: "Social/Relationship Building",
+    	Note: "Chili's with the team",
     	duration: 1.5,
-    	timestamp: "3/5/14, 11:58pm",
-    	provider: "me"
+    	EntryTimeStamp: "3/5/14, 11:58pm",
+    	ReportedBy: "me"
 	},
 	{
-		id: 111114,
-		date: "3/5/14",
-    	activityType: "TVmovies",
-    	description: "House of Cards",
+		EventID: 111114,
+		EventDate: "3/5/14",
+    	ActivityID: 123457,
+   		ActivityName: "TV/Movie",
+    	Note: "House of Cards",
     	duration: 5,
-    	timestamp: "3/5/14, 11:59pm",
-    	provider: "Netflix"
+    	EntryTimeStamp: "3/5/14, 11:59pm",
+    	ReportedBy: "Netflix"
 	}
 ];
 	
@@ -56,12 +59,12 @@ $(document).on("pageinit", "#main-page", function () {
         //meaning I'm adding to the existing data. not replacing it.
         //store index value in array as id of the <a> tag
         li += '<li><a href="#" id="'+ i;
-        if (activity.provider=='me'){
-        	li += '" class="edit"><h2>'+activityTranslator[activity.activityType];
+        if (activity.ReportedBy=='me'){
+        	li += '" class="edit"><h2>'+activity.ActivityName;
         }else{
-        	li += '" class="view"><h2>'+activityTranslator[activity.activityType];
+        	li += '" class="view"><h2>'+activity.ActivityName;
         }
-        li+= '</h2><p>'+activity.description+'</p><p>'+activity.duration+'</p><p class="ui-li-aside">Provided by <strong>'+activity.provider+'</strong></p></a></li>';
+        li+= '</h2><p>'+activity.Note+'</p><p>'+activity.duration+'</p><p class="ui-li-aside">Provided by <strong>'+activity.ReportedBy+'</strong></p></a></li>';
     });
     //append list to ul
     $("#activity-list").append(li).promise().done(function () {
@@ -99,13 +102,13 @@ $(document).on("pageinit", "#main-page", function () {
 $(document).on("pagebeforeshow", "#view-page", function () {
     var info = $(this).data("info");
     
-    $(this).find("#_date").html(info.date);
+    $(this).find("#_date").html(info.EventDate);
     
-    $(this).find("#_activity").html(activityTranslator[info.activityType]);
-    $(this).find("#_description").html(info.description);
+    $(this).find("#_activity").html(info.ActivityName);
+    $(this).find("#_description").html(info.Note);
     $(this).find("#_duration").html(info.duration);
-    $(this).find("#_provider").html(info.provider);
-    $(this).find("#_timestamp").html(info.timestamp);
+    $(this).find("#_provider").html(info.ReportedBy);
+    $(this).find("#_timestamp").html(info.EntryTimeStamp);
 
 });
 
@@ -116,9 +119,10 @@ $(document).on("pagebeforeshow", "#view-page", function () {
 $(document).on("pagebeforeshow", "#edit-page", function () {
     var info = $(this).data("info");
     
-    $(this).find("#_date").html(info.date);
-    $(this).find("#_selectActivity").val(info.activityType); //fix me
-    $(this).find("#_description").val(info.description);
+    $(this).find("#_date").html(info.EventDate);
+    $(this).find("#_selectActivity").val(info.ActivityID); //fix me
+    //$(this).find("<option>+info.activityType").prop({selected: true});
+    $(this).find("#_description").val(info.Note);
     $(this).find("#_duration").val(info.duration); //fix me
-	$(this).find("#_timestamp").html(info.timestamp);
+	$(this).find("#_timestamp").html(info.EntryTimeStamp);
 });

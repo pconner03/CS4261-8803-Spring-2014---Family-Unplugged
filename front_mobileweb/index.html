@@ -9,11 +9,11 @@
 <!--first page -->
 <div data-role="page" id="main-page">
     <div data-role="header">
-    	<h1>Family Unplugged</h1>
+    	<h1>Activity Log</h1>
     </div>
     <div data-role="content">
-    	<h1>Activity Log: <text id="_date">Date Not Found</text></h1>
-		<div data-role="controlgroup" data-type="horizontal">
+    	<h2 id="_date" align="center">Date Not Found</h2>
+		<div data-role="controlgroup" data-type="horizontal" align="center">
 			<a href="index.html" data-role="button" data-icon="arrow-l" data-iconpos="left">Prev</a>
 			<a href="index.html" data-role="button" data-icon="arrow-r" data-iconpos="right">Next</a>
 		</div>
@@ -32,11 +32,11 @@
     <div data-role="page" id="view-page">
  
         <div data-role="header">
-            <h1>Family Unplugged</h1>
+            <h1>View Entry</h1>
         </div><!-- /header -->
  
         <div data-role="content">
-            <h2>View Activity: <text id="_date">Date Not Found</text></h2>
+            <h2 id="_date">Date Not Found</h2>
      			<p>
      			Type: <strong id="_activity">Activity Not Found</strong><br><br>
 				
@@ -66,23 +66,23 @@
 	<div data-role="page" id="edit-page">
  
         <div data-role="header">
-            <h1>Family Unplugged</h1>
+            <h1>Edit Entry</h1>
         </div><!-- /header -->
  
         <div data-role="content">
-            <h2>Edit Activity: <text id="_date">Date Not Found</text></h2>
-	    	<form method="post" action="#main-page">
+            <h2 id="_date">Date Not Found</h2>
+	    	<form method="post" action="index.html">
      			<label for="_selectActivity" class="select">Type:</label>
 				<select name="selectActivity" id="_selectActivity">
-					<option value="browsing">Browsing the Web/Social Media</option>
-					<option value="creative">Creative</option>
-					<option value="education">Educational</option>
-    				<option value="ex_light">Exercise (Light)</option>
-    				<option value="ex_heavy">Exercise (Heavy)</option>
-    				<option value="social">Social/Relationship Building</option>
-    				<option value="TVmovies">TV/Movie</option>
-    				<option value="videogames">Videogames</option>
-    				<option value="volunteer">Volunteering</option>
+					<option>Browsing the Web/Social Media</option>
+					<option>Creative</option>
+					<option>Educational</option>
+    				<option>Exercise (Light)</option>
+    				<option>Exercise (Heavy)</option>
+    				<option>Social/Relationship Building</option>
+    				<option>TV/Movie</option>
+    				<option>Videogames</option>
+    				<option>Volunteering</option>
 				</select>
      			
      			<label for="_description">Description:</label>
