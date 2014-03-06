@@ -1,3 +1,5 @@
+var dateFromQueryParams = "3/5/14";
+
 //assuming this comes from an ajax call
 var info = [
 	{
@@ -31,7 +33,8 @@ var info = [
     	ReportedBy: "Netflix"
 	}
 ];
-	
+
+//deprecated. Delete once we have this info elsewhere	
 var activityTranslator = {
 	browsing: "Browsing the Web/Social Media",
 	creative: "Creative",
@@ -49,6 +52,7 @@ var activityTranslator = {
 //write all your on-load functions and event handlers pertaining to page1
 $(document).on("pageinit", "#main-page", function () {
 
+	$("#_date").text(dateFromQueryParams);
 
     //set up string for adding <li/>
     var li = "";
