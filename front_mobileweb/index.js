@@ -93,7 +93,7 @@ $(document).on("pageinit", "#main-page", function () {
         }else{
         	li += '" class="view"><h2>'+activity.ActivityName;
         }
-        li+= '</h2><p>'+activity.Note+'</p><p>'+activity.duration+'</p><p class="ui-li-aside">Provided by <strong>'+activity.ReportedBy+'</strong></p></a></li>';
+        li+= '</h2><p>'+activity.Note+'</p><p>'+activity.duration+' hours</p><p class="ui-li-aside">Provided by <strong>'+activity.ReportedBy+'</strong></p></a></li>';
     });
     //append list to ul
     $("#activity-list").append(li).promise().done(function () {

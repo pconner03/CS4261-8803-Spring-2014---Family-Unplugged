@@ -42,21 +42,24 @@
         </div><!-- /header -->
  
         <div data-role="content">
-            <h2 id="_date">Date Not Found</h2>
+            <h2 align="center" id="_date">Date Not Found</h2>
      			<p>
      			Type: <strong id="_activity">Activity Not Found</strong><br><br>
 				
      			Description: <strong id="_description">Description Not Found</strong><br><br>
      			
-     			Duration: <strong id="_duration">Duration Not Found</strong><br><br>
+     			Duration: <strong><text id="_duration">Duration Not Found</text> hours</strong><br><br>
      			
      			Provider: <strong id="_provider">Provider Not Found</strong>
      			</p>
      			
-				<p>Last updated: <text id="_timestamp">Timestamp Not Found</text></p>
-		
-	    		<a href="index.html" data-role="button" data-icon="back" data-inline="true">Back</a>
-	    		<a data-theme="e" href="index.html" data-role="button" data-icon="delete" data-iconpos="right" data-inline="true">Delete</a>
+				<p>Reported: <text id="_timestamp">Timestamp Not Found</text></p>
+				<table width="100%">
+					<tr>
+	    				<td align="left"><a href="index.html" data-role="button" data-icon="back" data-inline="true">Back</a></td>
+	    				<td align="right"><a data-theme="e" href="index.html" data-role="button" data-icon="delete" data-iconpos="right" data-inline="true">Delete</a></td>
+	    			</tr>
+	    		</table>
 			</form>
         </div><!-- /content -->
  
@@ -73,7 +76,7 @@
         </div><!-- /header -->
  
         <div data-role="content">
-            <h2 id="_date">Date Not Found</h2>
+            <h2 align="center" id="_date">Date Not Found</h2>
 	    	<form method="post" action="index.html">
      			<label for="_selectActivity" class="select">Type:</label>
 				<select name="selectActivity" id="_selectActivity">
@@ -114,11 +117,15 @@
     				<option value="9.5">9.5 hour</option>
     				<option value="10+">10+ hours</option>
 				</select>
-				<p>Last updated: <text id="_timestamp">Timestamp Not Found</text></p>
+				<p>Reported: <text id="_timestamp">Timestamp Not Found</text></p>
 				<table width="100%">
 					<tr>
-						<td align="left"><a href="index.html" data-role="button" data-icon="back" data-iconpos="left">Back</a>
-						<td align="center"><button type="submit" data-icon="check" data-iconpos="right" id="submitform">Save</button></td>
+						<td align="left">
+							<a href="index.html" data-role="button" data-icon="back" data-iconpos="left">Back</a>
+						</td>
+						<td align="center">
+							<button type="submit" data-icon="check" data-iconpos="right" id="submitform">Save</button>
+						</td>
 						<td align="right">
 							<a data-theme="e" href="index.html" data-role="button" data-icon="delete" data-iconpos="right">Delete</a>
 						</td>
