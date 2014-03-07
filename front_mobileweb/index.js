@@ -55,7 +55,7 @@ var info = [
     	duration: 2,
     	EntryTimeStamp: "3/5/14, 11:58pm",
     	ThirdPartyEntry: true,
-    	ReportedBy: "XBox Live"
+    	ReportedBy: "Xbox Live"
 	}
 ];
 
