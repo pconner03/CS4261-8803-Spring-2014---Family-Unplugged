@@ -155,3 +155,8 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
     $(this).find("#_duration").val(info.duration); //fix me
 	$(this).find("#_timestamp").html(info.EntryTimeStamp);
 });
+
+
+$(document).on("pagebeforeshow", "#add-page", function () {
+    $(this).find("#_date").html(dateFromQueryParams);
+});
