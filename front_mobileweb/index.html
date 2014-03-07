@@ -1,21 +1,27 @@
 <!doctype html>
 <html>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css">
-    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	<link rel="stylesheet" href="css/themes/Lights.min.css" />
+	<link rel="stylesheet" href="css/themes/Lights.css" />
+	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" />
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 <body>
 
 <!--first page -->
-<div data-role="page" id="main-page">
+<div data-role="page" id="main-page" data-theme="b">
     <div data-role="header">
     	<h1>Activity Log</h1>
     </div>
     <div data-role="content">
-    	<h2 id="_date" align="center">Date Not Found</h2>
-		<div data-role="controlgroup" data-type="horizontal" align="center">
-			<a href="index.html" data-role="button" data-icon="arrow-l" data-iconpos="left">Prev</a>
-			<a href="index.html" data-role="button" data-icon="arrow-r" data-iconpos="right">Next</a>
+		<table width="100%">
+  			<tr>
+    			<td align="left"><a href="index.html" data-role="button" data-icon="arrow-l" data-iconpos="left" data-mini="true">Prev</a></td>
+    			<td align="center"><h2 id="_date" align="center">Date Not Found</h2></td>
+    			<td align="right"><a href="index.html" data-role="button" data-icon="arrow-r" data-iconpos="right" data-mini="true">Next</a></td>
+  			</tr>
+		</table>
 		</div>
 			
 		<a href="edit.html" data-role="button" data-icon="plus" data-iconpos="left">Add New Activity</a>
@@ -29,7 +35,7 @@
 
 
 
-    <div data-role="page" id="view-page">
+    <div data-role="page" id="view-page" data-theme="b">
  
         <div data-role="header">
             <h1>View Entry</h1>
@@ -49,7 +55,8 @@
      			
 				<p>Last updated: <text id="_timestamp">Timestamp Not Found</text></p>
 		
-	    		<a href="#main-page" data-role="button" data-icon="arrow-l">Back</a>
+	    		<a href="index.html" data-role="button" data-icon="back" data-inline="true">Back</a>
+	    		<a data-theme="e" href="index.html" data-role="button" data-icon="delete" data-iconpos="right" data-inline="true">Delete</a>
 			</form>
         </div><!-- /content -->
  
@@ -59,7 +66,7 @@
 
 
 
-	<div data-role="page" id="edit-page">
+	<div data-role="page" id="edit-page" data-theme="b">
  
         <div data-role="header">
             <h1>Edit Entry</h1>
@@ -108,9 +115,15 @@
     				<option value="10+">10+ hours</option>
 				</select>
 				<p>Last updated: <text id="_timestamp">Timestamp Not Found</text></p>
-		
-	    		<button type="submit" id="submitform">Save</button>
-			</form>
+				<table width="100%">
+					<tr>
+						<td align="left"><a href="index.html" data-role="button" data-icon="back" data-iconpos="left">Back</a>
+						<td align="center"><button type="submit" data-icon="check" data-iconpos="right" id="submitform">Save</button></td>
+						<td align="right">
+							<a data-theme="e" href="index.html" data-role="button" data-icon="delete" data-iconpos="right">Delete</a>
+						</td>
+					</tr>
+				</table>
         </div><!-- /content -->
 
 	</div><!-- /page-->

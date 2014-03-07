@@ -10,6 +10,7 @@ var info = [
     	Note: "Running",
     	duration: 0.5,
     	EntryTimeStamp: "3/5/14, 11:57pm",
+    	ThirdPartyEntry: false,
     	ReportedBy: "me"
 	},
 	{
@@ -20,6 +21,7 @@ var info = [
     	Note: "Chili's with the team",
     	duration: 1.5,
     	EntryTimeStamp: "3/5/14, 11:58pm",
+    	ThirdPartyEntry: false,
     	ReportedBy: "me"
 	},
 	{
@@ -30,7 +32,30 @@ var info = [
     	Note: "House of Cards",
     	duration: 5,
     	EntryTimeStamp: "3/5/14, 11:59pm",
+    	ThirdPartyEntry: true,
     	ReportedBy: "Netflix"
+	},
+	{
+		EventID: 111115,
+		EventDate: "3/5/14",
+    	ActivityID: 123458,
+   		ActivityName: "Creative",
+    	Note: "Painting",
+    	duration: 0.5,
+    	EntryTimeStamp: "3/5/14, 11:58pm",
+    	ThirdPartyEntry: false,
+    	ReportedBy: "me"
+	},
+	{
+		EventID: 111116,
+		EventDate: "3/5/14",
+    	ActivityID: 123459,
+   		ActivityName: "Videogames",
+    	Note: "Call of Duty",
+    	duration: 2,
+    	EntryTimeStamp: "3/5/14, 11:58pm",
+    	ThirdPartyEntry: true,
+    	ReportedBy: "XBox Live"
 	}
 ];
 
@@ -63,7 +88,7 @@ $(document).on("pageinit", "#main-page", function () {
         //meaning I'm adding to the existing data. not replacing it.
         //store index value in array as id of the <a> tag
         li += '<li><a href="#" id="'+ i;
-        if (activity.ReportedBy=='me'){
+        if (!activity.ThirdPartyEntry){
         	li += '" class="edit"><h2>'+activity.ActivityName;
         }else{
         	li += '" class="view"><h2>'+activity.ActivityName;
