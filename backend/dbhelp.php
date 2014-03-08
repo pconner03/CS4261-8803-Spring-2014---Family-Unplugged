@@ -15,12 +15,11 @@ if (!$db_select){
 }
 
 
-function getDBResultsArray($dbQuery) {//TODO - get rid of this bullshit
+function getDBResultsArray($dbQuery) {//TODO - get rid of this 
     $dbResults = mysql_query($dbQuery);
  
 	if (!$dbResults) {
-		$GLOBALS["_PLATFORM"]->sandboxHeader("HTTP/1.1 500 Internal Server Error");
-		die();
+		return Array();
 	}
  
 	$resultsArray = array();
@@ -30,10 +29,19 @@ function getDBResultsArray($dbQuery) {//TODO - get rid of this bullshit
 		}	
     } 
     else {
-		$GLOBALS["_PLATFORM"]->sandboxHeader('HTTP/1.1 404 Not Found');
-		die();
+ 		return Array();
     }
 	return $resultsArray;
 }
 
+
+//TODO - Encode params 
+function validate_user($username, $password){
+	//TESTING - doesn't hash password. Fix soon
+	$dbQuery = sprintf("SELECT EXISTS (SELECT 1 FROM Person WHERE LoginID='%s' AND Password='%s')", 
+		mysql_real_escape_string($username), 
+		mysql_real_escape_string($password));
+	$result = mysql_query($dbQuery);
+	return mysql_fetch_row($result)[0]=='1'? True: False;
+}
 ?>

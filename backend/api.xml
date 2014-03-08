@@ -104,4 +104,50 @@
 
 	</command>
 
+	<command id="login" security="public">
+		<description>
+			Log in and get a session ID
+		</description>
+		<index>
+			<description>
+				<![CDATA[
+
+					https://dev.m.gatech.edu/.../api/login?username=USERNAME&password=PASSWORD
+
+
+					Returns error if invalid credentials or JSON with session ID to use for future requsts.
+
+
+					This will be changed to be base64 encoded
+				]]>
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					getSID($_GET['username'], $_GET['password']);
+				]]>
+			</action>
+		</index>
+	</command>
+
+	<command id="testSID" security="public">
+		<description>
+			Test Session ID
+		</description>
+		<index>
+			<description>
+				<![CDATA[
+					https://dev.m.gatech.edu/.../api/testSID?sessionID=SESSION_ID_FROM_LOGIN
+
+
+					throws some data on the screen
+				]]>
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					testSID($_GET['sessionID']);
+				]]>
+			</action>
+		</index>
+	</command>
+
 </api>
