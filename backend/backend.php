@@ -32,28 +32,15 @@ function getUserKey($encUsername, $encPassword){
 }
 
 
-//Doesn't work anymore. Replace
-function getUserInfo($attribute, $encUsername, $encPassword){
 
-	switch($attribute){
-		case "Email":
-		case "DateOfBirth":
-		case "Name":
-		case "TrackHours":
-			break;//make sure invalid field wasn't entered
-		default:
-			echo "";
-			return;
+function getUserInfo($sessionID){
+	session_start($id);
+	if(!array_key_exists("personID",$_SESSION)){
+		sessionExpiredError();
 	}
-	//Should I encode the attribute, too?
-	$dbQuery = sprintf("SELECT %s from Person WHERE 
-		LoginID='%s' AND PasswordHash=SHA2('%s', 256)", $attribute,
-		mysql_real_escape_string(base64_decode(urldecode($encUsername))), 
-		mysql_real_escape_string(base64_decode(urldecode($encPassword))));
-	$result = getDBResultsArray($dbQuery);
-	header("Content-type: text/plain");
-	echo json_encode($result[0]);
-
+	else{
+		echo json_encode(userInfoQuery($_SESSION["personID"]));
+	}
 }
 
 
@@ -64,21 +51,15 @@ function test(){
 
 //TODO - Encode username and password
 function getSID($username, $password){
-	//echo "Hello ".$username." ".$password;
 	//passing raw password until I figure out what hash function we're using
 	if(validate_user($username, $password)){
 		session_start();
-		$strName; //TODO - decide what session variables to use
-		//these are placeholders
-		$hashPassword;
-		$sessData;
-    	// registering session variables
-    	$_SESSION["strName"] = $username;
-    	$_SESSION["pass"] = $password;
+
+		//maybe roll getPersonID into validator to 
+		//get rid of a db access
+    	$_SESSION["personID"] = getPersonID($username);//primary identifier
     	$_SESSION["sessData"] = Array();
     	$_SESSION["sessData"]["time"] = time();
-    	$strName = $username;
-    	$pass = $password;
 
 	    echo json_encode(Array("sesionID"=>session_id()));
 	}
@@ -92,11 +73,25 @@ function getSID($username, $password){
 function testSID($id){
 	session_start($id);
 
-	if(array_key_exists("strName", $_SESSION)){
+	if(array_key_exists("personID", $_SESSION)){
 		echo json_encode($_SESSION);
 	}
 	else{
-		echo json_encode(Array("Error","Session Expired"));
+		sessionExpiredError();
+	}
+}
+
+function sessionExpiredError(){
+	echo json_encode(Array("Error","Session Expired"));
+}
+
+function getDayEvents($sessionID, $date){
+	session_start($id);
+	if(!array_key_exists("personID",$_SESSION)){
+		sessionExpiredError();
+	}
+	else{
+		echo json_encode(dayEventsQuery($_SESSION["personID"],$date));
 	}
 }
 

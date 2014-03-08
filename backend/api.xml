@@ -76,32 +76,18 @@
 		</description>
 		<index>
 			<description>
-				Nothing
+				<![CDATA[
+					Gets information about logged-in user
+
+					https://dev.m.gatech.edu/.../api/userInfo?sessionID=SESSION_ID_FROM_LOGIN
+				]]>
 			</description>
 			<action file="backend.php">
 				<![CDATA[
-					test();
+					getUserInfo($_GET['sessionID']);
 				]]>
 			</action>
 		</index>
-		<get>
-			<description><![CDATA[
-				Get user attribute ("Email", "DateOfBirth", "TrackHours", or "Name"). Requires 
-				base64/url encrypted username and password to be passed
-				as arguments to encUsername and encPassword respectively.
-
-				Example:
-					Get user test1 (with password 'password') email address
-					http://dev.m.gatech.edu/.../api/userInfo/Email?encUsername=dGVzdDE%3D&encPassword=cGFzc3dvcmQ%3D
-					]]>
-			</description>
-			<action file="backend.php">
-				<![CDATA[
-					getUserInfo($_REST['userInfo'], $_GET['encUsername'], $_GET['encPassword']);
-				]]>
-			</action>
-		</get>
-
 	</command>
 
 	<command id="login" security="public">
@@ -149,5 +135,31 @@
 			</action>
 		</index>
 	</command>
+
+	<command id="events" security="public">
+		<description>
+			Interacts with an individual's events. Requires a valid session ID.
+		</description>
+		<index>
+			<description>
+				<![CDATA[
+					Gets a user's events for a given day. May be expanded later.
+
+
+
+					Ex: https://dev.m.gatech.edu/.../api/events?sessionID=SESSION_FROM_LOGIN&date=2014-03-08
+
+
+					Put dates in MySQL format yyyy-mm-dd
+				]]>
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					getDayEvents($_GET['sessionID'], $_GET['date']);
+				]]>
+			</action>
+		</index>
+	</command>
+
 
 </api>
