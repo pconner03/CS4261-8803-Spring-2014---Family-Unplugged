@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/themes/Lights.min.css" />
+	<link rel="stylesheet" href="css/themes/Lights.css" />
+	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" />
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+	<script src="ChartJS/Chart.js"></script>
+	<style>
+		canvas{
+		}
+ 		body {
+ 			background-color: #c4f3dd /*{b-page-background-color}*/;
+ 		}
+	</style>
+	<body>
+		<div data-role="page" data-theme="b">
+	    	<div data-role="header">
+    			<h1>Results: January</h1>
+    		</div>
+    		
+    		<div data-role="content" align="center">
+				<canvas id="canvas" height="400" width="350"></canvas>
+				<p>Top Scoring Team Member: <strong>Joey</strong></p>
+				<p>Average Points per day: <strong>3</strong></p>
+				<table width="100%">
+					<tr>
+						<td align="left">
+							<a href="#" data-role="button" data-icon="back" data-iconpos="left">Back</a>
+						</td>
+						<td align="right">
+							<a data-theme="d" href="#" data-role="button" data-icon="arrow-r" data-iconpos="right">Post to Facebook</a>
+						</td>
+					</tr>
+				</table>
+			
+			</div>
+			
+		</div>
+
+	<script src="result.js"></script>
+	</body>
+</html>
