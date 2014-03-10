@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/themes/Lights.min.css" />
-	<link rel="stylesheet" href="css/themes/Lights.css" />
+	<link rel="stylesheet" href="css/themes/Greens.min.css" />
+	<link rel="stylesheet" href="css/themes/Greens.css" />
 	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" />
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -10,8 +10,9 @@
 <body>
 
 <!--first page -->
-<div data-role="page" id="main-page" data-theme="f">
+<div data-role="page" id="main-page" data-theme="a">
     <div data-role="header">
+    <a href="#mypanel" data-role="button" data-icon="grid" data-inline="true" data-iconpos="notext" white-space="normal" title="Menu" data-theme="c"></a>
     	<h1>Activity Log</h1>
     </div>
     <div data-role="content">
@@ -28,6 +29,10 @@
         <ul data-role="listview" data-inset="true" id="activity-list" data-inset="true">
         </ul>
     </div>
+    <div data-role="panel" id="mypanel" data-position="right" data-display="overlay" data-theme="c">
+    Hello World
+    <!-- panel content goes here -->
+	</div><!-- /panel -->
 </div>
 
 
@@ -126,7 +131,7 @@
 							<button type="submit" data-icon="check" data-iconpos="right" id="submitform">Save</button>
 						</td>
 						<td align="right">
-							<a data-theme="e" href="index.html" data-role="button" data-icon="delete" data-iconpos="right">Delete</a>
+							<a data-theme="d" href="index.html" data-role="button" data-icon="delete" data-iconpos="right">Delete</a>
 						</td>
 					</tr>
 				</table>
@@ -142,7 +147,7 @@
 <div data-role="page" id="add-page" data-theme="b">
  
         <div data-role="header">
-            <h1>Edit Entry</h1>
+            <h1>Add Entry</h1>
         </div><!-- /header -->
  
         <div data-role="content">
