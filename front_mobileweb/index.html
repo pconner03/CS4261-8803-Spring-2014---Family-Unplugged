@@ -12,8 +12,9 @@
 <!--first page -->
 <div data-role="page" id="main-page" data-theme="a">
     <div data-role="header">
-    <a href="#mypanel" data-role="button" data-icon="grid" data-inline="true" data-iconpos="notext" white-space="normal" title="Menu" data-theme="c"></a>
+    	<a href="#menu-panel" data-role="button" data-icon="grid" data-inline="true" data-iconpos="notext" title="Menu" data-theme="c"></a>
     	<h1>Activity Log</h1>
+    	<a href="login.html" data-role="button" data-inline="true" title="Logout" data-theme="c">Logout</a>
     </div>
     <div data-role="content">
 		<table width="100%">
@@ -29,9 +30,13 @@
         <ul data-role="listview" data-inset="true" id="activity-list" data-inset="true">
         </ul>
     </div>
-    <div data-role="panel" id="mypanel" data-position="right" data-display="overlay" data-theme="c">
-    Hello World
-    <!-- panel content goes here -->
+    <div data-role="panel" id="menu-panel" data-position="right" data-display="overlay" data-theme="c">
+         <ul data-role="listview">
+            <li data-icon="delete"><a href="index.html" data-rel="close">Exit Menu</a></li>
+            <li data-role="list-divider"></li>
+            <li><a href="result.html">View my results</a></li>
+            <li><a href="login.html">Logout</a></li>
+        </ul>
 	</div><!-- /panel -->
 </div>
 
@@ -60,8 +65,8 @@
 				<p>Reported: <text id="_timestamp">Timestamp Not Found</text></p>
 				<table width="100%">
 					<tr>
-	    				<td align="left"><a href="index.html" data-role="button" data-icon="back" data-inline="true">Back</a></td>
-	    				<td align="right"><a data-theme="e" href="index.html" data-role="button" data-icon="delete" data-iconpos="right" data-inline="true">Delete</a></td>
+	    				<td align="left"><a href="index.html" data-role="button" data-icon="back" data-inline="true" data-theme="a">Back</a></td>
+	    				<td align="right"><a data-theme="d" href="index.html" data-role="button" data-icon="delete" data-iconpos="right" data-inline="true">Delete</a></td>
 	    			</tr>
 	    		</table>
 			</form>
@@ -90,7 +95,7 @@
     				<option>Exercise (Light)</option>
     				<option>Exercise (Heavy)</option>
     				<option>Social/Relationship Building</option>
-    				<option>TV/Movie</option>
+    				<option selected="true">TV/Movie</option>
     				<option>Videogames</option>
     				<option>Volunteering</option>
 				</select>
@@ -99,7 +104,7 @@
      			<input type="text" name="description" id="_description" value="" autocomplete="on”/>
      			
      			<label for="_duration" class="select">Duration:</label>
-				<select name="select-choice-1" id="_duration">
+				<select name="duration" id="_duration">
     				<option value="0.5">0.5 hours</option>
     				<option value="1">1 hour</option>
     				<option value="1.5">1.5 hours</option>
@@ -125,7 +130,7 @@
 				<table width="100%">
 					<tr>
 						<td align="left">
-							<a href="index.html" data-role="button" data-icon="back" data-iconpos="left">Back</a>
+							<a href="index.html" data-role="button" data-icon="back" data-iconpos="left" data-theme="a">Back</a>
 						</td>
 						<td align="center">
 							<button type="submit" data-icon="check" data-iconpos="right" id="submitform">Save</button>
@@ -195,7 +200,7 @@
 				<table width="100%">
 					<tr>
 						<td align="left">
-							<a href="index.html" data-role="button" data-icon="back" data-iconpos="left">Back</a>
+							<a href="index.html" data-role="button" data-icon="back" data-iconpos="left" data-theme="a">Back</a>
 						</td>
 						<td align="right">
 							<button type="submit" data-icon="check" data-iconpos="right" id="submitform">Save</button>

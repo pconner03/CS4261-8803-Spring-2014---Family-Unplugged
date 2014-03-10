@@ -142,17 +142,26 @@ $(document).on("pagebeforeshow", "#view-page", function () {
 });
 
 
-
-
-
 $(document).on("pagebeforeshow", "#edit-page", function () {
     var info = $(this).data("info");
     
     $(this).find("#_date").html(info.EventDate);
-    $(this).find("#_selectActivity").val(info.ActivityID); //fix me
-    //$(this).find("<option>+info.activityType").prop({selected: true});
+    
+    
+		//this works in jsfiddle. It also works in that it selects what I tell it to, 
+		//but doesn't display it without clicking on the select menu....
+    	$('[name=selectActivity] option').filter(function() { 
+        	return ($(this).text() == info.ActivityName); //To select Blue
+    	}).prop('selected', true);
+    
+    
     $(this).find("#_description").val(info.Note);
-    $(this).find("#_duration").val(info.duration); //fix me
+    
+    //same as above
+    $('[name=duration] option').filter(function() { 
+        	return ($(this).val() == info.duration); //To select Blue
+    	}).prop('selected', true);
+    
 	$(this).find("#_timestamp").html(info.EntryTimeStamp);
 });
 
