@@ -44,4 +44,25 @@ function validate_user($username, $password){
 	$result = mysql_query($dbQuery);
 	return mysql_fetch_row($result)[0]=='1'? True: False;
 }
+
+function getPersonID($username){
+	$dbQuery = sprintf("SELECT PersonID FROM Person WHERE LoginID='%s'", 
+		mysql_real_escape_string($username));
+	return mysql_fetch_row(mysql_query($dbQuery))[0];
+}
+
+function dayEventsQuery($personID, $date){
+	$dbQuery = sprintf("SELECT * FROM Event WHERE PersonID='%s' AND Date='%s'",
+		mysql_real_escape_string($personID),
+		mysql_real_escape_string($date));
+	return getDBResultsArray($dbQuery);
+
+}
+
+//TODO _ error handling
+function userInfoQuery($personID){
+	$dbQuery = sprintf("SELECT LoginID, Name, Email, DateOfBirth, TrackHours 
+		FROM Person WHERE PersonID='%s'", mysql_real_escape_string($personID));
+	return getDBResultsArray($dbQuery);
+}
 ?>
