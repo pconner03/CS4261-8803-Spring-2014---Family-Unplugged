@@ -161,7 +161,12 @@
 		</index>
 		<post>
 			<description>
-				Submit an event for logged-in user
+				<![CDATA[
+				Submit an event for logged-in user.
+
+				POST parameters - sessionID, date (MySQL format), activityID, note, hours
+					
+				]]>
 			</description>
 			<action file="backend.php">
 				<![CDATA[

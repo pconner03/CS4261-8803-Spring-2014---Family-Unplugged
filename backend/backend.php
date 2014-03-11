@@ -3,7 +3,7 @@
 include 'dbhelp.php';
 
 function listActivities(){
-	$dbQuery = sprintf("SELECT * FROM activity_temp");
+	$dbQuery = sprintf("SELECT Name, ActivityID FROM ActivityCatalog");
 	$result = getDBResultsArray($dbQuery);
 	header("Content-type: application/json");
 	echo json_encode($result);
@@ -34,6 +34,7 @@ function getUserKey($encUsername, $encPassword){
 
 
 function getUserInfo($sessionID){
+	header("Content-type: application/json");
 	session_start($id);
 	if(!array_key_exists("personID",$_SESSION)){
 		sessionExpiredError();
@@ -51,6 +52,7 @@ function test(){
 
 //TODO - Encode username and password
 function getSID($username, $password){
+	header("Content-type: application/json");
 	if(validate_user($username, $password)){
 		session_start();
 
@@ -70,6 +72,7 @@ function getSID($username, $password){
 
 //TODO - UPDATE TIME VALUE FOR SESSION TO STOP IT FROM DYING
 function testSID($id){
+	header("Content-type: application/json");
 	session_start($id);
 
 	if(array_key_exists("personID", $_SESSION)){
@@ -85,6 +88,7 @@ function sessionExpiredError(){
 }
 
 function getDayEvents($sessionID, $date){
+	header("Content-type: application/json");
 	session_start($id);
 	if(array_key_exists("personID",$_SESSION)){
 		echo json_encode(dayEventsQuery($_SESSION["personID"],$date));
@@ -98,18 +102,20 @@ function getDayEvents($sessionID, $date){
 function postEvent($id, $date, $activityID, $note, $hours){
 	//session_destroy();
 	session_start($id);
-	echo session_id()."<br />";
-	echo $id;
-	echo ".....";
+	//echo session_id()."<br />";
+	//echo $id;
+	//echo ".....";
 	if(array_key_exists("personID", $_SESSION)){
 		_postEvent($_SESSION["personID"], $date, $activityID, $note, $hours);
 	}
 	else{
+		header("Content-type: application/json");
 		sessionExpiredError();
 	}
 }
 
 function _postEvents($personID, $date, $activityID, $note, $hours){
+	header("Content-type: application/json");
 	$dbQuery = sprintf("INSERT INTO Event 
 		(PersonID, Date, ActivityID, Hours, Note, ThirdPartyEntry, ReportedBy)
 		VALUES ('%s', '%s', %s, %s, '%s', FALSE, 'Me')",

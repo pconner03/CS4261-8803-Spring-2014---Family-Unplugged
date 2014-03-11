@@ -40,7 +40,7 @@ function validate_user($username, $password){
 	$dbQuery = sprintf("SELECT EXISTS (SELECT 1 FROM Person WHERE LoginID='%s' AND Password=SHA2('%s',256))", 
 		mysql_real_escape_string($username), 
 		mysql_real_escape_string($password));
-	//echo $dbQuery;
+	//echo $dbQuery;26b3da94639490906f114f57b85d236e
 	$result = mysql_query($dbQuery);
 	return mysql_fetch_row($result)[0]=='1'? True: False;
 }
