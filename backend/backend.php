@@ -51,7 +51,6 @@ function test(){
 
 //TODO - Encode username and password
 function getSID($username, $password){
-	//passing raw password until I figure out what hash function we're using
 	if(validate_user($username, $password)){
 		session_start();
 
@@ -69,7 +68,7 @@ function getSID($username, $password){
 	
 }
 
-
+//TODO - UPDATE TIME VALUE FOR SESSION TO STOP IT FROM DYING
 function testSID($id){
 	session_start($id);
 
@@ -82,16 +81,49 @@ function testSID($id){
 }
 
 function sessionExpiredError(){
-	echo json_encode(Array("Error","Session Expired"));
+	echo json_encode(Array("Error"=>"Session Expired"));
 }
 
 function getDayEvents($sessionID, $date){
 	session_start($id);
-	if(!array_key_exists("personID",$_SESSION)){
-		sessionExpiredError();
+	if(array_key_exists("personID",$_SESSION)){
+		echo json_encode(dayEventsQuery($_SESSION["personID"],$date));
 	}
 	else{
-		echo json_encode(dayEventsQuery($_SESSION["personID"],$date));
+		sessionExpiredError();
+	}
+}
+
+//untested, because curl wasn't working
+function postEvent($id, $date, $activityID, $note, $hours){
+	//session_destroy();
+	session_start($id);
+	echo session_id()."<br />";
+	echo $id;
+	echo ".....";
+	if(array_key_exists("personID", $_SESSION)){
+		_postEvent($_SESSION["personID"], $date, $activityID, $note, $hours);
+	}
+	else{
+		sessionExpiredError();
+	}
+}
+
+function _postEvents($personID, $date, $activityID, $note, $hours){
+	$dbQuery = sprintf("INSERT INTO Event 
+		(PersonID, Date, ActivityID, Hours, Note, ThirdPartyEntry, ReportedBy)
+		VALUES ('%s', '%s', %s, %s, '%s', FALSE, 'Me')",
+		mysql_real_escape_string($personID),
+		mysql_real_escape_string($date),
+		mysql_real_escape_string($activityID),
+		mysql_real_escape_string($hours),
+		mysql_real_escape_string($note)
+		);
+	if(insertQuery($dbQuery)){
+		echo json_encode(Array("Success"=>"Data inserted successfully"));
+	}
+	else{
+		echo json_encode(Array("Error"=>"Database Error"));
 	}
 }
 

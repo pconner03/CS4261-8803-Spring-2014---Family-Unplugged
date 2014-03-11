@@ -159,6 +159,16 @@
 				]]>
 			</action>
 		</index>
+		<post>
+			<description>
+				Submit an event for logged-in user
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					postEvent($_POST['sessionID'], $_POST['date'], $_POST['activityID'], $_POST['note'], $_POST['hours']);
+				]]>
+			</action>
+		</post>
 	</command>
 
 
