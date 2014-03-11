@@ -75,7 +75,7 @@ var activityTranslator = {
 //pageinit event for first page
 //triggers only once
 //write all your on-load functions and event handlers pertaining to page1
-$(document).on("pageinit", "#main-page", function () {
+$(document).ready(function () {
 
 	$("#_date").text(dateFromQueryParams);
 
@@ -108,7 +108,8 @@ $(document).on("pageinit", "#main-page", function () {
             //store the information in the next page's data
             $("#view-page").data("info", info[this.id]);
 
-            $.mobile.changePage("#view-page");
+            //$.mobile.changePage("#view-page");
+			$( ":mobile-pagecontainer" ).pagecontainer( "change", "#view-page");
         });
         
         //if we click an edit type
@@ -118,7 +119,7 @@ $(document).on("pageinit", "#main-page", function () {
             //store the information in the next page's data
             $("#edit-page").data("info", info[this.id]);
 
-            $.mobile.changePage("#edit-page");
+           $( ":mobile-pagecontainer" ).pagecontainer( "change", "#edit-page");
         });
 
         //refresh list to enhance its styling.
@@ -145,24 +146,28 @@ $(document).on("pagebeforeshow", "#view-page", function () {
 $(document).on("pagebeforeshow", "#edit-page", function () {
     var info = $(this).data("info");
     
+    //set date
     $(this).find("#_date").html(info.EventDate);
     
+    //select activity name (using display name)
+    $('[name=selectActivity] option').filter(function() { 
+        return ($(this).text() == info.ActivityName); //To select Blue
+    }).prop('selected', true);
     
-		//this works in jsfiddle. It also works in that it selects what I tell it to, 
-		//but doesn't display it without clicking on the select menu....
-    	$('[name=selectActivity] option').filter(function() { 
-        	return ($(this).text() == info.ActivityName); //To select Blue
-    	}).prop('selected', true);
-    
-    
+    //set description
     $(this).find("#_description").val(info.Note);
     
-    //same as above
-    $('[name=duration] option').filter(function() { 
+    //select duration (using value)
+    $('[name=selectDuration] option').filter(function() { 
         	return ($(this).val() == info.duration); //To select Blue
     	}).prop('selected', true);
     
+    //set timestamp
 	$(this).find("#_timestamp").html(info.EntryTimeStamp);
+
+	//refresh select menus or changes won't display
+	$("#_selectActivity").selectmenu( "refresh" );
+	$("#_selectDuration").selectmenu( "refresh" );
 });
 
 

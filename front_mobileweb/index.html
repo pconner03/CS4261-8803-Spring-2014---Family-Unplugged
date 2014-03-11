@@ -95,16 +95,16 @@
     				<option>Exercise (Light)</option>
     				<option>Exercise (Heavy)</option>
     				<option>Social/Relationship Building</option>
-    				<option selected="true">TV/Movie</option>
+    				<option>TV/Movie</option>
     				<option>Videogames</option>
     				<option>Volunteering</option>
 				</select>
+				
+				<label for="_description">Description:</label>
+     			<input type="text" name="description" id="_description" autocomplete="on”/>
      			
-     			<label for="_description">Description:</label>
-     			<input type="text" name="description" id="_description" value="" autocomplete="on”/>
-     			
-     			<label for="_duration" class="select">Duration:</label>
-				<select name="duration" id="_duration">
+     			<label for="_selectDuration" class="select">Duration:</label>
+				<select name="selectDuration" id="_selectDuration">
     				<option value="0.5">0.5 hours</option>
     				<option value="1">1 hour</option>
     				<option value="1.5">1.5 hours</option>
@@ -126,6 +126,7 @@
     				<option value="9.5">9.5 hour</option>
     				<option value="10+">10+ hours</option>
 				</select>
+				
 				<p>Reported: <text id="_timestamp">Timestamp Not Found</text></p>
 				<table width="100%">
 					<tr>
