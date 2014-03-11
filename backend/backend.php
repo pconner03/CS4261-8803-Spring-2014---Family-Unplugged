@@ -62,7 +62,7 @@ function getSID($username, $password){
     	$_SESSION["sessData"] = Array();
     	$_SESSION["sessData"]["time"] = time();
 
-	    echo json_encode(Array("sesionID"=>session_id()));
+	    echo json_encode(Array("sessionID"=>session_id()));
 	}
 	else{
 		echo json_encode(Array("Error"=>"Invalid username or password"));
