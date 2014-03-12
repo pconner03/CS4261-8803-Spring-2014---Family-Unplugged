@@ -71,7 +71,7 @@ $(document).ready(function () {
 			alert("error");
 		}
 		else{
-			if (dataBack["Error"]==undefined){
+			if (dataBack["Error"]!=undefined){
 				alert(dataBack["Error"]);
 			}
 			else{
