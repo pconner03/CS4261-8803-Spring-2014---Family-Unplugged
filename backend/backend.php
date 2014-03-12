@@ -76,6 +76,7 @@ function testSID($id){
 	session_start($id);
 
 	if(array_key_exists("personID", $_SESSION)){
+		$_SESSION["sessData"]["time"] = time();
 		echo json_encode($_SESSION);
 	}
 	else{
@@ -91,6 +92,7 @@ function getDayEvents($sessionID, $date){
 	header("Content-type: application/json");
 	session_start($id);
 	if(array_key_exists("personID",$_SESSION)){
+		$_SESSION["sessData"]["time"] = time();
 		echo json_encode(dayEventsQuery($_SESSION["personID"],$date));
 	}
 	else{
@@ -106,6 +108,7 @@ function postEvent($id, $date, $activityID, $note, $hours){
 	//echo $id;
 	//echo ".....";
 	if(array_key_exists("personID", $_SESSION)){
+		$_SESSION["sessData"]["time"] = time();
 		_postEvent($_SESSION["personID"], $date, $activityID, $note, $hours);
 	}
 	else{
