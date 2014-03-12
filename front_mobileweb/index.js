@@ -11,7 +11,9 @@ function getUrlVars(){
     return vars;
 }
 
-
+function cutDate(dateString){
+	return dateString.slice(0,dateString.indexOf('T'));
+}
 
 $(document).ready(function () {
 
@@ -54,6 +56,7 @@ $(document).ready(function () {
 	// 1) get url params
 	var urlVars = getUrlVars();
  	var dateFromQueryParams = urlVars["date"];
+ 	dateFromQueryParams = cutDate(dateFromQueryParams);
  	var sessionID = urlVars["sessionID"];
 
 	var eventsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
