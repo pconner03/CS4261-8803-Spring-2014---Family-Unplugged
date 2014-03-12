@@ -37,10 +37,10 @@ function getDBResultsArray($dbQuery) {//TODO - get rid of this
 
 //TODO - Encode params 
 function validate_user($username, $password){
-	//TESTING - doesn't hash password. Fix soon
-	$dbQuery = sprintf("SELECT EXISTS (SELECT 1 FROM Person WHERE LoginID='%s' AND Password='%s')", 
+	$dbQuery = sprintf("SELECT EXISTS (SELECT 1 FROM Person WHERE LoginID='%s' AND Password=SHA2('%s',256))", 
 		mysql_real_escape_string($username), 
 		mysql_real_escape_string($password));
+	//echo $dbQuery;26b3da94639490906f114f57b85d236e
 	$result = mysql_query($dbQuery);
 	return mysql_fetch_row($result)[0]=='1'? True: False;
 }
@@ -64,5 +64,9 @@ function userInfoQuery($personID){
 	$dbQuery = sprintf("SELECT LoginID, Name, Email, DateOfBirth, TrackHours 
 		FROM Person WHERE PersonID='%s'", mysql_real_escape_string($personID));
 	return getDBResultsArray($dbQuery);
+}
+
+function insertQuery($dbQuery){
+	return mysql_query($dbQuery);
 }
 ?>
