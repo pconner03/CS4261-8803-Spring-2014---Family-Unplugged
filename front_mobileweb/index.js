@@ -61,8 +61,8 @@ $(document).ready(function () {
 
 	var eventsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
 	var args = {
-		"sessionID": dateFromQueryParams,
-		"date": sessionID
+		"sessionID": sessionID,
+		"date": dateFromQueryParams
 	};
 
 	// 2) get events from API
@@ -71,11 +71,11 @@ $(document).ready(function () {
 			alert("error");
 		}
 		else{
-			if (dataBack["Error"]!=undefined){
+			if (dataBack["Error"]==undefined){
 				alert(dataBack["Error"]);
 			}
 			else{
-				info=dataBack;
+				alert("Session is not expired. We are receiving data.");
 			}
 		}
 	});
