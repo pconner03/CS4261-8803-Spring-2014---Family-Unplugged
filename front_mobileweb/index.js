@@ -72,7 +72,7 @@ $(document).ready(function () {
 		}
 		else{
 			if (dataBack["Error"]!=undefined){
-				//alert(dataBack["Error"]);
+				alert(dataBack["Error"]);
 			}
 			else{
 				info=dataBack;
@@ -177,5 +177,5 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 
 
 $(document).on("pagebeforeshow", "#add-page", function () {
-    $(this).find("#_date").html(dateFromQueryParams);
+    $(this).find("#_date").html("hardCodedNow");
 });
