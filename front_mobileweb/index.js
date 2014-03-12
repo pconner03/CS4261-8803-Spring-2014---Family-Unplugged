@@ -1,82 +1,84 @@
-var dateFromQueryParams = "3/5/14";
-
-//assuming this comes from an ajax call
-var info = [
-	{
-		EventID: 111112,
-		EventDate: "3/5/14",
-   		ActivityID: 123456,
-   		ActivityName: "Exercise (Heavy)",
-    	Note: "Running",
-    	duration: 0.5,
-    	EntryTimeStamp: "3/5/14, 11:57pm",
-    	ThirdPartyEntry: false,
-    	ReportedBy: "me"
-	},
-	{
-		EventID: 111113,
-		EventDate: "3/5/14",
-    	ActivityID: 123457,
-   		ActivityName: "Social/Relationship Building",
-    	Note: "Chili's with the team",
-    	duration: 1.5,
-    	EntryTimeStamp: "3/5/14, 11:58pm",
-    	ThirdPartyEntry: false,
-    	ReportedBy: "me"
-	},
-	{
-		EventID: 111114,
-		EventDate: "3/5/14",
-    	ActivityID: 123457,
-   		ActivityName: "TV/Movie",
-    	Note: "House of Cards",
-    	duration: 5,
-    	EntryTimeStamp: "3/5/14, 11:59pm",
-    	ThirdPartyEntry: true,
-    	ReportedBy: "Netflix"
-	},
-	{
-		EventID: 111115,
-		EventDate: "3/5/14",
-    	ActivityID: 123458,
-   		ActivityName: "Creative",
-    	Note: "Painting",
-    	duration: 0.5,
-    	EntryTimeStamp: "3/5/14, 11:58pm",
-    	ThirdPartyEntry: false,
-    	ReportedBy: "me"
-	},
-	{
-		EventID: 111116,
-		EventDate: "3/5/14",
-    	ActivityID: 123459,
-   		ActivityName: "Videogames",
-    	Note: "Call of Duty",
-    	duration: 2,
-    	EntryTimeStamp: "3/5/14, 11:58pm",
-    	ThirdPartyEntry: true,
-    	ReportedBy: "Xbox Live"
-	}
-];
-
-//deprecated. Delete once we have this info elsewhere	
-var activityTranslator = {
-	browsing: "Browsing the Web/Social Media",
-	creative: "Creative",
-	education: "Educational",
-	ex_light: "Exercise (Light)",
-	ex_heavy: "Exercise (Heavy)",
-	social: "Social/Relationship Building",
-	TVmovies: "TV/Movie",
-	videogames: "Videogames",
-	volunteer: "Volunteering"
+//***HELPER FUNCTIONS***//
+function getUrlVars(){
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
 }
 
-//pageinit event for first page
-//triggers only once
-//write all your on-load functions and event handlers pertaining to page1
+
+
 $(document).ready(function () {
 
+	//this info should be replaced by API call
+	var info = [
+	{
+ 		EventID: 111112,
+  		EventDate: "3/5/14",
+ 		ActivityID: 123456,
+  		ActivityName: "Exercise (Heavy)",
+   		Note: "Running",
+   		duration: 0.5,
+    	EntryTimeStamp: "3/5/14, 11:57pm",
+		ThirdPartyEntry: false,
+   		ReportedBy: "me"
+	},
+ 	{
+ 	 	EventID: 111113,
+       	EventDate: "3/5/14",
+ 		ActivityID: 123457,
+       	ActivityName: "Social/Relationship Building",
+  		Note: "Chili's with the team",
+ 		duration: 1.5,
+    	EntryTimeStamp: "3/5/14, 11:58pm",
+ 		ThirdPartyEntry: false,
+   		ReportedBy: "me"
+  },
+  {
+  		EventID: 111114,
+		EventDate: "3/5/14",
+		ActivityID: 123457,
+		ActivityName: "TV/Movie",
+		Note: "House of Cards",
+ 		duration: 5,
+		EntryTimeStamp: "3/5/14, 11:59pm",
+		ThirdPartyEntry: true,
+		ReportedBy: "Netflix"
+}];
+
+	// 1) get url params
+	var urlVars = getUrlVars();
+ 	var dateFromQueryParams = urlVars["date"];
+ 	var sessionID = urlVars["sessionID"];
+
+	var eventsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
+	var args = {
+		"sessionID": dateFromQueryParams,
+		"date": sessionID
+	};
+
+	// 2) get events from API
+	$.getJSON( eventsAPI, args).done(function( dataBack ) {
+		if (dataBack==undefined){
+			alert("error");
+		}
+		else{
+			if (dataBack["Error"]!=undefined){
+				//alert(dataBack["Error"]);
+			}
+			else{
+				info=dataBack;
+			}
+		}
+	});
+
+
+	// 3) fill HTML elements
 	$("#_date").text(dateFromQueryParams);
 
     //set up string for adding <li/>
