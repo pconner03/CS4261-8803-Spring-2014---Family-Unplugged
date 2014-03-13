@@ -55,14 +55,15 @@ $(document).ready(function () {
 
 	// 1) get url params
 	var urlVars = getUrlVars();
- 	var dateFromQueryParams = urlVars["date"];
- 	dateFromQueryParams = cutDate(dateFromQueryParams);
+ 	var jsonDate = urlVars["date"];
+ 	objectDate=new Date(jsonDate);
+ 	apiDate = cutDate(jsonDate);
  	var sessionID = urlVars["sessionID"];
 
 	var eventsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
 	var args = {
 		"sessionID": sessionID,
-		"date": dateFromQueryParams
+		"date": apiDate
 	};
 
 	// 2) get events from API
@@ -82,7 +83,8 @@ $(document).ready(function () {
 
 
 	// 3) fill HTML elements
-	$("#_date").text(dateFromQueryParams);
+	$("#_date").text(apiDate);
+	
 
     //set up string for adding <li/>
     var li = "";
@@ -129,7 +131,23 @@ $(document).ready(function () {
 
         //refresh list to enhance its styling.
         $(this).listview("refresh");
+        
+        $("#_prev").click(function(){
+    		//subtract day
+    		objectDate.setDate(objectDate.getDate() - 1);
+    		window.location.href = "index.html?date="+objectDate.toJSON();
+    	});
+    	
+    	//$("#_next").hide();
+    	
+    	$("#_next").click(function(){
+    		//subtract day
+    		objectDate.setDate(objectDate.getDate() + 1);
+    		window.location.href = "index.html?date="+objectDate.toJSON();
+    	});
     });
+   
+    
 });
 
 
