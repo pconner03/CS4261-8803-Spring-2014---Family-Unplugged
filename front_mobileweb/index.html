@@ -12,16 +12,16 @@
 <!--first page -->
 <div data-role="page" id="main-page" data-theme="a">
     <div data-role="header">
-    	<a href="#menu-panel" data-role="button" data-icon="grid" data-inline="true" data-iconpos="notext" title="Menu" data-theme="c"></a>
+    	<a href="#menu-page" data-role="button" data-icon="grid" data-inline="true" data-iconpos="notext" title="Menu" data-theme="c"></a>
     	<h1>Activity Log</h1>
     	<a href="login.html" data-role="button" data-inline="true" title="Logout" data-theme="c">Logout</a>
     </div>
     <div data-role="content">
 		<table width="100%">
   			<tr>
-    			<td align="left"><a href="index.html" data-role="button" data-icon="arrow-l" data-iconpos="left" data-mini="true">Prev</a></td>
+    			<td align="left"><a id="_prev" href="index.html" data-role="button" data-icon="arrow-l" data-iconpos="left" data-mini="true">Prev</a></td>
     			<td align="center"><h2 id="_date" align="center">Date Not Found</h2></td>
-    			<td align="right"><a href="index.html" data-role="button" data-icon="arrow-r" data-iconpos="right" data-mini="true">Next</a></td>
+    			<td align="right"><a id="_next" href="index.html" data-role="button" data-icon="arrow-r" data-iconpos="right" data-mini="true">Next</a></td>
   			</tr>
 		</table>
 		</div>
@@ -30,17 +30,20 @@
         <ul data-role="listview" data-inset="true" id="activity-list" data-inset="true">
         </ul>
     </div>
-    <div data-role="panel" id="menu-panel" data-position="right" data-display="overlay" data-theme="c">
-         <ul data-role="listview">
-            <li data-icon="delete"><a href="index.html" data-rel="close">Exit Menu</a></li>
-            <li data-role="list-divider"></li>
-            <li><a href="result.html">View my results</a></li>
-            <li><a href="login.html">Logout</a></li>
-        </ul>
-	</div><!-- /panel -->
 </div>
 
 
+
+
+	<div data-role="page" id="menu-page" data-theme="c">
+		<ul data-role="listview">
+            <li data-icon="delete"><a data-rel="back">Exit Menu</a></li>
+            <li data-role="list-divider"></li>
+            <li><a href="result.html">View my Results</a></li>
+            <li><a href="#">Team Dashboard</a></li>
+            <li><a href="login.html">Logout</a></li>
+        </ul>
+	</div>
 
 
 
@@ -65,7 +68,7 @@
 				<p>Reported: <text id="_timestamp">Timestamp Not Found</text></p>
 				<table width="100%">
 					<tr>
-	    				<td align="left"><a href="index.html" data-role="button" data-icon="back" data-inline="true" data-theme="a">Back</a></td>
+	    				<td align="left"><a data-rel="back" data-role="button" data-icon="back" data-inline="true" data-theme="a">Back</a></td>
 	    				<td align="right"><a data-theme="d" href="index.html" data-role="button" data-icon="delete" data-iconpos="right" data-inline="true">Delete</a></td>
 	    			</tr>
 	    		</table>
@@ -131,7 +134,7 @@
 				<table width="100%">
 					<tr>
 						<td align="left">
-							<a href="index.html" data-role="button" data-icon="back" data-iconpos="left" data-theme="a">Back</a>
+							<a data-rel="back" data-role="button" data-icon="back" data-iconpos="left" data-theme="a">Back</a>
 						</td>
 						<td align="center">
 							<button type="submit" data-icon="check" data-iconpos="right" id="submitform">Save</button>
@@ -141,6 +144,7 @@
 						</td>
 					</tr>
 				</table>
+			</form>
         </div><!-- /content -->
 
 	</div><!-- /page-->
@@ -201,7 +205,7 @@
 				<table width="100%">
 					<tr>
 						<td align="left">
-							<a href="index.html" data-role="button" data-icon="back" data-iconpos="left" data-theme="a">Back</a>
+							<a data-rel="back" data-role="button" data-icon="back" data-iconpos="left" data-theme="a">Back</a>
 						</td>
 						<td align="right">
 							<button type="submit" data-icon="check" data-iconpos="right" id="submitform">Save</button>

@@ -16,19 +16,22 @@
  
         <div data-role="content" align="center">
             <p></p>
-	    <form>
-     		<label for="username">username</label>
-     		<input type="text" name="username" id="username" value="" autocomplete="on”>
-     		<label for="password-1">password</label>
-     		<input type="password" data-clear-btn="false" name="password-1" id="password-1" value="" autocomplete="off">
-		</form>
-	    </form>
+	    <form id="loginForm">
 	    
-	    <a href="index.html" data-role="button" data-inline="true">login</a>
+     		<label for="_username">username</label>
+     		
+     		<input type="text" name="username" id="_username" value="" autocomplete="on”>
+     		<label for="_password">password</label>
+     		
+     		<input type="password" data-clear-btn="false" name="password" id="_password" value="" autocomplete="off">
+     		<button type="submit" data-role="button" data-inline="true">login</button>
+     		
+	    </form>
         <a href="register.html" data-role="button" data-inline="true" data-mini="true" data-theme="b">register</a>
         
         </div><!-- /content -->
  
     </div><!-- /page -->
+    <script src="login.js"></script>
 </body>
 </html>
