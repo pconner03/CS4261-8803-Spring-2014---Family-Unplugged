@@ -52,7 +52,12 @@ function getPersonID($username){
 }
 
 function dayEventsQuery($personID, $date){
-	$dbQuery = sprintf("SELECT * FROM Event WHERE PersonID='%s' AND Date='%s'",
+	$dbQuery = sprintf("SELECT EventID, PersonID, DATE, Hours, 
+		Note, EntryTimeStamp, ThirdPartyEntry, ReportedBy, Name 
+		FROM Event, ActivityCatalog
+		WHERE PersonID =  '%s' 
+		AND DATE =  '2014-03-08' 
+		AND Event.ActivityID = ActivityCatalog.ActivityID",
 		mysql_real_escape_string($personID),
 		mysql_real_escape_string($date));
 	return getDBResultsArray($dbQuery);
