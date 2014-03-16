@@ -1,6 +1,7 @@
 <?php
 
 include 'dbhelp.php';
+include 'apiErrors.php';
 
 function listActivities(){
 	$dbQuery = sprintf("SELECT Name, ActivityID FROM ActivityCatalog");
@@ -10,28 +11,11 @@ function listActivities(){
 }
 
 function getActivity($acName){
-	$dbQuery = sprintf("SELECT * FROM activity_temp WHERE name LIKE '%%%s%%'", mysql_real_escape_string($acName));
+	$dbQuery = sprintf("SELECT * FROM ActivityCatalog WHERE Name LIKE '%%%s%%'", mysql_real_escape_string($acName));
 	$result = getDBResultsArray($dbQuery);
 	header("Content-type: application/json");
 	echo json_encode($result);
 }
-
-/**
- * Doesn't work anymore
- */
-function getUserKey($encUsername, $encPassword){
-	$dbQuery = sprintf("SELECT PersonID from Person WHERE 
-		LoginID='%s' AND PasswordHash=SHA2('%s', 256)", 
-		mysql_real_escape_string(base64_decode(urldecode($encUsername))), 
-		mysql_real_escape_string(base64_decode(urldecode($encPassword))));
-	//We are using SHA-256 hashing
-
-	$result = getDBResultsArray($dbQuery);
-	header("Content-type: text/plain");
-	echo json_encode($result[0]); //Since there should only be one result, just return first array element
-}
-
-
 
 function getUserInfo(){
 	header("Content-type: application/json");
@@ -55,7 +39,6 @@ function getSID($username, $password){
 	header("Content-type: application/json");
 	if(validate_user($username, $password)){
 		session_start();
-
 		//maybe roll getPersonID into validator to 
 		//get rid of a db access
     	$_SESSION["personID"] = getPersonID($username);//primary identifier
@@ -65,7 +48,7 @@ function getSID($username, $password){
 	    echo json_encode(Array("sessionID"=>session_id()));
 	}
 	else{
-		echo json_encode(Array("Error"=>"Invalid username or password"));
+		invalidCredentialsError();
 	}
 	
 }
@@ -73,8 +56,7 @@ function getSID($username, $password){
 function testSID(){
 	header("Content-type: application/json");
 	session_start();
-
-	if(array_key_exists("personID", $_SESSION)){
+	if(sessionValid()){
 		$_SESSION["sessData"]["time"] = time();
 		echo json_encode($_SESSION);
 	}
@@ -83,14 +65,10 @@ function testSID(){
 	}
 }
 
-function sessionExpiredError(){
-	echo json_encode(Array("Error"=>"Session Expired"));
-}
-
 function getDayEvents($date){
 	header("Content-type: application/json");
 	session_start();
-	if(array_key_exists("personID",$_SESSION)){
+	if(sessionValid()){
 		$_SESSION["sessData"]["time"] = time();
 		echo json_encode(dayEventsQuery($_SESSION["personID"],$date));
 	}
@@ -102,18 +80,17 @@ function getDayEvents($date){
 //untested, because curl wasn't working
 function postEvent($date, $activityID, $note, $hours){
 	session_start();
-	if(array_key_exists("personID", $_SESSION)){
+	header("Content-type: application/json");
+	if(sessionValid()){
 		$_SESSION["sessData"]["time"] = time();
 		_postEvent($_SESSION["personID"], $date, $activityID, $note, $hours);
 	}
 	else{
-		header("Content-type: application/json");
 		sessionExpiredError();
 	}
 }
 
 function _postEvents($personID, $date, $activityID, $note, $hours){
-	header("Content-type: application/json");
 	$dbQuery = sprintf("INSERT INTO Event 
 		(PersonID, Date, ActivityID, Hours, Note, ThirdPartyEntry, ReportedBy)
 		VALUES ('%s', '%s', %s, %s, '%s', FALSE, 'Me')",
@@ -127,8 +104,33 @@ function _postEvents($personID, $date, $activityID, $note, $hours){
 		echo json_encode(Array("Success"=>"Data inserted successfully"));
 	}
 	else{
-		echo json_encode(Array("Error"=>"Database Error"));
+		databaseError();
 	}
+}
+
+function deleteEvent($eventID){
+	session_start();
+	header("Content-type: application/json");
+	if(sessionValid()){
+		if(_deleteEvents($eventID)){
+			json_encode(Array("Success"=>"Event ".$eventID." deleted"));
+		}
+		else{
+			databaseError();
+		}
+	}
+	else{
+		sessionExpiredError();
+	}
+}
+
+function _deleteEvents($eventID){
+	$dbQuery = sprintf("DELETE FROM Event WHERE EventID = '%s'", mysql_real_escape_string($eventID));
+	return execDeleteQuery($dbQuery);
+}
+
+function sessionValid(){
+	return array_key_exists("personID", $_SESSION);
 }
 
 ?>

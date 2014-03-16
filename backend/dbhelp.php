@@ -15,13 +15,11 @@ if (!$db_select){
 }
 
 
-function getDBResultsArray($dbQuery) {//TODO - get rid of this 
+function getDBResultsArray($dbQuery) {
     $dbResults = mysql_query($dbQuery);
- 
 	if (!$dbResults) {
 		return Array();
 	}
- 
 	$resultsArray = array();
 	if (mysql_num_rows($dbResults) > 0) {
 		while ($row = mysql_fetch_assoc($dbResults)) {
@@ -56,12 +54,11 @@ function dayEventsQuery($personID, $date){
 		Note, EntryTimeStamp, ThirdPartyEntry, ReportedBy, Name 
 		FROM Event, ActivityCatalog
 		WHERE PersonID =  '%s' 
-		AND DATE =  '2014-03-08' 
+		AND DATE =  '%s' 
 		AND Event.ActivityID = ActivityCatalog.ActivityID",
 		mysql_real_escape_string($personID),
 		mysql_real_escape_string($date));
 	return getDBResultsArray($dbQuery);
-
 }
 
 //TODO _ error handling
@@ -74,4 +71,10 @@ function userInfoQuery($personID){
 function insertQuery($dbQuery){
 	return mysql_query($dbQuery);
 }
+
+function execDeleteQuery($dbQuery){
+	return mysql_query($dbQuery);
+}
+
+
 ?>

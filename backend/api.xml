@@ -31,45 +31,6 @@
 
 	</command>
 
-	<command id="userID" security="public">
-		<description>
-			Get userID to simplify future interactions
-		</description>
-		<index>
-			<description>
-				nothing
-			</description>
-			<action file="backend.php">
-				<![CDATA[
-					test();
-				]]>
-			</action>
-		</index>
-		<get>
-			<description><![CDATA[
-				Get user database field 'PersonID' given a username and password.
-				This should be run through SSL.
-
-				e.g. - https://dev.m.gatech.edu/.../api/userID/1?encUsername={base64 url encoded username}&encPassword={base64 url encoded password}
-
-				there must be something after userID/ before the parameters or
-				the action will be treated as an index
-
-				Maybe I should just put this in index?
-
-				I implemented this to test BASIC REST authentication
-				over SSL 
-
-				]]>
-			</description>
-			<action file="backend.php">
-				<![CDATA[
-					getUserKey($_GET['encUsername'], $_GET['encPassword']);
-				]]>
-			</action>
-		</get>
-	</command>
-
 	<command id="userInfo" security="public">
 		<description>
 			Information for current user
@@ -174,6 +135,20 @@
 				]]>
 			</action>
 		</post>
+		<delete>
+			<description>
+				<![CDATA[
+					Delete a single event (identified by EventID, which is returned whenever an event is fetched from the database)
+
+					DELETE parameters - EventID
+				]]>
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					deleteEvent($_DELETE['EventID']);
+				]]>
+			</action>
+		</delete>
 	</command>
 
 
