@@ -33,9 +33,9 @@ function getUserKey($encUsername, $encPassword){
 
 
 
-function getUserInfo($sessionID){
+function getUserInfo(){
 	header("Content-type: application/json");
-	session_start($id);
+	session_start();
 	if(!array_key_exists("personID",$_SESSION)){
 		sessionExpiredError();
 	}
@@ -70,10 +70,9 @@ function getSID($username, $password){
 	
 }
 
-//TODO - UPDATE TIME VALUE FOR SESSION TO STOP IT FROM DYING
-function testSID($id){
+function testSID(){
 	header("Content-type: application/json");
-	session_start($id);
+	session_start();
 
 	if(array_key_exists("personID", $_SESSION)){
 		$_SESSION["sessData"]["time"] = time();
@@ -88,9 +87,9 @@ function sessionExpiredError(){
 	echo json_encode(Array("Error"=>"Session Expired"));
 }
 
-function getDayEvents($sessionID, $date){
+function getDayEvents($date){
 	header("Content-type: application/json");
-	session_start($id);
+	session_start();
 	if(array_key_exists("personID",$_SESSION)){
 		$_SESSION["sessData"]["time"] = time();
 		echo json_encode(dayEventsQuery($_SESSION["personID"],$date));
@@ -101,12 +100,8 @@ function getDayEvents($sessionID, $date){
 }
 
 //untested, because curl wasn't working
-function postEvent($id, $date, $activityID, $note, $hours){
-	//session_destroy();
-	session_start($id);
-	//echo session_id()."<br />";
-	//echo $id;
-	//echo ".....";
+function postEvent($date, $activityID, $note, $hours){
+	session_start();
 	if(array_key_exists("personID", $_SESSION)){
 		$_SESSION["sessData"]["time"] = time();
 		_postEvent($_SESSION["personID"], $date, $activityID, $note, $hours);

@@ -79,12 +79,12 @@
 				<![CDATA[
 					Gets information about logged-in user
 
-					https://dev.m.gatech.edu/.../api/userInfo?sessionID=SESSION_ID_FROM_LOGIN
+					https://dev.m.gatech.edu/.../api/userInfo
 				]]>
 			</description>
 			<action file="backend.php">
 				<![CDATA[
-					getUserInfo($_GET['sessionID']);
+					getUserInfo();
 				]]>
 			</action>
 		</index>
@@ -122,7 +122,7 @@
 		<index>
 			<description>
 				<![CDATA[
-					https://dev.m.gatech.edu/.../api/testSID?sessionID=SESSION_ID_FROM_LOGIN
+					https://dev.m.gatech.edu/.../api/testSID
 
 
 					throws some data on the screen
@@ -130,7 +130,7 @@
 			</description>
 			<action file="backend.php">
 				<![CDATA[
-					testSID($_GET['sessionID']);
+					testSID();
 				]]>
 			</action>
 		</index>
@@ -147,7 +147,7 @@
 
 
 
-					Ex: https://dev.m.gatech.edu/.../api/events?sessionID=SESSION_FROM_LOGIN&date=2014-03-08
+					Ex: https://dev.m.gatech.edu/.../api/events?date=2014-03-08
 
 
 					Put dates in MySQL format yyyy-mm-dd
@@ -155,7 +155,7 @@
 			</description>
 			<action file="backend.php">
 				<![CDATA[
-					getDayEvents($_GET['sessionID'], $_GET['date']);
+					getDayEvents($_GET['date']);
 				]]>
 			</action>
 		</index>
@@ -164,13 +164,13 @@
 				<![CDATA[
 				Submit an event for logged-in user.
 
-				POST parameters - sessionID, date (MySQL format), activityID, note, hours
+				POST parameters - date (MySQL format), activityID, note, hours
 					
 				]]>
 			</description>
 			<action file="backend.php">
 				<![CDATA[
-					postEvent($_POST['sessionID'], $_POST['date'], $_POST['activityID'], $_POST['note'], $_POST['hours']);
+					postEvent($_POST['date'], $_POST['activityID'], $_POST['note'], $_POST['hours']);
 				]]>
 			</action>
 		</post>
