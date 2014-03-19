@@ -61,6 +61,20 @@ function dayEventsQuery($personID, $date){
 	return getDBResultsArray($dbQuery);
 }
 
+function dateRangeEventsQuery($personID, $startDate, $endDate){
+	$dbQuery = sprintf("SELECT EventID, PersonID, DATE, Hours, 
+		Note, EntryTimeStamp, ThirdPartyEntry, ReportedBy, Name 
+		FROM Event, ActivityCatalog
+		WHERE PersonID =  '%s' 
+		AND DATE >=  '%s'
+		AND DATE <= '%s' 
+		AND Event.ActivityID = ActivityCatalog.ActivityID",
+		mysql_real_escape_string($personID),
+		mysql_real_escape_string($startDate),
+		mysql_real_escape_string($endDate));
+	return getDBResultsArray($dbQuery);
+}
+
 //TODO _ error handling
 function userInfoQuery($personID){
 	$dbQuery = sprintf("SELECT LoginID, Name, Email, DateOfBirth, TrackHours 
@@ -74,6 +88,13 @@ function insertQuery($dbQuery){
 
 function execDeleteQuery($dbQuery){
 	return mysql_query($dbQuery);
+}
+
+function usernameExists($username){
+	$dbQuery = sprintf("SELECT EXISTS (SELECT 1 FROM Person WHERE loginID='%s'",
+		mysql_real_escape_string($username));
+	$result = mysql_query($dbQuery);
+	return mysql_fetch_row($result)[0]=='1'? True: False;
 }
 
 

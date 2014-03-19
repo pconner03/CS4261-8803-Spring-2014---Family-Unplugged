@@ -12,4 +12,8 @@ function invalidCredentialsError(){
 	echo json_encode(Array("Error"=>"Invalid username or password"));
 }
 
+function usernameExistsError(){
+	echo json_encode(Array("Error"=>"Username already exists"));
+}
+
 ?>

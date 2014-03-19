@@ -50,6 +50,30 @@
 			</action>
 		</index>
 	</command>
+	<command id="register" security="public">
+			<description>
+				Register a new user
+			</description>
+			<post>
+				<description>
+					<![CDATA[
+						POST Parameters: username, password, name, email, dateOfBirth
+
+						--"name" is full/real name
+						--Registration page will need all of these fields. You could chose to make some of them optional 
+
+						--You could also chose to require password confirmation, but that should be done client-side
+
+						--Will return an error if username already exists
+					]]>
+				</description>
+				<action file="backend.php">
+					<![CDATA[
+						registerUser($_POST['username'], $_POST['password'], $_POST['name'], $_POST['email'], $_POST['dateOfBirth']);
+					]]>
+				</action>
+			</post>
+		</command>
 
 	<command id="login" security="public">
 		<description>
@@ -111,12 +135,16 @@
 					Ex: https://dev.m.gatech.edu/.../api/events?date=2014-03-08
 
 
+					To get events in a date range, put GET parameters startDate and endDate instead of just "date."
+
+					Note that range has priority, so if you put both a startDate and an endDate, "date" will be ignored. Right now, if startDate or endDate are null, events from a date range will not be selected. I may change this later to go from the beginning or end of "time" (user registration time) if anyone wants that.
+
 					Put dates in MySQL format yyyy-mm-dd
 				]]>
 			</description>
 			<action file="backend.php">
 				<![CDATA[
-					getDayEvents($_GET['date']);
+					getDayEvents($_GET['date'], $_GET['startDate'], $_GET['endDate']);
 				]]>
 			</action>
 		</index>
@@ -150,6 +178,27 @@
 			</action>
 		</delete>
 	</command>
+	<command id="teams" security="public">
+		<description>
+			<![CDATA[
+				Handles team creation and management
 
+				Completely untested
+			]]>
+		</description>
+		<post>
+			<description>
+				<![CDATA[
+					Creates a new team. Post params: name
 
+					Scoring Schema is set to default schema for now; Track hours left as default (5).
+				]]>
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					createTeam($_POST['name']);
+				]]>
+			</action>
+		</post>
+	</command>
 </api>

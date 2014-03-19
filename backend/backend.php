@@ -57,7 +57,6 @@ function testSID(){
 	header("Content-type: application/json");
 	session_start();
 	if(sessionValid()){
-		$_SESSION["sessData"]["time"] = time();
 		echo json_encode($_SESSION);
 	}
 	else{
@@ -65,12 +64,16 @@ function testSID(){
 	}
 }
 
-function getDayEvents($date){
+function getDayEvents($date, $startDate, $endDate){
 	header("Content-type: application/json");
 	session_start();
 	if(sessionValid()){
-		$_SESSION["sessData"]["time"] = time();
-		echo json_encode(dayEventsQuery($_SESSION["personID"],$date));
+		if($startDate !="" && $endDate != ""){
+			echo json_encode(dateRangeEventsQuery($_SESSION["personID"], $startDate, $endDate));
+		}
+		else{
+			echo json_encode(dayEventsQuery($_SESSION["personID"],$date));
+		}
 	}
 	else{
 		sessionExpiredError();
@@ -82,7 +85,6 @@ function postEvent($date, $activityID, $note, $hours){
 	session_start();
 	header("Content-type: application/json");
 	if(sessionValid()){
-		$_SESSION["sessData"]["time"] = time();
 		_postEvent($_SESSION["personID"], $date, $activityID, $note, $hours);
 	}
 	else{
@@ -113,7 +115,7 @@ function deleteEvent($eventID){
 	header("Content-type: application/json");
 	if(sessionValid()){
 		if(_deleteEvents($eventID)){
-			json_encode(Array("Success"=>"Event ".$eventID." deleted"));
+			echo json_encode(Array("Success"=>"Event ".$eventID." deleted"));
 		}
 		else{
 			databaseError();
@@ -130,7 +132,79 @@ function _deleteEvents($eventID){
 }
 
 function sessionValid(){
-	return array_key_exists("personID", $_SESSION);
+	if(array_key_exists("personID", $_SESSION)){
+		$_SESSION["sessData"]["time"] = time();
+		return True;
+	}
+	return False;
 }
 
+function registerUser($username, $password, $name, $email, $dateOfBirth){
+	header("Content-type: application/json");
+	if(usernameExists($username)){
+			usernameExistsError();
+	}
+	else{
+		if(_registerUser($username, $password, $name, $email, $dateOfBirth)){
+			echo json_encode(Array("Success"=>"User registered"));
+		}
+		else{
+			databaseError();
+		}
+	}
+}
+
+function _registerUser($username, $password, $name, $email, $dateOfBirth){
+	$dbQuery = sprintf("INSERT INTO Person
+		(loginID, Password, Name, Email, DateOfBirth) VALUES
+		('%s', SHA2('%s', 256), '%s', '%s', '%s')",
+		mysql_real_escape_string($username),
+		mysql_real_escape_string($password),
+		mysql_real_escape_string($name),
+		mysql_real_escape_string($email),
+		mysql_real_escape_string($dateOfBirth));
+	return insertQuery($dbQuery);
+}
+
+function createTeam($name){
+	header("Content-type: application/json");
+	if(sessionValid()){
+		_createTeam($name, $_SESSION['personID']);
+	}
+	else{
+		sessionExpiredError();
+	}
+}
+
+function _createTeam($name, $personID){
+	//TODO - CHECK IF TEAM ALREADY EXISTS, RETURN ERROR IF TRUE
+
+	$dbQuery = sprintf("INSERT INTO Team
+		(Name, PersonID) VALUES
+		('%s', '%s')",
+		mysql_real_escape_string($name),
+		mysql_real_escape_string($personID));
+	if(!insertQuery($dbQuery)){
+		databaseError();
+	}
+	else{
+
+		$teamIDQ = sprintf("SELECT TeamID FROM Team
+			WHERE Name='%s' AND PersonID='%s'",
+			mysql_real_escape_string($name),
+			mysql_real_escape_string($personID));
+		$id = getDBResultsArray($teamIDQ)[0]['TeamID'];
+		//Without triggers, there's no better way to do this
+		$insertMemberQ = sprintf("INSERT INTO TeamMembers (TeamID, PersonID) VALUES
+			('%s', '%s')",
+			mysql_real_escape_string($id),
+			mysql_real_escape_string($personID));
+		if(!insertQuery($insertMemberQ)){
+			databaseError();//TODO - anything but this
+		}
+		else{
+			echo json_encode(Array("Success"=>"Team Created"));
+		}
+	}
+}
 ?>
