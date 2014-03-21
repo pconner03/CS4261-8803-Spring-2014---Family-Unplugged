@@ -23,6 +23,7 @@ $(document).ready(function () {
  	var jsonDate = urlVars["date"];
  	objectDate=new Date(jsonDate);
  	apiDate = cutDate(jsonDate);
+ 	today = new Date();
 
 	info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"Not from call","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"NOTFROMCALLActivity"}];
 	
@@ -99,13 +100,24 @@ $(document).ready(function () {
         	//refresh list to enhance its styling.
         	$(this).listview("refresh");
         
+        	//only can view prev day if within a week of today
+        	var lastWeekDate = today.getDate()-5;
+        	if (objectDate.getDate()<lastWeekDate){
+        		$("#_prev").addClass('ui-state-disabled');
+        	}
+        	
+        	//only view next day if it isn't in the future.
+        	if (objectDate.getDate()==today.getDate() 
+    				& objectDate.getMonth()==today.getMonth() 
+    					& objectDate.getFullYear()==today.getFullYear() ){
+    			$("#_next").addClass('ui-state-disabled');
+    		}
+        
         	$("#_prev").click(function(){
     			//subtract day
     			objectDate.setDate(objectDate.getDate() - 1);
     			window.location.href = "index.html?date="+objectDate.toJSON();
     		});
-    	
-    		//$("#_next").hide();
     	
     		$("#_next").click(function(){
     			//subtract day
