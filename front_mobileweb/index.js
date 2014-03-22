@@ -15,6 +15,11 @@ function cutDate(dateString){
 	return dateString.slice(0,dateString.indexOf('T'));
 }
 
+function prettifyDate(d){
+	//was using .toLocaleDateString(), but sometimes this included the day of the week
+	return (d.getMonth()+1) +"/" +d.getDate() + "/" + (d.getFullYear()%1000);
+}
+
 $(document).ready(function () {
 
 	// 1) get url params
@@ -53,7 +58,7 @@ $(document).ready(function () {
 		var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 		var dayStr = days[objectDate.getDay()];
 		$("#_day").text(dayStr);
-		$("#_date").text(objectDate.toLocaleDateString());
+		$("#_date").text(prettifyDate(objectDate));
 
     	//set up string for adding <li/>
     	var li = "";
