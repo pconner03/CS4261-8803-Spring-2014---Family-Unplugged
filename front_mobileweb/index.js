@@ -177,6 +177,9 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 	$("#_selectDuration").selectmenu( "refresh" );
 });
 
+//$( document ).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
+//  	alert(thrownError);
+//});
 
 $(document).on("pagebeforeshow", "#add-page", function () {
     $(this).find("#_date").html("hardCodedNow");
@@ -189,20 +192,20 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     	//force it
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
     		{
-  				date: date,
-  				note: "testing",
-  				activityID: "2c29f3a2-a6f6-11e3-8e6b-005056962b81", //ID of TestActivity
-  				hours: 2
+  				"date": date,
+  				"note": "testing",
+  				"activityID": "2c29f3a2-a6f6-11e3-8e6b-005056962b81",
+  				"hours": 2
   			}, 
   			function(data) {
         	alert("callback post");
-    	}, 'json')
+    	})
     		.done(function() {
     			alert( "done post" );
   			})
-  			.fail(function() {
-    			alert( "error post" );
-  			})
+  			.fail(function( jqXHR, textStatus ) {
+  				alert( "Request failed: " + textStatus );
+			})
   			//.always(function() {
     		//	alert( "always post" );
 			//});
