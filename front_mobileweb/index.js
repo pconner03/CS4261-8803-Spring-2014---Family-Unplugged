@@ -191,7 +191,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     		{
   				date: date,
   				note: "testing",
-  				activityID: "5",
+  				activityID: "2c29f3a2-a6f6-11e3-8e6b-005056962b81", //ID of TestActivity
   				hours: 2
   			}, 
   			function(data) {
@@ -203,9 +203,9 @@ $(document).on("pagebeforeshow", "#add-page", function () {
   			.fail(function() {
     			alert( "error post" );
   			})
-  			.always(function() {
-    			alert( "always post" );
-			});
+  			//.always(function() {
+    		//	alert( "always post" );
+			//});
     	alert("after after post");
     	window.location.href = "index.html?date="+objectDate.toJSON();
     });
