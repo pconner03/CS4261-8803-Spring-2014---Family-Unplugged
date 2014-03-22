@@ -29,7 +29,7 @@ $(document).ready(function () {
  	apiDate = cutDate(jsonDate);
  	today = new Date();
 
-	info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"Not from call","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"NOTFROMCALLActivity"}];
+	info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"Hardcoded activity","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"Educational"}];;
 	
 	var eventsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
 	var args = {
@@ -44,15 +44,14 @@ $(document).ready(function () {
 		}
 		else{
 			if (dataBack["Error"]!=undefined){
-				//alert(dataBack["Error"]);
+				alert(dataBack["Error"]);
 			}
 			else{
-				//alert("Session is not expired. We are receiving data.");
-				//info=dataBack;
+				alert("Session is not expired. We are receiving data.");
+				info=dataBack;
 			}
 		}
-		//no matter what return this.
-		info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"Hardcoded activity","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"Educational"}];;
+
 	
 		// 3) fill HTML elements
 		var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -188,7 +187,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     $("form").submit(function(){
     	alert("before post");
     	//force it
-    	$.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
+    	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
     		{
   				date: date,
   				note: "testing",
@@ -196,8 +195,17 @@ $(document).on("pagebeforeshow", "#add-page", function () {
   				hours: 2
   			}, 
   			function(data) {
-        	alert("after post");
-    	}, 'json');
+        	alert("callback post");
+    	}, 'json')
+    		.done(function() {
+    			alert( "done post" );
+  			})
+  			.fail(function() {
+    			alert( "error post" );
+  			})
+  			.always(function() {
+    			alert( "always post" );
+			});
     	alert("after after post");
     	window.location.href = "index.html?date="+objectDate.toJSON();
     });
