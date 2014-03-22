@@ -15,13 +15,6 @@ function cutDate(dateString){
 	return dateString.slice(0,dateString.indexOf('T'));
 }
 
-function prettifyDate(objectDate){
-	var dateStr = objectDate.toLocaleDateString();
-	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-	var dayStr = days[objectDate.getDay()];
-	return dayStr; //+ '<br>' + dateStr;
-}
-
 $(document).ready(function () {
 
 	// 1) get url params
@@ -71,7 +64,7 @@ $(document).ready(function () {
         	//meaning I'm adding to the existing data. not replacing it.
         	//store index value in array as id of the <a> tag
         	li += '<li><a href="#" id="'+ i;
-        	if (!activity.ThirdPartyEntry){
+        	if (activity.ThirdPartyEntry=="0"){//!activity.ThirdPartyEntry){
         		li += '" class="edit"><h2>'+activity.Name;
         	}else{
         		li += '" class="view"><h2>'+activity.Name;
