@@ -52,7 +52,7 @@ $(document).ready(function () {
 			}
 		}
 		//no matter what return this.
-		info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"This is a test","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"TestActivity"}];;
+		info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"Hardcoded activity","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"Educational"}];;
 	
 		// 3) fill HTML elements
 		var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -182,13 +182,30 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 $(document).on("pagebeforeshow", "#add-page", function () {
     $(this).find("#_date").html("hardCodedNow");
     
-    //var date = "2014-03-08"
+    var date = "2014-03-08"
     //var submitURL = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
-    //submitURL = submitURL + "?date=" + date;
-    //$("form").submit(function(){
-    //	$.post( submitURL, $("form").serialize(), function(data) {
+	//submitURL = submitURL + "?date=" + date;
+    $("form").submit(function(){
+    	alert("before post");
+    	//force it
+    	$.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
+    		{
+  				date: date,
+  				note: "testing",
+  				activityID: "5",
+  				hours: 2
+  			}, 
+  			function(data) {
+        	alert("after post");
+    	}, 'json');
+    	alert("after after post");
+    	window.location.href = "index.html?date="+objectDate.toJSON();
+    });
+    
+        //$.post( submitURL, $("form").serialize(), function(data) {
         	//$("#main-page").data("info", info);
-    //    	alert(data["Error"]);
-    //	}, 'json');
-    //});
+        	//alert('hey again');
+        	
+        	//alert(data["Error"]);
+    	//}, 'json');
 });

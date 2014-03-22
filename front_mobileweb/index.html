@@ -177,10 +177,10 @@
 				</select>
      			
      			<label for="_description">Description:</label>
-     			<input type="text" name="description" id="_description" value="" autocomplete="on”/>
+     			<input type="text" name="note" id="_description" value="" autocomplete="on”/>
      			
      			<label for="_duration" class="select">Duration:</label>
-				<select name="select-choice-1" id="_duration">
+				<select name="hours" id="_duration">
     				<option value="0.5">0.5 hours</option>
     				<option value="1">1 hour</option>
     				<option value="1.5">1.5 hours</option>
@@ -208,7 +208,7 @@
 							<a data-rel="back" data-role="button" data-icon="back" data-iconpos="left" data-theme="a">Back</a>
 						</td>
 						<td align="right">
-							<button type="submit" data-icon="check" data-iconpos="right" id="submitform">Save</button>
+							<button type="submit" rel="external" data-ajax="false" data-icon="check" data-iconpos="right" id="submitform">Save</button>
 						</td>
 					</tr>
 				</table>
