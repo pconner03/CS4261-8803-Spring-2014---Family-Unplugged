@@ -15,6 +15,12 @@ function cutDate(dateString){
 	return dateString.slice(0,dateString.indexOf('T'));
 }
 
+function prettifyDate(objectDate){
+	var dateStr = objectDate.toLocaleDateString();
+	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	var dayStr = days[objectDate.getDay()];
+	return dayStr; //+ '<br>' + dateStr;
+}
 
 $(document).ready(function () {
 
@@ -40,10 +46,10 @@ $(document).ready(function () {
 		}
 		else{
 			if (dataBack["Error"]!=undefined){
-				alert(dataBack["Error"]);
+				//alert(dataBack["Error"]);
 			}
 			else{
-				alert("Session is not expired. We are receiving data.");
+				//alert("Session is not expired. We are receiving data.");
 				//info=dataBack;
 			}
 		}
@@ -51,8 +57,10 @@ $(document).ready(function () {
 		info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"This is a test","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"TestActivity"}];;
 	
 		// 3) fill HTML elements
-		$("#_date").text(apiDate);
-	
+		var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		var dayStr = days[objectDate.getDay()];
+		$("#_day").text(dayStr);
+		$("#_date").text(objectDate.toLocaleDateString());
 
     	//set up string for adding <li/>
     	var li = "";
