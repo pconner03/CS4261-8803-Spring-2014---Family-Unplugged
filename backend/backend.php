@@ -160,8 +160,8 @@ function registerUser($username, $password, $name, $email, $dateOfBirth){
 
 function _registerUser($username, $password, $name, $email, $dateOfBirth){
 	$dbQuery = sprintf("INSERT INTO Person
-		(loginID, Password, Name, Email, DateOfBirth) VALUES
-		('%s', SHA2('%s', 256), '%s', '%s', '%s')",
+		(loginID, Password, Name, Email, DateOfBirth, PersonID) VALUES
+		('%s', SHA2('%s', 256), '%s', '%s', '%s', UUID())",
 		mysql_real_escape_string($username),
 		mysql_real_escape_string($password),
 		mysql_real_escape_string($name),
