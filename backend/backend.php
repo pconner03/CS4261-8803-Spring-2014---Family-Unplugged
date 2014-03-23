@@ -93,9 +93,7 @@ function postEvent($date, $activityID, $note, $hours){
 }
 
 function _postEvent($personID, $date, $activityID, $note, $hours){
-	$dbQuery = sprintf("INSERT INTO Event 
-		(PersonID, Date, ActivityID, Hours, Note, ThirdPartyEntry, ReportedBy)
-		VALUES ('%s', '%s', '%s', %s, '%s', FALSE, 'Me')",
+	$dbQuery = sprintf("INSERT INTO Event (PersonID, Date, ActivityID, Hours, Note, ThirdPartyEntry, ReportedBy, EventID) VALUES ('%s', '%s', '%s', %s, '%s', FALSE, 'Me', UUID())", 
 		mysql_real_escape_string($personID),
 		mysql_real_escape_string($date),
 		mysql_real_escape_string($activityID),
@@ -114,6 +112,11 @@ function _postEvent($personID, $date, $activityID, $note, $hours){
 function deleteEvent($eventID){
 	session_start();
 	header("Content-type: application/json");
+	if($eventID==""){
+		echo json_encode(Array("Error"=>"Event ID is null"));
+		return;
+	}
+
 	if(sessionValid()){
 		if(_deleteEvents($eventID)){
 			echo json_encode(Array("Success"=>"Event ".$eventID." deleted"));
