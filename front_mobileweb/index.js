@@ -207,11 +207,13 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     	//alert("before post");
     	var note = $(this).find("#_description").val();
     	var hours = $(this).find("#_duration").val();
+    	var activity = $(this).find("#_selectActivity").val();
+    	alert(activity);
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
     		{
   				"date": apiDate,
   				"note": note,
-  				"activityID": "2c29f3a2-a6f6-11e3-8e6b-005056962b81",
+  				"activityID": activity,
   				"hours": hours
   			}, 
   			function(data) {
