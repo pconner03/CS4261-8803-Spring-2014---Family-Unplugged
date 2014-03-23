@@ -173,7 +173,7 @@
 			</description>
 			<action file="backend.php">
 				<![CDATA[
-					deleteEvent($_DELETE['EventID']);
+					deleteEvent($_REST['events']);
 				]]>
 			</action>
 		</delete>
