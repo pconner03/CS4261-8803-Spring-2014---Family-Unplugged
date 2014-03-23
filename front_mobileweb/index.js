@@ -20,6 +20,10 @@ function prettifyDate(d){
 	return (d.getMonth()+1) +"/" +d.getDate() + "/" + (d.getFullYear()%1000);
 }
 
+$(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
+	alert(thrownError);
+});
+
 $(document).ready(function () {
 
 	// 1) get url params
@@ -184,24 +188,23 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 $(document).on("pagebeforeshow", "#add-page", function () {
     $(this).find("#_date").html("hardCodedNow");
     
-    var date = "2014-03-08"
-    //var submitURL = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
-	//submitURL = submitURL + "?date=" + date;
     $("form").submit(function(){
-    	alert("before post");
-    	//force it
+    	//alert("before post");
+    	var note = $(this).find("#_description").val();
+    	var hours = $(this).find("#_duration").val();
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
     		{
-  				"date": date,
-  				"note": "testing",
+  				"date": apiDate,
+  				"note": note,
   				"activityID": "2c29f3a2-a6f6-11e3-8e6b-005056962b81",
-  				"hours": 2
+  				"hours": hours
   			}, 
   			function(data) {
-        	alert("callback post");
+        	//alert("callback post");
     	})
     		.done(function() {
-    			alert( "done post" );
+    			//alert( "done post" );
+    			window.location.href = "index.html?date="+objectDate.toJSON();
   			})
   			.fail(function( jqXHR, textStatus ) {
   				alert( "Request failed: " + textStatus );
@@ -209,8 +212,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
   			//.always(function() {
     		//	alert( "always post" );
 			//});
-    	alert("after after post");
-    	window.location.href = "index.html?date="+objectDate.toJSON();
+    	//alert("after after post");
     });
     
         //$.post( submitURL, $("form").serialize(), function(data) {
