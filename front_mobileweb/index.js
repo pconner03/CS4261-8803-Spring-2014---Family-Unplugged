@@ -179,6 +179,21 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 	//refresh select menus or changes won't display
 	$("#_selectActivity").selectmenu( "refresh" );
 	$("#_selectDuration").selectmenu( "refresh" );
+	
+	$("#_delete").click(function(){
+		var jqxhr = $.ajax({
+  			type: "DELETE",
+  			url: "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events/"+info.EventID
+		})
+    	.done(function() {
+    		alert( info.EventID );
+    		window.location.href = "index.html?date="+objectDate.toJSON();
+  		})
+  		.fail(function( jqXHR, textStatus ) {
+  			alert( "Request failed: " + textStatus );
+		});
+    	
+    });
 });
 
 //$( document ).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
