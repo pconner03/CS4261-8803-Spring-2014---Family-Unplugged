@@ -92,10 +92,10 @@ function postEvent($date, $activityID, $note, $hours){
 	}
 }
 
-function _postEvents($personID, $date, $activityID, $note, $hours){
+function _postEvent($personID, $date, $activityID, $note, $hours){
 	$dbQuery = sprintf("INSERT INTO Event 
 		(PersonID, Date, ActivityID, Hours, Note, ThirdPartyEntry, ReportedBy)
-		VALUES ('%s', '%s', %s, %s, '%s', FALSE, 'Me')",
+		VALUES ('%s', '%s', '%s', %s, '%s', FALSE, 'Me')",
 		mysql_real_escape_string($personID),
 		mysql_real_escape_string($date),
 		mysql_real_escape_string($activityID),
@@ -106,6 +106,7 @@ function _postEvents($personID, $date, $activityID, $note, $hours){
 		echo json_encode(Array("Success"=>"Data inserted successfully"));
 	}
 	else{
+		//echo $dbQuery;
 		databaseError();
 	}
 }
