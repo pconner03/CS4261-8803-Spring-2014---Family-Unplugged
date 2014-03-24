@@ -58,7 +58,7 @@ $(document).ready(function () {
 			if (dataBack["Error"]!=undefined){
 				alert(dataBack["Error"]);
 				if (dataBack["Error"]=="Session Expired"){
-					window.location.replace("login.html");
+					//window.location.replace("login.html");
 				}
 			}
 			else{
@@ -198,7 +198,7 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 		})
     	.done(function() {
     		alert( info.EventID );
-    		window.location.href = "index.html?date="+objectDate.toJSON();
+    		window.location.href = "index.html?date="+cutDate(objectDate.toJSON());
   		})
   		.fail(function( jqXHR, textStatus ) {
   			alert( "Request failed: " + textStatus );
@@ -232,7 +232,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     	})
     		.done(function() {
     			//alert( "done post" );
-    			window.location.href = "index.html?date="+objectDate.toJSON();
+    			window.location.href = "index.html?date="+cutDate(objectDate.toJSON());
   			})
   			.fail(function( jqXHR, textStatus ) {
   				alert( "Request failed: " + textStatus );
