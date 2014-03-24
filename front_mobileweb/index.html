@@ -145,13 +145,32 @@
 							<button type="submit" data-icon="check" data-iconpos="right" id="submitform">Save</button>
 						</td>
 						<td align="right">
-							<a data-theme="d" id="_delete" data-role="button" data-icon="delete" data-iconpos="right">Delete</a>
+							<a href="#popupDeleteDialog" data-rel="popup" data-position-to="window" data-transition="pop" data-theme="d">Delete</a>
 						</td>
 					</tr>
 				</table>
 			</form>
         </div><!-- /content -->
-
+        
+		<!-- delete popup -->
+		<div data-role="popup" id="popupDeleteDialog" data-overlay-theme="c" data-theme="c" data-dismissible="false" style="max-width:400px;">
+    		<div data-role="header" data-theme="c">
+    			<h1>Delete Event?</h1>
+    		</div>
+    		<div role="main" class="ui-content" data-theme="c">
+    			<table>
+    			<tr>
+        			<td>
+        				<a data-rel="back" data-inline="true" data-role="button" data-icon="back" data-iconpos="left" data-theme="c">Cancel</a>
+        			</td>
+        			<td>
+        				<a data-theme="d" id="_delete" data-role="button" data-icon="delete" data-iconpos="right" data-transition="flow">Delete</a>
+    				</td>
+    			</tr>
+    			</table>
+    		</div>
+		</div><!-- /delete popup -->
+		
 	</div><!-- /page-->
 
 
