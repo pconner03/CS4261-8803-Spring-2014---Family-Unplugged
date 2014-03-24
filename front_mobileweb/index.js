@@ -49,6 +49,9 @@ $(document).ready(function () {
 		else{
 			if (dataBack["Error"]!=undefined){
 				alert(dataBack["Error"]);
+				if (dataBack["Error"]=="Session Expired"){
+					window.location.replace("login.html");
+				}
 			}
 			else{
 				alert("Session is not expired. We are receiving data.");
