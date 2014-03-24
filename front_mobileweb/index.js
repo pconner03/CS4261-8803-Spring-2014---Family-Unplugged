@@ -11,13 +11,17 @@ function getUrlVars(){
     return vars;
 }
 
-function cutDate(dateString){
-	return dateString.slice(0,dateString.indexOf('T'));
+function hasURLVars(){
+	return window.location.href.indexOf('?')>0;
+}
+
+function cutDate(in_date){
+	return in_date.slice(0,in_date.indexOf('T'));
 }
 
 function prettifyDate(d){
 	//was using .toLocaleDateString(), but sometimes this included the day of the week
-	return (d.getMonth()+1) +"/" +d.getDate() + "/" + (d.getFullYear()%1000);
+	return (d.getUTCMonth()+1) +"/" +d.getUTCDate() + "/" + (d.getUTCFullYear()%1000);
 }
 
 $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
@@ -26,18 +30,22 @@ $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
 
 $(document).ready(function () {
 
+	today = new Date();
 	// 1) get url params
-	var urlVars = getUrlVars();
- 	var jsonDate = urlVars["date"];
- 	objectDate=new Date(jsonDate);
- 	apiDate = cutDate(jsonDate);
- 	today = new Date();
+	if (hasURLVars()){
+		var urlVars = getUrlVars();
+ 		dateString = urlVars["date"];
+ 		objectDate=new Date(dateString);
+ 	}else{
+ 		objectDate = new Date();
+ 		dateString = cutDate(objectDate.toJSON());
+ 	}
 
 	info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"Hardcoded activity","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"Educational"}];;
 	
 	var eventsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
 	var args = {
-		"date": apiDate
+		"date": dateString
 	};
 
 	// 2) get events from API
@@ -62,7 +70,7 @@ $(document).ready(function () {
 	
 		// 3) fill HTML elements
 		var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-		var dayStr = days[objectDate.getDay()];
+		var dayStr = days[objectDate.getUTCDay()];
 		$("#_day").text(dayStr);
 		$("#_date").text(prettifyDate(objectDate));
 
@@ -113,28 +121,28 @@ $(document).ready(function () {
         	$(this).listview("refresh");
         
         	//only can view prev day if within a week of today
-        	var lastWeekDate = today.getDate()-5;
-        	if (objectDate.getDate()<lastWeekDate){
+        	var lastWeekDate = today.getUTCDate()-5;
+        	if (objectDate.getUTCDate()<lastWeekDate){
         		$("#_prev").addClass('ui-state-disabled');
         	}
         	
         	//only view next day if it isn't in the future.
-        	if (objectDate.getDate()==today.getDate() 
-    				& objectDate.getMonth()==today.getMonth() 
-    					& objectDate.getFullYear()==today.getFullYear() ){
+        	if (objectDate.getUTCDate()==today.getUTCDate() 
+    				& objectDate.getUTCMonth()==today.getUTCMonth() 
+    					& objectDate.getUTCFullYear()==today.getUTCFullYear() ){
     			$("#_next").addClass('ui-state-disabled');
     		}
         
         	$("#_prev").click(function(){
     			//subtract day
     			objectDate.setDate(objectDate.getDate() - 1);
-    			window.location.href = "index.html?date="+objectDate.toJSON();
+    			window.location.href = "index.html?date="+cutDate(objectDate.toJSON());
     		});
     	
     		$("#_next").click(function(){
     			//subtract day
     			objectDate.setDate(objectDate.getDate() + 1);
-    			window.location.href = "index.html?date="+objectDate.toJSON();
+    			window.location.href = "index.html?date="+cutDate(objectDate.toJSON());
     		});
     	});
    });
@@ -214,7 +222,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     	alert(activity);
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
     		{
-  				"date": apiDate,
+  				"date": dateString,
   				"note": note,
   				"activityID": activity,
   				"hours": hours

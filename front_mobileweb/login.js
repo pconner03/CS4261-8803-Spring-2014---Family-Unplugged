@@ -1,3 +1,7 @@
+function cutDate(dateString){
+	return dateString.slice(0,dateString.indexOf('T'));
+}
+
 $(document).ready(function () {
 
 	$("#loginForm").submit(function(e){
@@ -13,7 +17,7 @@ $(document).ready(function () {
 				//get date
 				var d = new Date();
 				//add url params
-				var url = "index.html?date=" +d.toJSON();
+				var url = "index.html?date=" +cutDate(d.toJSON());
 				//redirect
 				window.location.replace(url);
 			}
