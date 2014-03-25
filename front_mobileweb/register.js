@@ -63,7 +63,8 @@ $(document).ready(function () {
 			event.preventDefault();
 			popupErrorMessage(msg);
 		}else{
-    		var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
+			event.preventDefault();
+    		var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/register",  
     			{
   					"username": username,
   					"password": p1,
@@ -74,10 +75,18 @@ $(document).ready(function () {
   				function(data) {
     			})
     			.done(function() {
-    				window.location.href = "index.html";
+    				var loginAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/login?';
+    				$.getJSON( loginAPI, {"username": username, "password": p1}).done(function( data ) {
+						if (data.sessionID!=undefined){
+							window.location.replace("index.html");
+						}
+						else{
+							alert("error");
+						}
+					});
   				})
   				.fail(function( jqXHR, textStatus ) {
-  					alert( "Request failed: " + textStatus );
+  					popupErrorMessage(textStatus);
 				});
     	}//end else
     });
