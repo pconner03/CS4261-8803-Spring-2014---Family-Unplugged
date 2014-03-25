@@ -72,22 +72,27 @@ $(document).ready(function () {
   					"email": email,
   					"dateOfBirth": (year+"-"+month+"-"+day),
   				}, 
-  				function(data) {
+  				function(postResponse) {
+  					if (postResponse["Error"]==undefined){
+  						var loginAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/login?';
+    					$.getJSON( loginAPI, {"username": username, "password": p1}).done(function( getResponse ) {
+							if (getResponse.sessionID!=undefined){
+								window.location.replace("index.html");
+							}
+							else{
+								msg = getResponse["Error"];
+							}
+						});
+  					}else{
+  						//msg = postResponse["Error"];
+  						msg = "Username already exists.";
+  					}
     			})
-    			.done(function() {
-    				var loginAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/login?';
-    				$.getJSON( loginAPI, {"username": username, "password": p1}).done(function( data ) {
-						if (data.sessionID!=undefined){
-							window.location.replace("index.html");
-						}
-						else{
-							alert("error");
-						}
-					});
-  				})
-  				.fail(function( jqXHR, textStatus ) {
-  					popupErrorMessage(textStatus);
-				});
+    			.always(function() {
+    				if (msg){
+    					popupErrorMessage(msg);
+    				}
+  				});
     	}//end else
     });
 });
