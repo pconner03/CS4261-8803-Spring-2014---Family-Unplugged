@@ -215,7 +215,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     	var note = $(this).find("#_description").val();
     	var hours = $(this).find("#_duration").val();
     	var activity = $(this).find("#_selectActivity").val();
-    	alert("hours = " hours);
+    	//alert("hours = " hours);
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
     		{
   				"date": dateString,

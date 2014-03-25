@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/themes/Greens.min.css" />
+	<link rel="stylesheet" href="css/themes/Greens.css" />
+	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" />
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+<body>
+
+<!--first page -->
+<div data-role="page" id="main-page" data-theme="c">
+    <div data-role="header">
+    	<a href="menu.html" rel="external" data-ajax="false" data-role="button" data-icon="grid" data-inline="true" data-iconpos="notext" title="Menu" data-theme="c"></a>
+    	<h1></h1>
+    	<a href="login.html" data-role="button" data-inline="true" title="Logout" data-theme="c">Logout</a>
+    </div>
+    <div data-role="content">	
+		<a href="#add-page" data-role="button" data-icon="plus" data-iconpos="left">New Team</a>
+        <ul data-role="listview" data-inset="true" id="team-list" data-inset="true">
+        </ul>
+    </div>
+</div>
+
+
+
+    <div data-role="page" id="view-page" data-theme="c">
+ 
+        <div data-role="header">
+            <h1>View Team</h1>
+        </div><!-- /header -->
+ 
+        <div data-role="content">
+            <h2 align="center" id="_name">Team Name Not Found</h2>
+     			<p>
+     			Team Leader: <strong id="_leader">Leader Not Found</strong><br><br>
+     			
+     			Team Members:<br>				
+     			<ul data-role="listview" data-inset="true" id="member-list">
+				</ul>
+     			</p>
+				<table width="100%">
+					<tr>
+						<td align="left">
+							<a data-rel="back" data-role="button" data-icon="back" data-inline="true" data-theme="a">Back</a>
+						</td>
+						<td align="right">
+							<a href="#" data-role="button" data-inline="true" data-theme="d" id="_leaveteambtn">Leave Team</a>
+						</td>
+					</tr>
+				</table>
+			</form>
+        </div><!-- /content -->
+ 
+    </div><!-- /page -->
+
+
+	<div data-role="page" id="add-page" data-theme="c">
+ 
+        <div data-role="header">
+            <h1>Add Team</h1>
+        </div><!-- /header -->
+ 
+        <div data-role="content">
+	    	<form>
+     			<label for="_teamname">Team Name:</label>
+     			<input type="text" name="teamname" id="_teamname" value="" autocomplete="on”/>
+     			
+     			<label for="_invitations">Invite members (by username):</label>
+     			<input type="text" name="invitations" id="_invitations" value="" autocomplete="on”/>
+				
+				<table width="100%">
+					<tr>
+						<td align="left">
+							<a data-rel="back" data-inline="true" data-role="button" data-icon="back" data-iconpos="left" data-theme="a">Back</a>
+						</td>
+						<td align="right">
+							<button type="submit" rel="external" data-ajax="false" data-icon="check" data-inline="true" data-iconpos="right" id="submitform">Create!</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+        </div><!-- /content -->
+
+	</div><!-- /page-->
+
+
+
+
+<script src="teams.js"></script>
+</body>
+</html>
