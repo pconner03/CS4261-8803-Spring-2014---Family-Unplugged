@@ -207,10 +207,6 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
     });
 });
 
-//$( document ).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
-//  	alert(thrownError);
-//});
-
 $(document).on("pagebeforeshow", "#add-page", function () {
     $(this).find("#_date").html("hardCodedNow");
     
@@ -219,7 +215,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     	var note = $(this).find("#_description").val();
     	var hours = $(this).find("#_duration").val();
     	var activity = $(this).find("#_selectActivity").val();
-    	alert(activity);
+    	alert("hours = " hours);
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
     		{
   				"date": dateString,
@@ -228,25 +224,13 @@ $(document).on("pagebeforeshow", "#add-page", function () {
   				"hours": hours
   			}, 
   			function(data) {
-        	//alert("callback post");
     	})
     		.done(function() {
-    			//alert( "done post" );
     			window.location.href = "index.html?date="+cutDate(objectDate.toJSON());
   			})
   			.fail(function( jqXHR, textStatus ) {
   				alert( "Request failed: " + textStatus );
 			})
-  			//.always(function() {
-    		//	alert( "always post" );
-			//});
-    	//alert("after after post");
     });
     
-        //$.post( submitURL, $("form").serialize(), function(data) {
-        	//$("#main-page").data("info", info);
-        	//alert('hey again');
-        	
-        	//alert(data["Error"]);
-    	//}, 'json');
 });
