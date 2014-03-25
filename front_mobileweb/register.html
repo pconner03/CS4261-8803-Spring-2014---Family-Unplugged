@@ -15,19 +15,51 @@
         </div><!-- /header -->
  
         <div data-role="content">
-	    	<form data-ajax="false" method="post" action="index.html">
-     			<label for="username">username</label>
-     			<input type="text" name="username" id="username" value="" autocomplete="on”>
+	    	<form id="_registerForm">
+	    		<label for="_first">first</label>
+     			<input type="text" name="first" id="_first" value="" autocomplete="off”>
+     			
+     			<label for="_last">last</label>
+     			<input type="text" name="last" id="_last" value="" autocomplete="off”>
+     			
+     			<label for="_dob" class="select">date of birth</label><br>
+				<select name="dobmonth" id="_dobmonth" data-mini="true" data-inline="true">
+    				<option value="1">January</option>
+    				<option value="12">December</option>
+				</select>
+				<select name="dobday" id="_dobday" data-mini="true" data-inline="true">
+    				<option value="1">1</option>
+    				<option value="31">31</option>
+				</select>
+				<select name="dobyear" id="_dobyear" data-mini="true" data-inline="true">
+    				<option value="2010">2010</option>
+    				<option value="1910">1910</option>
+				</select>
+     			
+     			<label for="_email">e-mail</label>
+     			<input type="text" name="email" id="_email" value="" autocomplete="off”>
+	    	
+     			<label for="_username">username</label>
+     			<input type="text" name="username" id="_username" value="" autocomplete="off”>
 
-     			<label for="password_orig”>password</label>
-     			<input type="password" data-clear-btn="false" name="password_orig" id="password_orig" value="" autocomplete="off">
+     			<label for="_passwordorig”>password</label>
+     			<input type="password" data-clear-btn="false" name="passwordorig" id="_passwordorig" value="" autocomplete="off">
 
-				<label for="password_confirm">confirm password</label>
-     			<input type="password" data-clear-btn="false" name="password_confirm" id="password_confirm" value="" autocomplete="off">
+				<label for="_passwordconfirm">confirm password</label>
+     			<input type="password" data-clear-btn="false" name="passwordconfirm" id="_passwordconfirm" value="" autocomplete="off">
+
 
 	    		<div align="center"><button type="submit" id="submitform" data-inline="true">register</button></div>
-	     	</form>	  
+	     	</form>	
         </div><!-- /content -->
- 
+        
+        <!-- bad input popup -->
+		<div data-role="popup" id="popupDialog" data-overlay-theme="c" data-theme="c" style="max-width:400px;">
+    		<div role="main" class="ui-content" data-theme="c">
+    			<text id="_errorMsg"></text>
+    		</div>
+		</div>
+		
     </div><!-- /page -->
+    <script src="register.js"></script>
 </body>
