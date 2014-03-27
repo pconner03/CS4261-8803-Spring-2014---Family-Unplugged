@@ -201,4 +201,19 @@
 			</action>
 		</post>
 	</command>
+	<command id="logout" security="public">
+		<description>
+			Logs out of a session
+		</description>
+		<index>
+			<description>
+				Logs out
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					logout();
+				]]>
+			</action>
+		</index>
+	</command>
 </api>

@@ -211,4 +211,14 @@ function _createTeam($name, $personID){
 		}
 	}
 }
+
+function logout(){
+	session_start();
+	if(sessionValid()){
+		session_unset();
+		session_destroy();
+	}
+	header("Content-type: application/json");
+	echo json_encode(Array("Success"=>"Session ended"));
+}
 ?>
