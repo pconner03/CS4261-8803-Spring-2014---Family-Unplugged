@@ -1,5 +1,13 @@
 function toPHPFormat(d){
-	return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+	var monthStr = "" +(d.getMonth()+1);
+	if (monthStr.length<2){
+		monthStr = "0" + monthStr;
+	}
+	var dateStr = "" + d.getDate();
+	if (dateStr.length<2){
+		dateStr = "0" + dateStr;
+	}
+	return d.getFullYear() + "-" + monthStr + "-" + dateStr;
 }
 
 $(document).ready(function () {
