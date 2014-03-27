@@ -18,28 +18,37 @@
 	<body>
 		<div data-role="page" data-theme="b">
 	    	<div data-role="header">
-    			<h2>Results</h2>
+    			<a href="menu.html" data-role="button" data-icon="grid" data-inline="true" data-iconpos="notext" title="Menu" data-theme="c"></a>
+    			<h1></h1>
     		</div>
     		
     		<div data-role="content" align="center">
+    			<select name="selectTeam" id="_selectTeam">
+					<option>Me</option>
+    				<option>Team 1</option>
+    				<option>Team 2</option>
+				</select>
+				
     			<table width="100%">
   					<tr>
-    					<td align="left"><a href="#" data-role="button" data-icon="arrow-l" data-iconpos="left" data-mini="true">Prev</a></td>
-    					<td align="center"><h2 id="_date" align="center">Month Not Found</h2></td>
-    					<td align="right"><a href="#" data-role="button" data-icon="arrow-r" data-iconpos="right" data-mini="true">Next</a></td>
+    					<td align="left"><a id="_prev" data-role="button" data-icon="arrow-l" data-iconpos="left" data-mini="true">Prev</a></td>
+    					<td align="center"><h2 id="_date" align="center">Not Found</h2></td>
+    					<td align="right"><a id="_next" data-role="button" data-icon="arrow-r" data-iconpos="right" data-mini="true">Next</a></td>
   					</tr>
 				</table>
     		
-				<canvas id="canvas" height="400" width="350"></canvas>
-				<p>Top Scoring Team Member: <strong>Name Here</strong></p>
-				<p>Average Points per day: <strong>Number Here</strong></p>
+				<canvas id="canvas" height="350" width="300"></canvas>
+				
 				<table width="100%">
 					<tr>
-						<td align="left">
-							<a href="#" data-role="button" data-icon="back" data-iconpos="left">Back</a>
+						<td>
+							<a data-role="button">Physical</a>
 						</td>
-						<td align="right">
-							<a data-theme="c" href="#" data-role="button" data-icon="arrow-r" data-iconpos="right">Post to Facebook</a>
+						<td>
+							<a data-role="button">Mental</a>
+						</td>
+						<td>
+							<a data-role="button">Social</a>
 						</td>
 					</tr>
 				</table>

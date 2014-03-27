@@ -1,49 +1,106 @@
+//***HELPER FUNCTIONS***//
+function getUrlVars(){
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+function hasURLVars(){
+	return window.location.href.indexOf('?')>0;
+}
+
+function toPHPFormat(d){
+	var monthStr = "" +(d.getMonth()+1);
+	if (monthStr.length<2){
+		monthStr = "0" + monthStr;
+	}
+	var dateStr = "" + d.getDate();
+	if (dateStr.length<2){
+		dateStr = "0" + dateStr;
+	}
+	return d.getFullYear() + "-" + monthStr + "-" + dateStr;
+}
+
+function prettifyDate(d){
+	//was using .toLocaleDateString(), but sometimes this included the day of the week
+	return (d.getMonth()+1) +"/" +d.getDate() + "/" + (d.getFullYear()%1000);
+}
+
 $(document).ready(function () {
 
+	var weeksInPast = 0;
+	var today = new Date();
+	if (hasURLVars()){
+		var urlVars = getUrlVars();
+ 		weeksInPast = parseInt(urlVars["week"]);
+ 		today.setDate(today.getDate()+(7*weeksInPast));
+ 	}
+ 	alert(today.toString());
+	var weekday = today.getDay(); //0-6 (Sunday-Saturday);
+	var lastSaturday = new Date(today.getTime()); //effectively clones "today"
+	lastSaturday.setDate(today.getDate() - (weekday + 1));
+	var startSunday = new Date(today.getTime()); //effectively clones "today"
+	startSunday.setDate(lastSaturday.getDate() - 6);
+    
+   
+    if (weeksInPast>=0){
+    	$("#_next").addClass('ui-state-disabled');
+    }
+    
+    $("#_prev").click(function(){
+    	weeksInPast+=(-1);
+    	window.location.href = "result.html?week="+weeksInPast;
+    });
+    	
+    $("#_next").click(function(){
+    	weeksInPast+=1;
+    	window.location.href = "result.html?week="+weeksInPast;
+    });
+	
+	$(this).find("#_date").html("Sunday, " + prettifyDate(startSunday) + " -<br>Saturday, " + prettifyDate(lastSaturday));
 	var lineChartData = {
-		labels : ["Week 1", "Week 2", "Week 3", "Week4"],
+		labels : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
 		datasets : [
-			{
-				fillColor : "rgba(145,227,189,0.5)",
-				strokeColor : "rgba(145,227,189,1)",
-				pointColor : "rgba(145,227,189,1)",
-				pointStrokeColor : "#fff",
-				data : [9,6,4,2]
-			},
 			{
 				fillColor : "rgba(145,226,227,0.5)",
 				strokeColor : "rgba(145,226,227,1)",
 				pointColor : "rgba(145,226,227,1)",
 				pointStrokeColor : "#fff",
-				data : [2,3,1,2]
+				data : [2,3,1,2,2,3,1]
 			},
 			{
 				fillColor : "rgba(227,147,145,0.5)",
 				strokeColor : "rgba(227,147,145,1)",
 				pointColor : "rgba(227,147,145,1)",
 				pointStrokeColor : "#fff",
-				data : [4,0,0,1]
+				data : [4,0,0,1,4,0,0]
 			},
 			{
 				fillColor : "rgba(227,189,145,0.5)",
 				strokeColor : "rgba(227,189,145,1)",
 				pointColor : "rgba(227,189,145,1)",
 				pointStrokeColor : "#fff",
-				data : [7,8,4,5]
+				data : [7,8,4,5,3,6,5]
 			},
 			{
 				fillColor : "rgba(221,227,145,0.5)",
 				strokeColor : "rgba(221,227,145,1)",
 				pointColor : "rgba(221,227,145,1)",
 				pointStrokeColor : "#fff",
-				data : [4,4,5,5]
+				data : [4,4,5,5,5,5,4]
 			},
 			{
 				fillColor : "rgba(162,227,145,0.5)",
 				strokeColor : "rgba(162,227,145,1)",
 				pointColor : "rgba(162,227,145,1)",
 				pointStrokeColor : "#fff",
-				data : [0,2,1,0]
+				data : [0,2,1,0,0,0,1]
 			}		
 		]	
 	};
