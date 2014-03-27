@@ -67,7 +67,7 @@
      			<label for="_teamname">Team Name:</label>
      			<input type="text" name="teamname" id="_teamname" value="" autocomplete="on”/>
      			
-     			<label for="_invitations">Invite members (by username):</label>
+     			<label for="_invitations">Invite members (by e-mail):</label>
      			<input type="text" name="invitations" id="_invitations" value="" autocomplete="on”/>
 				
 				<table width="100%">
@@ -85,6 +85,34 @@
 
 	</div><!-- /page-->
 
+
+
+
+	<div data-role="page" id="invite-page" data-theme="c">
+ 
+        <div data-role="header">
+            <h1>Invite New Members</h1>
+        </div><!-- /header -->
+ 
+        <div data-role="content">
+	    	<form>
+     			<label for="_invitations">Invite members (by e-mail):</label>
+     			<input type="text" name="invitations" id="_invitations" value="" autocomplete="on”/>
+				
+				<table width="100%">
+					<tr>
+						<td align="left">
+							<a data-rel="back" data-inline="true" data-role="button" data-icon="back" data-iconpos="left" data-theme="a">Back</a>
+						</td>
+						<td align="right">
+							<button type="submit" rel="external" data-ajax="false" data-icon="check" data-inline="true" data-iconpos="right" id="submitform">Send Invitations</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+        </div><!-- /content -->
+
+	</div><!-- /page-->
 
 
 

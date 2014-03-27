@@ -59,12 +59,15 @@ $(document).on("pagebeforeshow", "#view-page", function () {
     }
     
     var arr = info.Members;
-    var li="";
+    var li='';
 	for (var i = 0; i < arr.length; i++) {
     	li += '<li>';
      	li += arr[i];
         li += '</li>';
 	}
+	if (info.Leader=="Me"){
+		li += '<li><a href="#invite-page" data-role="button" data-mini="true" data-icon="plus" data-inline="true" data-theme="a">Invite new member(s)</a></li>';
+    }
     $("#member-list").html(li).promise().done(function () {
     	$(this).listview("refresh");
     });
@@ -72,5 +75,9 @@ $(document).on("pagebeforeshow", "#view-page", function () {
 });
 
 $(document).on("pagebeforeshow", "#add-page", function () {
+   
+});
+
+$(document).on("pagebeforeshow", "#invite-page", function () {
    
 });
