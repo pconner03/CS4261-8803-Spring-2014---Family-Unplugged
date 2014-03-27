@@ -16,7 +16,15 @@ function hasURLVars(){
 }
 
 function toPHPFormat(d){
-	return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+	var monthStr = "" +(d.getMonth()+1);
+	if (monthStr.length<2){
+		monthStr = "0" + monthStr;
+	}
+	var dateStr = "" + d.getDate();
+	if (dateStr.length<2){
+		dateStr = "0" + dateStr;
+	}
+	return d.getFullYear() + "-" + monthStr + "-" + dateStr;
 }
 
 function prettifyDate(d){
@@ -36,6 +44,11 @@ $(document).ready(function () {
 		var urlVars = getUrlVars();
  		dateString = urlVars["date"];
  		objectDate=new Date(dateString);
+ 		//the above makes the date in local time, which makes it a day too early, so we change to UTC time.
+ 		objectDate.setDate(objectDate.getUTCDate());
+ 		objectDate.setHours(0);
+ 		
+ 		alert(objectDate.toString());
  	}else{
  		objectDate = new Date();
  		dateString = toPHPFormat(objectDate);
