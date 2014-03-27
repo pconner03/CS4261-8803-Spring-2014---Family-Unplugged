@@ -15,13 +15,13 @@ function hasURLVars(){
 	return window.location.href.indexOf('?')>0;
 }
 
-function cutDate(in_date){
-	return in_date.slice(0,in_date.indexOf('T'));
+function toPHPFormat(d){
+	return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
 }
 
 function prettifyDate(d){
 	//was using .toLocaleDateString(), but sometimes this included the day of the week
-	return (d.getUTCMonth()+1) +"/" +d.getUTCDate() + "/" + (d.getUTCFullYear()%1000);
+	return (d.getMonth()+1) +"/" +d.getDate() + "/" + (d.getFullYear()%1000);
 }
 
 $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
@@ -38,7 +38,7 @@ $(document).ready(function () {
  		objectDate=new Date(dateString);
  	}else{
  		objectDate = new Date();
- 		dateString = cutDate(objectDate.toJSON());
+ 		dateString = toPHPFormat(objectDate);
  	}
 
 	info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"Hardcoded activity","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"Educational"}];;
@@ -70,7 +70,7 @@ $(document).ready(function () {
 	
 		// 3) fill HTML elements
 		var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-		var dayStr = days[objectDate.getUTCDay()];
+		var dayStr = days[objectDate.getDay()];
 		$("#_day").text(dayStr);
 		$("#_date").text(prettifyDate(objectDate));
 
@@ -121,28 +121,28 @@ $(document).ready(function () {
         	$(this).listview("refresh");
         
         	//only can view prev day if within a week of today
-        	var lastWeekDate = today.getUTCDate()-5;
-        	if (objectDate.getUTCDate()<lastWeekDate){
+        	var lastWeekDate = today.getDate()-5;
+        	if (objectDate.getDate()<lastWeekDate){
         		$("#_prev").addClass('ui-state-disabled');
         	}
         	
         	//only view next day if it isn't in the future.
-        	if (objectDate.getUTCDate()==today.getUTCDate() 
-    				& objectDate.getUTCMonth()==today.getUTCMonth() 
-    					& objectDate.getUTCFullYear()==today.getUTCFullYear() ){
+        	if (objectDate.getDate()==today.getDate() 
+    				& objectDate.getMonth()==today.getMonth() 
+    					& objectDate.getFullYear()==today.getFullYear() ){
     			$("#_next").addClass('ui-state-disabled');
     		}
         
         	$("#_prev").click(function(){
     			//subtract day
     			objectDate.setDate(objectDate.getDate() - 1);
-    			window.location.href = "index.html?date="+cutDate(objectDate.toJSON());
+    			window.location.href = "index.html?date="+toPHPFormat(objectDate);
     		});
     	
     		$("#_next").click(function(){
     			//subtract day
     			objectDate.setDate(objectDate.getDate() + 1);
-    			window.location.href = "index.html?date="+cutDate(objectDate.toJSON());
+    			window.location.href = "index.html?date="+toPHPFormat(objectDate);
     		});
     	});
    });
@@ -198,7 +198,7 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 		})
     	.done(function() {
     		alert( info.EventID );
-    		window.location.href = "index.html?date="+cutDate(objectDate.toJSON());
+    		window.location.href = "index.html?date="+toPHPFormat(objectDate);
   		})
   		.fail(function( jqXHR, textStatus ) {
   			alert( "Request failed: " + textStatus );
@@ -226,7 +226,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
   			function(data) {
     	})
     		.done(function() {
-    			window.location.href = "index.html?date="+cutDate(objectDate.toJSON());
+    			window.location.href = "index.html?date="+toPHPFormat(objectDate);
   			})
   			.fail(function( jqXHR, textStatus ) {
   				alert( "Request failed: " + textStatus );

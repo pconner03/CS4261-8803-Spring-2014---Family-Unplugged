@@ -1,5 +1,5 @@
-function cutDate(dateString){
-	return dateString.slice(0,dateString.indexOf('T'));
+function toPHPFormat(d){
+	return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
 }
 
 $(document).ready(function () {
@@ -17,7 +17,7 @@ $(document).ready(function () {
 				//get date
 				var d = new Date();
 				//add url params
-				var url = "index.html?date=" +cutDate(d.toJSON());
+				var url = "index.html?date=" +toPHPFormat(d);
 				//redirect
 				window.location.replace(url);
 			}
