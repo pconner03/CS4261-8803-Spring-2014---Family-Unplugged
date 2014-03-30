@@ -59,7 +59,7 @@ $(document).ready(function () {
  		dateString = toPHPFormat(objectDate);
  	}
 
-	info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"Hardcoded activity","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"Educational"}];;
+	info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"Hardcoded activity","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"Educational"}];
 	
 	var eventsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
 	var args = {
@@ -84,6 +84,9 @@ $(document).ready(function () {
 				info=dataBack;
 			}
 		}
+		
+		//Add fake report
+		info.push({"EventID":"5108f6d8-b221-11e3-8e6b-005056962b81","DATE":dateString,"Hours":"5","Note":"Breaking Bad","EntryTimeStamp":"2014-03-29 14:17:12","ThirdPartyEntry":"1","ReportedBy":"Netflix, Inc.","Name":"Watching TV/Movie"});
 
 	
 		// 3) fill HTML elements
