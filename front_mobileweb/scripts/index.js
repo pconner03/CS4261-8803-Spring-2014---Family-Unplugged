@@ -86,8 +86,8 @@ $(document).ready(function () {
 		}
 		
 		//Add fake report
+		info.push({"EventID":"85acc5be-b220-11e3-8e6b-005056962b81","DATE":dateString,"Hours":"0.5","Note":"Running","EntryTimeStamp":"2014-03-29 14:17:12","ThirdPartyEntry":"1","ReportedBy":"FitBit, Inc.","Name":"Exercise (Heavy)"});
 		info.push({"EventID":"5108f6d8-b221-11e3-8e6b-005056962b81","DATE":dateString,"Hours":"5","Note":"Breaking Bad","EntryTimeStamp":"2014-03-29 14:17:12","ThirdPartyEntry":"1","ReportedBy":"Netflix, Inc.","Name":"Watching TV/Movie"});
-
 	
 		// 3) fill HTML elements
 		var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -95,22 +95,35 @@ $(document).ready(function () {
 		$("#_day").text(dayStr);
 		$("#_date").text(prettifyDate(objectDate));
 
-    	//set up string for adding <li/>
-    	var li = "";
+
+   		var li="";
+    	firstInternal = true;
+    	firstExternal = true;
     	//container for $li to be added
     	$.each(info, function (i, activity) {
         	//add the <li> to "li" variable
         	//note the use of += in the variable
         	//meaning I'm adding to the existing data. not replacing it.
         	//store index value in array as id of the <a> tag
-        	li += '<li><a href="#" id="'+ i;
-        	if (activity.ThirdPartyEntry=="0"){//!activity.ThirdPartyEntry){
+        	if (activity.ThirdPartyEntry=="0"){
+        		if (firstInternal){
+        			li+='<li data-role="list-divider">Self-Reported</li>';
+        			firstInternal = false;
+        		}
+        		li += '<li><a href="#" id="'+ i;
         		li += '" class="edit"><h2>'+activity.Name;
+        		li+= '</h2><p>'+activity.Note+'</p><p>'+activity.Hours+' hours</p></a></li>';
         	}else{
+        		if (firstExternal){
+        			li+='<li data-role="list-divider">Automatically Reported</li>';
+        			firstExternal = false;
+        		}
+        		li += '<li><a href="#" id="'+ i;
         		li += '" class="view"><h2>'+activity.Name;
+        		li+= '</h2><p>'+activity.Note+'</p><p>'+activity.Hours+' hours</p><p class="ui-li-aside">Provided by <strong>'+activity.ReportedBy+'</strong></p></a></li>';
        		}
-        	li+= '</h2><p>'+activity.Note+'</p><p>'+activity.Hours+' hours</p><p class="ui-li-aside">Provided by <strong>'+activity.ReportedBy+'</strong></p></a></li>';
     	});
+
     	//append list to ul
     	$("#activity-list").append(li).promise().done(function () {
         	//wait for append to finish - thats why you use a promise()
