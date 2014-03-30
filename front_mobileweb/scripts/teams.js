@@ -1,6 +1,6 @@
 $(document).ready(function () {
 	//assume info is sorted with teams I lead first
-	info = [{"Name":"Team Family","Leader":"Me", "Members": ["Me", "Wife name", "Daughter name", "Son name"]},{"Name":"Team Work","Leader":"Doug", "Members": ["Doug", "Kelly", "Gina", "Me"]}];
+	info = [{"Name":"Jones Family","Leader":"Me", "Members": ["Me", "Jen", "Katie", "John"]},{"Name":"The Brogrammers","Leader":"Doug", "Members": ["Doug", "Steve", "Gina", "Me"]}];
 		
     	//set up string for adding <li/>
     	var li="";
