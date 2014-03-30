@@ -80,7 +80,6 @@ function getDayEvents($date, $startDate, $endDate){
 	}
 }
 
-//untested, because curl wasn't working
 function postEvent($date, $activityID, $note, $hours){
 	session_start();
 	header("Content-type: application/json");
@@ -105,6 +104,33 @@ function _postEvent($personID, $date, $activityID, $note, $hours){
 	}
 	else{
 		//echo $dbQuery;
+		databaseError();
+	}
+}
+
+function putEvent($eventID, $date, $activityID, $note, $hours){
+	session_start();
+	header("Content-type: application/json");
+	if(sessionValid()){
+		_putEvent($_SESSION["personID"],$eventID, $date, $activityID, $note, $hours);
+	}
+	else{
+		sessionExpiredError();
+	}
+}
+
+function _putEvent($personID, $eventID, $date, $activityID, $note, $hours){
+	$dbQuery = sprintf("UPDATE Person SET date='%s', activityID='%s', note='%s', hours='%s' WHERE eventID='%s' AND personID='%s'",
+		mysql_real_escape_string($date),
+		mysql_real_escape_string($activityID),
+		mysql_real_escape_string($note),
+		mysql_real_escape_string($hours),
+		mysql_real_escape_string($eventID),
+		mysql_real_escape_string($personID));
+	if(insertQuery($dbQuery)){
+		echo json_encode(Array("Success"=>"Data updated successfully"));
+	}
+	else{
 		databaseError();
 	}
 }

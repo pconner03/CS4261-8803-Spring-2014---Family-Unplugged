@@ -176,8 +176,28 @@
 					deleteEvent($_REST['events']);
 				]]>
 			</action>
-		</delete>
+		</delete>		
 	</command>
+	<command id="eventEdit" security="public">
+		<description>
+			<![CDATA[
+				Allows user to edit events
+			]]>
+		</description>
+		<post>
+			<description>
+				<![CDATA[
+					Send POST to http://dev.m.gatech.edu/.../eventEdit with parameters eventID, date, activityID, note, and hours.
+				]]>
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					putEvent($_POST["eventID"],$_POST['date'], $_POST['activityID'], $_POST['note'], $_POST['hours']);
+				]]>
+			</action>
+		</post>
+	</command>
+
 	<command id="teams" security="public">
 		<description>
 			<![CDATA[
