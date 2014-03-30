@@ -32,6 +32,14 @@ function prettifyDate(d){
 	return (d.getMonth()+1) +"/" +d.getDate() + "/" + (d.getFullYear()%1000);
 }
 
+function toDateObject(phpString){
+		var objectDate=new Date(phpString);
+ 		//the above makes the date in local time, which makes it a day too early, so we change to UTC time.
+ 		objectDate.setDate(objectDate.getUTCDate());
+ 		objectDate.setHours(0);
+ 		return objectDate;
+}
+
 $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
 	alert(thrownError);
 });
@@ -43,12 +51,9 @@ $(document).ready(function () {
 	if (hasURLVars()){
 		var urlVars = getUrlVars();
  		dateString = urlVars["date"];
- 		objectDate=new Date(dateString);
- 		//the above makes the date in local time, which makes it a day too early, so we change to UTC time.
- 		objectDate.setDate(objectDate.getUTCDate());
- 		objectDate.setHours(0);
+ 		objectDate = toDateObject(dateString)
  		
- 		alert(objectDate.toString());
+ 		//alert(objectDate.toString());
  	}else{
  		objectDate = new Date();
  		dateString = toPHPFormat(objectDate);
@@ -75,7 +80,7 @@ $(document).ready(function () {
 				}
 			}
 			else{
-				alert("Session is not expired. We are receiving data.");
+				//alert("Session is not expired. We are receiving data.");
 				info=dataBack;
 			}
 		}
@@ -167,7 +172,7 @@ $(document).ready(function () {
 $(document).on("pagebeforeshow", "#view-page", function () {
     var info = $(this).data("info");
     
-    $(this).find("#_date").html(info.EventDate);
+    $(this).find("#_date").html(prettifyDate(toDateObject(info.DATE)));
     
     $(this).find("#_activity").html(info.Name);
     $(this).find("#_description").html(info.Note);
@@ -182,7 +187,7 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
     var info = $(this).data("info");
     
     //set date
-    $(this).find("#_date").html(info.EventDate);
+    $(this).find("#_date").html(prettifyDate(toDateObject(info.DATE)));
     
     //select activity name (using display name)
     $('[name=selectActivity] option').filter(function() { 
@@ -210,7 +215,7 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
   			url: "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events/"+info.EventID
 		})
     	.done(function() {
-    		alert( info.EventID );
+    		//alert( info.EventID );
     		window.location.href = "index.html?date="+toPHPFormat(objectDate);
   		})
   		.fail(function( jqXHR, textStatus ) {
@@ -221,7 +226,7 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 });
 
 $(document).on("pagebeforeshow", "#add-page", function () {
-    $(this).find("#_date").html("hardCodedNow");
+    $(this).find("#_date").html(prettifyDate(objectDate));
     
     $("form").submit(function(){
     	//alert("before post");
