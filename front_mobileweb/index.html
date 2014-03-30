@@ -12,15 +12,13 @@
 <!--first page -->
 <div data-role="page" id="main-page" data-theme="a">
     <div data-role="header">
-    	<a href="menu.html" data-role="button" data-icon="grid" data-inline="true" data-iconpos="notext" title="Menu" data-theme="c"></a>
-    	<h1></h1>
-    	<a href="login.html" data-role="button" data-inline="true" title="Logout" data-theme="c">Logout</a>
+    	<a href="menu.html" data-role="button" data-icon="grid" data-inline="true" data-iconpos="notext" title="Menu" data-theme="c"></a><h1></h1>
     </div>
     <div data-role="content">
 		<table width="100%">
   			<tr>
     			<td align="left"><a id="_prev" href="index.html" data-role="button" data-icon="arrow-l" data-iconpos="left" data-mini="true">Prev</a></td>
-    			<td align="center"><h2 id="_day" align="center">Date Not Found</h2><text id="_date">Date</text></td>
+    			<td align="center"><h2 id="_day" align="center"></h2><text id="_date"></text></td>
     			<td align="right"><a id="_next" href="index.html" data-role="button" data-icon="arrow-r" data-iconpos="right" data-mini="true">Next</a></td>
   			</tr>
 		</table>
@@ -39,18 +37,18 @@
         </div><!-- /header -->
  
         <div data-role="content">
-            <h2 align="center" id="_date">Date Not Found</h2>
+            <h2 align="center" id="_date"></h2>
      			<p>
-     			Type: <strong id="_activity">Activity Not Found</strong><br><br>
+     			Type: <strong id="_activity"></strong><br><br>
 				
-     			Description: <strong id="_description">Description Not Found</strong><br><br>
+     			Description: <strong id="_description"></strong><br><br>
      			
-     			Duration: <strong><text id="_duration">Duration Not Found</text> hours</strong><br><br>
+     			Duration: <strong><text id="_duration"></text> hours</strong><br><br>
      			
-     			Provider: <strong id="_provider">Provider Not Found</strong>
+     			Provider: <strong id="_provider"></strong>
      			</p>
      			
-				<p>Reported: <text id="_timestamp">Timestamp Not Found</text></p>
+				<p>Reported: <text id="_timestamp"></text></p>
 				<table width="100%">
 					<tr>
 	    				<td align="left"><a data-rel="back" data-role="button" data-icon="back" data-inline="true" data-theme="a">Back</a></td>
@@ -120,7 +118,7 @@
     				<option value="10+">10+ hours</option>
 				</select>
 				
-				<p>Reported: <text id="_timestamp">Timestamp Not Found</text></p>
+				<p>Reported: <text id="_timestamp"></text></p>
 				<table width="100%">
 					<tr>
 						<td align="left">
@@ -170,14 +168,10 @@
         </div><!-- /header -->
  
         <div data-role="content">
-            <h2 align="center" id="_date">Date Not Found</h2>
+            <h2 align="center" id="_date"></h2>
 	    	<form method="post" action="index.html">
      			<label for="_selectActivity" class="select">Type:</label>
 				<select name="selectActivity" id="_selectActivity">
-					<!--
-					<option value="a37c6828-b221-11e3-8e6b-005056962b81">Working</option>
-					<option value="b009a240-b221-11e3-8e6b-005056962b81">School</option>
-					//-->
 					<option value="d62a272a-b220-11e3-8e6b-005056962b81">Browsing the Web/Social Media</option>
     				<option value="2c29f3a2-a6f6-11e3-8e6b-005056962b81">Exercise (Light)</option>
     				<option value="85ac959e-b220-11e3-8e6b-005056962b81">Exercise (Moderate)</option>
@@ -187,9 +181,11 @@
 					<option value ="e804a13c-b220-11e3-8e6b-005056962b81">Hobby (Mental)</option>
 					<option value="1ece7364-b221-11e3-8e6b-005056962b81">Outing with Friends</option>
 					<option value="e804cb44-b220-11e3-8e6b-005056962b81">Reading</option>
+					<option value="b009a240-b221-11e3-8e6b-005056962b81">School</option>
 					<option value="b009cf2c-b221-11e3-8e6b-005056962b81">Studying/Homework</option>
 					<option value="51092676-b221-11e3-8e6b-005056962b81">Theater (Movie)</option>
     				<option value="5108f6d8-b221-11e3-8e6b-005056962b81">Watching TV/Movie</option>
+    				<option value="a37c6828-b221-11e3-8e6b-005056962b81">Working</option>
     				<option value="88c2e7e6-b221-11e3-8e6b-005056962b81">Video Game</option>
     				<option value="a37c3b00-b221-11e3-8e6b-005056962b81">Volunteering</option>
 				</select>
