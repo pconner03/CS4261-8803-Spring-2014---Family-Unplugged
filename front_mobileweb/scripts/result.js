@@ -83,15 +83,17 @@ $(document).ready(function () {
 	scaleOverlay : true,
 
 	//Boolean - If we want to override with a hard coded scale
-	scaleOverride : false,
+	scaleOverride : true,
+
+	//For scale, now it is hardcoded. But we should choose both based on our highest value in the data
 
 	//** Required if scaleOverride is true **
 	//Number - The number of steps in a hard coded scale
-	scaleSteps : null,
+	scaleSteps : 8,
 	//Number - The value jump in the hard coded scale
-	scaleStepWidth : null,
+	scaleStepWidth : 1,
 	//Number - The scale starting value
-	scaleStartValue : null,
+	scaleStartValue : 0,
 
 	//String - Colour of the scale line	
 	scaleLineColor : "rgba(0,0,0,.1)",
