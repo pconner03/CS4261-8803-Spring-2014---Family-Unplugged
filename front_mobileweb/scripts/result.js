@@ -41,7 +41,7 @@ $(document).ready(function () {
  		weeksInPast = parseInt(urlVars["week"]);
  		today.setDate(today.getDate()+(7*weeksInPast));
  	}
- 	alert(today.toString());
+ 	//alert(today.toString());
 	var weekday = today.getDay(); //0-6 (Sunday-Saturday);
 	var lastSaturday = new Date(today.getTime()); //effectively clones "today"
 	lastSaturday.setDate(today.getDate() - (weekday + 1));
@@ -63,45 +63,17 @@ $(document).ready(function () {
     	window.location.href = "result.html?week="+weeksInPast;
     });
 	
-	$(this).find("#_date").html("Sunday, " + prettifyDate(startSunday) + " -<br>Saturday, " + prettifyDate(lastSaturday));
+	$(this).find("#_date").html( prettifyDate(startSunday) + " - " + prettifyDate(lastSaturday));
 	var lineChartData = {
-		labels : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+		labels : ["S", "M", "T", "W", "T", "F", "S"],
 		datasets : [
-			{
-				fillColor : "rgba(145,226,227,0.5)",
-				strokeColor : "rgba(145,226,227,1)",
-				pointColor : "rgba(145,226,227,1)",
-				pointStrokeColor : "#fff",
-				data : [2,3,1,2,2,3,1]
-			},
-			{
-				fillColor : "rgba(227,147,145,0.5)",
-				strokeColor : "rgba(227,147,145,1)",
-				pointColor : "rgba(227,147,145,1)",
-				pointStrokeColor : "#fff",
-				data : [4,0,0,1,4,0,0]
-			},
 			{
 				fillColor : "rgba(227,189,145,0.5)",
 				strokeColor : "rgba(227,189,145,1)",
 				pointColor : "rgba(227,189,145,1)",
 				pointStrokeColor : "#fff",
 				data : [7,8,4,5,3,6,5]
-			},
-			{
-				fillColor : "rgba(221,227,145,0.5)",
-				strokeColor : "rgba(221,227,145,1)",
-				pointColor : "rgba(221,227,145,1)",
-				pointStrokeColor : "#fff",
-				data : [4,4,5,5,5,5,4]
-			},
-			{
-				fillColor : "rgba(162,227,145,0.5)",
-				strokeColor : "rgba(162,227,145,1)",
-				pointColor : "rgba(162,227,145,1)",
-				pointStrokeColor : "#fff",
-				data : [0,2,1,0,0,0,1]
-			}		
+			}	
 		]	
 	};
 

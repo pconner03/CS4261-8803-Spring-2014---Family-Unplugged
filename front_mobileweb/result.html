@@ -28,29 +28,27 @@
     				<option>Team 1</option>
     				<option>Team 2</option>
 				</select>
-				
-    			<table width="100%">
-  					<tr>
-    					<td align="left"><a id="_prev" data-role="button" data-icon="arrow-l" data-iconpos="left" data-mini="true">Prev</a></td>
-    					<td align="center"><h2 id="_date" align="center">Not Found</h2></td>
-    					<td align="right"><a id="_next" data-role="button" data-icon="arrow-r" data-iconpos="right" data-mini="true">Next</a></td>
-  					</tr>
-				</table>
     		
-				<canvas id="canvas" height="350" width="300"></canvas>
+    			<h2>Total Points Per Day</h2>
+    		
+				<canvas id="canvas" height="350" width="350"></canvas>
+				
+				<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+        			<input type="radio" name="radio-choice-b" id="radio-choice-c" value="list" checked="checked">
+       				<label for="radio-choice-c">Physical</label>
+        			<input type="radio" name="radio-choice-b" id="radio-choice-d" value="grid">
+        			<label for="radio-choice-d">Mental</label>
+        			<input type="radio" name="radio-choice-b" id="radio-choice-e" value="gallery">
+        			<label for="radio-choice-e">Social</label>
+				</fieldset>
+
+				<p align="center">Week of <strong id="_date">Not Found</strong></p>
 				
 				<table width="100%">
-					<tr>
-						<td>
-							<a data-role="button">Physical</a>
-						</td>
-						<td>
-							<a data-role="button">Mental</a>
-						</td>
-						<td>
-							<a data-role="button">Social</a>
-						</td>
-					</tr>
+  					<tr>
+    					<td align="left"><a id="_prev" data-role="button" data-icon="arrow-l" data-iconpos="left" data-mini="true">Prev Week</a></td>
+    					<td align="right"><a id="_next" data-role="button" data-icon="arrow-r" data-iconpos="right" data-mini="true">Next Week</a></td>
+  					</tr>
 				</table>
 
 			</div>
