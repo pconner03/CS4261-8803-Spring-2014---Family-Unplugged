@@ -125,7 +125,7 @@ $(document).ready(function () {
     	});
 
     	//append list to ul
-    	$("#activity-list").append(li).promise().done(function () {
+    	$("#activity-list").html(li).promise().done(function () {
         	//wait for append to finish - thats why you use a promise()
         	//done() will run after append is done
         	//add the click event for the redirection to happen to #details-page
