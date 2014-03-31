@@ -120,7 +120,7 @@ function putEvent($eventID, $date, $activityID, $note, $hours){
 }
 
 function _putEvent($personID, $eventID, $date, $activityID, $note, $hours){
-	$dbQuery = sprintf("UPDATE Person SET date='%s', activityID='%s', note='%s', hours='%s' WHERE eventID='%s' AND personID='%s'",
+	$dbQuery = sprintf("UPDATE Event SET Date='%s', ActivityID='%s', Note='%s', Hours='%s' WHERE EventID='%s' AND PersonID='%s'",
 		mysql_real_escape_string($date),
 		mysql_real_escape_string($activityID),
 		mysql_real_escape_string($note),
@@ -131,6 +131,7 @@ function _putEvent($personID, $eventID, $date, $activityID, $note, $hours){
 		echo json_encode(Array("Success"=>"Data updated successfully"));
 	}
 	else{
+		//echo json_encode(Array("Error"=>$dbQuery));
 		databaseError();
 	}
 }
