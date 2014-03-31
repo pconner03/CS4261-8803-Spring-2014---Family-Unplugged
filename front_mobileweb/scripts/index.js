@@ -225,6 +225,30 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 	$("#_selectActivity").selectmenu( "refresh" );
 	$("#_selectDuration").selectmenu( "refresh" );
 	
+	$("form").submit(function(){
+    	//alert("before post");
+    	var note = $(this).find("#_description").val();
+    	var hours = $(this).find("#_duration").val();
+    	var activity = $(this).find("#_selectActivity").val();
+    	//alert("hours = " hours);
+    	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/eventEdit",  
+    		{
+    			"eventID": info.EventID,
+  				"date": dateString,
+  				"note": note,
+  				"activityID": activity,
+  				"hours": hours
+  			}, 
+  			function(data) {
+    	})
+    		.done(function() {
+    			window.location.href = "index.html?date="+toPHPFormat(objectDate);
+  			})
+  			.fail(function( jqXHR, textStatus ) {
+  				alert( "Request failed: " + textStatus );
+			})
+    });
+	
 	$("#_delete").click(function(){
 		var jqxhr = $.ajax({
   			type: "DELETE",
