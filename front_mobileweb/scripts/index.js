@@ -33,11 +33,12 @@ function prettifyDate(d){
 }
 
 function toDateObject(phpString){
-		var objectDate=new Date(phpString);
- 		//the above makes the date in local time, which makes it a day too early, so we change to UTC time.
- 		objectDate.setDate(objectDate.getUTCDate());
- 		objectDate.setHours(0);
- 		return objectDate;
+		var arr= phpString.split("-");
+		var year = arr[0];
+		var month = arr[1];
+		var day = arr[2];
+		var betterformat= month+"/"+day+"/"+year;
+ 		return new Date(betterformat);
 }
 
 $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
@@ -50,20 +51,20 @@ $(document).ready(function () {
 	// 1) get url params
 	if (hasURLVars()){
 		var urlVars = getUrlVars();
- 		dateString = urlVars["date"];
- 		objectDate = toDateObject(dateString)
+ 		phpFormatDate = urlVars["date"];
+ 		objectDate = toDateObject(phpFormatDate)
  		
  		//alert(objectDate.toString());
  	}else{
  		objectDate = new Date();
- 		dateString = toPHPFormat(objectDate);
+ 		phpFormatDate = toPHPFormat(objectDate);
  	}
 
 	info = [{"EventID":"40337008-a6f6-11e3-8e6b-005056962b81","PersonID":"99322e1a-a552-11e3-8e6b-005056962b81","DATE":"2014-03-08","Hours":"2","Note":"Hardcoded activity","EntryTimeStamp":"2014-03-08 14:17:12","ThirdPartyEntry":"0","ReportedBy":"Me","Name":"Educational"}];
 	
 	var eventsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
 	var args = {
-		"date": dateString
+		"date": phpFormatDate
 	};
 
 	// 2) get events from API
@@ -86,8 +87,8 @@ $(document).ready(function () {
 		}
 		
 		//Add fake report
-		info.push({"EventID":"85acc5be-b220-11e3-8e6b-005056962b81","DATE":dateString,"Hours":"0.5","Note":"Running","EntryTimeStamp":"2014-03-29 14:17:12","ThirdPartyEntry":"1","ReportedBy":"FitBit, Inc.","Name":"Exercise (Heavy)"});
-		info.push({"EventID":"5108f6d8-b221-11e3-8e6b-005056962b81","DATE":dateString,"Hours":"5","Note":"Breaking Bad","EntryTimeStamp":"2014-03-29 14:17:12","ThirdPartyEntry":"1","ReportedBy":"Netflix, Inc.","Name":"Watching TV/Movie"});
+		info.push({"EventID":"85acc5be-b220-11e3-8e6b-005056962b81","DATE":phpFormatDate,"Hours":"0.5","Note":"Running","EntryTimeStamp":"2014-03-29 14:17:12","ThirdPartyEntry":"1","ReportedBy":"FitBit, Inc.","Name":"Exercise (Heavy)"});
+		info.push({"EventID":"5108f6d8-b221-11e3-8e6b-005056962b81","DATE":phpFormatDate,"Hours":"5","Note":"Breaking Bad","EntryTimeStamp":"2014-03-29 14:17:12","ThirdPartyEntry":"1","ReportedBy":"Netflix, Inc.","Name":"Watching TV/Movie"});
 	
 		// 3) fill HTML elements
 		var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -234,7 +235,7 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/eventEdit",  
     		{
     			"eventID": info.EventID,
-  				"date": dateString,
+  				"date": phpFormatDate,
   				"note": note,
   				"activityID": activity,
   				"hours": hours
@@ -256,7 +257,7 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 		})
     	.done(function() {
     		//alert( info.EventID );
-    		window.location.href = "index.html?date="+toPHPFormat(objectDate);
+    		window.location.href = "index.html?date="+phpFormatDate;
   		})
   		.fail(function( jqXHR, textStatus ) {
   			alert( "Request failed: " + textStatus );
@@ -276,7 +277,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     	//alert("hours = " hours);
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
     		{
-  				"date": dateString,
+  				"date": phpFormatDate,
   				"note": note,
   				"activityID": activity,
   				"hours": hours
@@ -284,7 +285,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
   			function(data) {
     	})
     		.done(function() {
-    			window.location.href = "index.html?date="+toPHPFormat(objectDate);
+    			window.location.href = "index.html?date="+phpFormatDate;
   			})
   			.fail(function( jqXHR, textStatus ) {
   				alert( "Request failed: " + textStatus );
