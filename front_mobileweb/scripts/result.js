@@ -42,10 +42,12 @@ $(document).ready(function () {
  		today.setDate(today.getDate()+(7*weeksInPast));
  	}
  	//alert(today.toString());
+ 	alert("today is " + today);
 	var weekday = today.getDay(); //0-6 (Sunday-Saturday);
+	alert("weekday is "+weekday);
 	var lastSaturday = new Date(today.getTime()); //effectively clones "today"
-	lastSaturday.setDate(today.getDate() - (weekday + 1));
-	var startSunday = new Date(today.getTime()); //effectively clones "today"
+	lastSaturday.setDate(lastSaturday.getDate() - (weekday + 1));
+	var startSunday = new Date(lastSaturday.getTime()); //effectively clones "last saturday" **what we clone is important for resetting the date
 	startSunday.setDate(lastSaturday.getDate() - 6);
     
    
