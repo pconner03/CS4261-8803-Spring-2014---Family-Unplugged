@@ -236,4 +236,30 @@
 			</action>
 		</index>
 	</command>
+	<command id="reports" security="public">
+		<description>
+			Methods for getting information for reports screen
+		</description>
+		<index>
+			<description>
+				<![CDATA[
+					Example:
+
+					https://dev.m.gatech.edu/.../api/reports?startDate=WEEK-START-DATE&endDate=WEEK-END-DATE&teamID=TEAM-ID 
+
+					If you want individual reports, don't add the teamID field to the URL. Currently, only individual reports work.
+				]]>
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					if(array_key_exists("teamID", $_GET)){
+						getTeamReport($_GET["teamID"], $_GET["startDate"], $_GET["endDate"]);
+					}
+					else{
+						getIndividualReport($_GET["startDate"],$_GET["endDate"]);
+					}
+				]]>
+			</action>
+		</index>
+	</command>
 </api>

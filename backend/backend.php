@@ -198,6 +198,7 @@ function _registerUser($username, $password, $name, $email, $dateOfBirth){
 }
 
 function createTeam($name){
+	session_start();
 	header("Content-type: application/json");
 	if(sessionValid()){
 		_createTeam($name, $_SESSION['personID']);
@@ -248,4 +249,51 @@ function logout(){
 	header("Content-type: application/json");
 	echo json_encode(Array("Success"=>"Session ended"));
 }
+
+function getTeamReport($teamID, $startDate, $endDate){
+	header("Content-type: application/json");
+	echo json_encode(Array("Team ID"=>$teamID, "Start Date"=>$startDate, "End Date"=>$endDate));
+}
+
+
+function getIndividualReport($startDate, $endDate){
+	session_start();
+	header("Content-type: application/json");
+	if(sessionValid()){
+		_getIndividualReport($startDate, $endDate, $_SESSION["personID"]);	
+	}
+	else{
+		sessionExpiredError();
+	}	
+}
+
+function _getIndividualReport($startDate, $endDate, $personID){
+	$_startDate = new DateTime($startDate);
+	$_endDate = new DateTime($endDate);
+	$output = Array();
+	while($_startDate <= $_endDate){
+		$dbQuery = sprintf("SELECT 
+			Event.Date, SUM((Event.Hours - Scoring.Threshold)*Scoring.Mental) AS MentalPoints, 
+			SUM((Event.Hours - Scoring.Threshold)*Scoring.Physical) As PhysicalPoints, 
+			SUM((Event.Hours - Scoring.Threshold)*Scoring.Physical) As SocialPoints 
+			FROM 
+				Event NATURAL JOIN Scoring 
+			WHERE 
+				Event.PersonID='%s' AND Event.Date = '%s'",
+			mysql_real_escape_string($personID),
+			mysql_real_escape_string(date_format($_startDate, "Y-m-d")));
+		$arr = getDBResultsArray($dbQuery)[0];
+		if($arr["Date"]==null){
+			$arr["Date"] = date_format($_startDate, "Y-m-d");
+			$arr["MentalPoints"] = 0;
+			$arr["PhysicalPoints"] = 0;
+			$arr["SocialPoints"] = 0;
+		} 	
+		array_push($output, $arr);
+		$_startDate->modify("+1 day");
+		//echo $dbQuery;
+	}
+	echo json_encode($output);
+}
+
 ?>
