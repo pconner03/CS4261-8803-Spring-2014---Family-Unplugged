@@ -229,7 +229,8 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 	$("form").submit(function(){
     	//alert("before post");
     	var note = $(this).find("#_description").val();
-    	var hours = $(this).find("#_duration").val();
+    	var hours = $(this).find("#_selectDuration").val();
+    	alert(hours);
     	var activity = $(this).find("#_selectActivity").val();
     	//alert("hours = " hours);
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/eventEdit",  
