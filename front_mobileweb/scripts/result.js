@@ -50,7 +50,6 @@ $(document).ready(function () {
 	var startSunday = new Date(lastSaturday.getTime()); //effectively clones "last saturday" **what we clone is important for resetting the date
 	startSunday.setDate(lastSaturday.getDate() - 6);
     
-   
     if (weeksInPast>=0){
     	$("#_next").addClass('ui-state-disabled');
     }
@@ -64,8 +63,45 @@ $(document).ready(function () {
     	weeksInPast+=1;
     	window.location.href = "result.html?week="+weeksInPast;
     });
+    
+    $(this).find("#_date").html( prettifyDate(startSunday) + " - " + prettifyDate(lastSaturday));
+    
+    var info = [{"Date":"2014-04-01","MentalPoints":3,"PhysicalPoints":9,"SocialPoints":0},{"Date":"2014-04-02","MentalPoints":0,"PhysicalPoints":9,"SocialPoints":0},{"Date":"2014-04-03","MentalPoints":8,"PhysicalPoints":8,"SocialPoints":8},{"Date":"2014-04-04","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0},{"Date":"2014-04-05","MentalPoints":9,"PhysicalPoints":3,"SocialPoints":3},{"Date":"2014-04-06","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0},{"Date":"2014-04-07","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0}];
 	
-	$(this).find("#_date").html( prettifyDate(startSunday) + " - " + prettifyDate(lastSaturday));
+	Array.max = function( array ){
+    	return Math.max.apply( Math, array );
+	};	
+	
+	//on the callback from the api call do all of the following:
+	var physicalArr = new Array();
+	var mentalArr = new Array();
+	var socialArr = new Array();
+	$.each(info, function (i, day) {
+        physicalArr.push(day["PhysicalPoints"]);
+        mentalArr.push(day["MentalPoints"]);
+        socialArr.push(day["SocialPoints"]);
+    });
+   	
+   	loadChart(physicalArr);
+
+	$('input[type=radio]').change(function () {
+    	var whichSelected = $('input[type=radio]').filter(':checked').val();
+    	if (whichSelected=="PhysicalPoints"){
+    		loadChart(physicalArr);
+    	}
+    	if (whichSelected=="MentalPoints"){
+    		loadChart(mentalArr);
+    	}
+    	if (whichSelected=="SocialPoints"){
+    		loadChart(socialArr);
+    	}
+  	});
+  	
+  	
+});
+
+function loadChart(toggleArr){
+		
 	var lineChartData = {
 		labels : ["S", "M", "T", "W", "T", "F", "S"],
 		datasets : [
@@ -74,10 +110,12 @@ $(document).ready(function () {
 				strokeColor : "rgba(227,189,145,1)",
 				pointColor : "rgba(227,189,145,1)",
 				pointStrokeColor : "#fff",
-				data : [7,8,4,5,3,6,5]
+				data : toggleArr
 			}	
 		]	
 	};
+
+	var arrMax = Array.max(toggleArr);
 
 	var options= {
 
@@ -91,9 +129,9 @@ $(document).ready(function () {
 
 	//** Required if scaleOverride is true **
 	//Number - The number of steps in a hard coded scale
-	scaleSteps : 8,
+	scaleSteps : 10,
 	//Number - The value jump in the hard coded scale
-	scaleStepWidth : 1,
+	scaleStepWidth : Math.ceil(arrMax/10),
 	//Number - The scale starting value
 	scaleStartValue : 0,
 
@@ -163,10 +201,8 @@ $(document).ready(function () {
 	//Function - Fires when the animation is complete
 	onAnimationComplete : null
 
-}
+	}
 
 	var ctx = document.getElementById("canvas").getContext("2d");
 	var myLine = new Chart(ctx).Line(lineChartData, options);
-
-});
-	
+}
