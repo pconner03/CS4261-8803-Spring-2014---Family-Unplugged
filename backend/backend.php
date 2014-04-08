@@ -273,9 +273,9 @@ function _getIndividualReport($startDate, $endDate, $personID){
 	$output = Array();
 	while($_startDate <= $_endDate){
 		$dbQuery = sprintf("SELECT 
-			Event.Date, SUM((Event.Hours - Scoring.Threshold)*Scoring.Mental) AS MentalPoints, 
-			SUM((Event.Hours - Scoring.Threshold)*Scoring.Physical) As PhysicalPoints, 
-			SUM((Event.Hours - Scoring.Threshold)*Scoring.Physical) As SocialPoints 
+			Event.Date, SUM(IF(Event.Hours - Scoring.Threshold > 0,(Event.Hours - Scoring.Threshold)*Scoring.Mental,0)) AS MentalPoints,
+			SUM(IF(Event.Hours - Scoring.Threshold > 0,(Event.Hours - Scoring.Threshold)*Scoring.Physical,0)) AS PhysicalPoints,
+			SUM(IF(Event.Hours - Scoring.Threshold > 0,(Event.Hours - Scoring.Threshold)*Scoring.Social,0)) AS SocialPoints 
 			FROM 
 				Event NATURAL JOIN Scoring 
 			WHERE 
@@ -285,9 +285,9 @@ function _getIndividualReport($startDate, $endDate, $personID){
 		$arr = getDBResultsArray($dbQuery)[0];
 		if($arr["Date"]==null){
 			$arr["Date"] = date_format($_startDate, "Y-m-d");
-			$arr["MentalPoints"] = 0;
-			$arr["PhysicalPoints"] = 0;
-			$arr["SocialPoints"] = 0;
+			$arr["MentalPoints"] = "0.0";
+			$arr["PhysicalPoints"] = "0.0";
+			$arr["SocialPoints"] = "0.0";
 		} 	
 		array_push($output, $arr);
 		$_startDate->modify("+1 day");
