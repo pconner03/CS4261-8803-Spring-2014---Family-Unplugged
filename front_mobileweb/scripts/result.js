@@ -68,6 +68,27 @@ $(document).ready(function () {
     
     var info = [{"Date":"2014-04-01","MentalPoints":3,"PhysicalPoints":9,"SocialPoints":0},{"Date":"2014-04-02","MentalPoints":0,"PhysicalPoints":9,"SocialPoints":0},{"Date":"2014-04-03","MentalPoints":8,"PhysicalPoints":8,"SocialPoints":8},{"Date":"2014-04-04","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0},{"Date":"2014-04-05","MentalPoints":9,"PhysicalPoints":3,"SocialPoints":3},{"Date":"2014-04-06","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0},{"Date":"2014-04-07","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0}];
 	
+	var reportsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/reports?';
+	var args = {
+		"startDate": toPHPFormat(startSunday),
+		"endDate": toPHPFormat(lastSaturday)
+	};
+	
+	$.getJSON( reportsAPI, args).done(function( dataBack ) {
+		//testing
+		if (dataBack==undefined){
+			alert("error");
+		}
+		else{
+			if (dataBack["Error"]!=undefined){
+				alert(dataBack["Error"]);
+			}
+			else{
+				//alert("Session is not expired. We are receiving data.");
+				info=dataBack;
+			}
+		}
+	
 	Array.max = function( array ){
     	return Math.max.apply( Math, array );
 	};	
@@ -97,6 +118,7 @@ $(document).ready(function () {
     	}
   	});
   	
+  	});//end of .done()
   	
 });
 
