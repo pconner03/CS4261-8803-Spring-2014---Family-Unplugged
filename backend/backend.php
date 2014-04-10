@@ -84,20 +84,22 @@ function postEvent($date, $activityID, $note, $hours){
 	session_start();
 	header("Content-type: application/json");
 	if(sessionValid()){
-		_postEvent($_SESSION["personID"], $date, $activityID, $note, $hours);
+		_postEvent($_SESSION["personID"], $date, $activityID, $note, $hours, "FALSE","Me");
 	}
 	else{
 		sessionExpiredError();
 	}
 }
 
-function _postEvent($personID, $date, $activityID, $note, $hours){
-	$dbQuery = sprintf("INSERT INTO Event (PersonID, Date, ActivityID, Hours, Note, ThirdPartyEntry, ReportedBy, EventID) VALUES ('%s', '%s', '%s', %s, '%s', FALSE, 'Me', UUID())", 
+function _postEvent($personID, $date, $activityID, $note, $hours, $thirdParty, $reportedBy){
+	$dbQuery = sprintf("INSERT INTO Event (PersonID, Date, ActivityID, Hours, Note, ThirdPartyEntry, ReportedBy, EventID) VALUES ('%s', '%s', '%s', %s, '%s', %s, '%s', UUID())", 
 		mysql_real_escape_string($personID),
 		mysql_real_escape_string($date),
 		mysql_real_escape_string($activityID),
 		mysql_real_escape_string($hours),
-		mysql_real_escape_string($note)
+		mysql_real_escape_string($note),
+		mysql_real_escape_string($thirdParty),
+		mysql_real_escape_string($reportedBy)
 		);
 	if(insertQuery($dbQuery)){
 		echo json_encode(Array("Success"=>"Data inserted successfully"));
@@ -320,6 +322,31 @@ function _getTeamReport($teamID, $startDate, $endDate){
 		array_push($output, Array($uname => $userRes));
 	}
 	return $output;
+}
+
+function scheduleScript($username, $startDate, $endDate){
+	//echo date("l", strtotime($startDate));
+	$personID = getPersonID($username);
+	/*
+		INSERT INTO Event ()
+	*/
+	//echo $personID;
+	$_startDate = new DateTime($startDate);
+	$_endDate = new DateTime($endDate);
+	//echo date_format($_startDate, "l");
+	while($_startDate <= $_endDate){
+		$dbQuery = sprintf("SELECT ActivityID, ThirdParty, ReportedBy, Hours FROM Schedule WHERE PersonID = '%s' AND %s = 1",
+			mysql_real_escape_string($personID),
+			mysql_real_escape_string(date_format($_startDate, "l"))
+			);
+		//echo $dbQuery;
+		$res = getDBResultsArray($dbQuery);
+		foreach($res as &$v){
+			_postEvent($personID,date_format($_startDate, "Y-m-d"), $v["ActivityID"], "Auto-reported by scheduler", $v["Hours"], $v["ThirdParty"], $v["ReportedBy"]);
+		}
+		$_startDate->modify("+1 day");
+	}	
+
 }
 
 ?>
