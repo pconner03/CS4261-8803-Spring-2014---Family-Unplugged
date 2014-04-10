@@ -250,17 +250,13 @@ function logout(){
 	echo json_encode(Array("Success"=>"Session ended"));
 }
 
-function getTeamReport($teamID, $startDate, $endDate){
-	header("Content-type: application/json");
-	echo json_encode(Array("Team ID"=>$teamID, "Start Date"=>$startDate, "End Date"=>$endDate));
-}
 
 
 function getIndividualReport($startDate, $endDate){
 	session_start();
 	header("Content-type: application/json");
 	if(sessionValid()){
-		_getIndividualReport($startDate, $endDate, $_SESSION["personID"]);	
+		echo json_encode(_getIndividualReport($startDate, $endDate, $_SESSION["personID"]));	
 	}
 	else{
 		sessionExpiredError();
@@ -293,7 +289,37 @@ function _getIndividualReport($startDate, $endDate, $personID){
 		$_startDate->modify("+1 day");
 		//echo $dbQuery;
 	}
-	echo json_encode($output);
+	//echo json_encode($output);
+	return $output;
+}
+
+function getTeamReport($teamID, $startDate, $endDate){
+	header("Content-type: application/json");
+	session_start();
+	if(sessionValid()){
+		echo json_encode(_getTeamReport($teamID, $startDate, $endDate));	
+	}
+	else{
+		sessionExpiredError();
+	}
+}
+
+function _getTeamReport($teamID, $startDate, $endDate){
+	//TODO - assert valid team membership for logged user
+	$getMemberQuery = sprintf("SELECT PersonID FROM TeamMembers WHERE TeamID = '%s'",
+		mysql_real_escape_string($teamID));
+	$members = getDBResultsArray($getMemberQuery);
+	$output = Array();
+	foreach($members as &$v){
+		//var_dump(getUsername($v["PersonID"]));
+		$uname = getUsername($v["PersonID"])[0]["LoginID"];
+		//echo $uname."</br>";
+		//var_dump(getUsername($v["PersonID"]));
+		$userRes = _getIndividualReport($startDate, $endDate, $v["PersonID"]);
+		//var_dump($userRes);
+		array_push($output, Array($uname => $userRes));
+	}
+	return $output;
 }
 
 ?>

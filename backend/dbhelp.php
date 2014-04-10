@@ -97,5 +97,11 @@ function usernameExists($username){
 	return mysql_fetch_row($result)[0]=='1'? True: False;
 }
 
+function getUsername($personID){
+	$dbQuery = sprintf("SELECT LoginID FROM Person WHERE PersonID='%s'",
+		$personID);
+	return getDBResultsArray($dbQuery);
+}
+
 
 ?>
