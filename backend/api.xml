@@ -262,4 +262,21 @@
 			</action>
 		</index>
 	</command>
+	<command id="schedule" security="public">
+		<description>
+			Run scheduling script
+		</description>
+		<index>
+			<description>
+				<![CDATA[
+					/api/schedule?username=USERNAME&startDate=START_DATE&endDate=END_DATE
+				]]>
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					scheduleScript($_GET["username"], $_GET["startDate"], $_["endDate"]);
+				]]>
+			</action>
+		</index>
+	</command>
 </api>

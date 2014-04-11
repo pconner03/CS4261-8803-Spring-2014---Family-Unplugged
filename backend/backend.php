@@ -84,20 +84,22 @@ function postEvent($date, $activityID, $note, $hours){
 	session_start();
 	header("Content-type: application/json");
 	if(sessionValid()){
-		_postEvent($_SESSION["personID"], $date, $activityID, $note, $hours);
+		_postEvent($_SESSION["personID"], $date, $activityID, $note, $hours, "FALSE","Me");
 	}
 	else{
 		sessionExpiredError();
 	}
 }
 
-function _postEvent($personID, $date, $activityID, $note, $hours){
-	$dbQuery = sprintf("INSERT INTO Event (PersonID, Date, ActivityID, Hours, Note, ThirdPartyEntry, ReportedBy, EventID) VALUES ('%s', '%s', '%s', %s, '%s', FALSE, 'Me', UUID())", 
+function _postEvent($personID, $date, $activityID, $note, $hours, $thirdParty, $reportedBy){
+	$dbQuery = sprintf("INSERT INTO Event (PersonID, Date, ActivityID, Hours, Note, ThirdPartyEntry, ReportedBy, EventID) VALUES ('%s', '%s', '%s', %s, '%s', %s, '%s', UUID())", 
 		mysql_real_escape_string($personID),
 		mysql_real_escape_string($date),
 		mysql_real_escape_string($activityID),
 		mysql_real_escape_string($hours),
-		mysql_real_escape_string($note)
+		mysql_real_escape_string($note),
+		mysql_real_escape_string($thirdParty),
+		mysql_real_escape_string($reportedBy)
 		);
 	if(insertQuery($dbQuery)){
 		echo json_encode(Array("Success"=>"Data inserted successfully"));
@@ -250,17 +252,13 @@ function logout(){
 	echo json_encode(Array("Success"=>"Session ended"));
 }
 
-function getTeamReport($teamID, $startDate, $endDate){
-	header("Content-type: application/json");
-	echo json_encode(Array("Team ID"=>$teamID, "Start Date"=>$startDate, "End Date"=>$endDate));
-}
 
 
 function getIndividualReport($startDate, $endDate){
 	session_start();
 	header("Content-type: application/json");
 	if(sessionValid()){
-		_getIndividualReport($startDate, $endDate, $_SESSION["personID"]);	
+		echo json_encode(_getIndividualReport($startDate, $endDate, $_SESSION["personID"]));	
 	}
 	else{
 		sessionExpiredError();
@@ -273,9 +271,9 @@ function _getIndividualReport($startDate, $endDate, $personID){
 	$output = Array();
 	while($_startDate <= $_endDate){
 		$dbQuery = sprintf("SELECT 
-			Event.Date, SUM((Event.Hours - Scoring.Threshold)*Scoring.Mental) AS MentalPoints, 
-			SUM((Event.Hours - Scoring.Threshold)*Scoring.Physical) As PhysicalPoints, 
-			SUM((Event.Hours - Scoring.Threshold)*Scoring.Physical) As SocialPoints 
+			Event.Date, SUM(IF(Event.Hours - Scoring.Threshold > 0,(Event.Hours - Scoring.Threshold)*Scoring.Mental,0)) AS MentalPoints,
+			SUM(IF(Event.Hours - Scoring.Threshold > 0,(Event.Hours - Scoring.Threshold)*Scoring.Physical,0)) AS PhysicalPoints,
+			SUM(IF(Event.Hours - Scoring.Threshold > 0,(Event.Hours - Scoring.Threshold)*Scoring.Social,0)) AS SocialPoints 
 			FROM 
 				Event NATURAL JOIN Scoring 
 			WHERE 
@@ -285,15 +283,70 @@ function _getIndividualReport($startDate, $endDate, $personID){
 		$arr = getDBResultsArray($dbQuery)[0];
 		if($arr["Date"]==null){
 			$arr["Date"] = date_format($_startDate, "Y-m-d");
-			$arr["MentalPoints"] = 0;
-			$arr["PhysicalPoints"] = 0;
-			$arr["SocialPoints"] = 0;
+			$arr["MentalPoints"] = "0.0";
+			$arr["PhysicalPoints"] = "0.0";
+			$arr["SocialPoints"] = "0.0";
 		} 	
 		array_push($output, $arr);
 		$_startDate->modify("+1 day");
 		//echo $dbQuery;
 	}
-	echo json_encode($output);
+	//echo json_encode($output);
+	return $output;
+}
+
+function getTeamReport($teamID, $startDate, $endDate){
+	header("Content-type: application/json");
+	session_start();
+	if(sessionValid()){
+		echo json_encode(_getTeamReport($teamID, $startDate, $endDate));	
+	}
+	else{
+		sessionExpiredError();
+	}
+}
+
+function _getTeamReport($teamID, $startDate, $endDate){
+	//TODO - assert valid team membership for logged user
+	$getMemberQuery = sprintf("SELECT PersonID FROM TeamMembers WHERE TeamID = '%s'",
+		mysql_real_escape_string($teamID));
+	$members = getDBResultsArray($getMemberQuery);
+	$output = Array();
+	foreach($members as &$v){
+		//var_dump(getUsername($v["PersonID"]));
+		$uname = getUsername($v["PersonID"])[0]["LoginID"];
+		//echo $uname."</br>";
+		//var_dump(getUsername($v["PersonID"]));
+		$userRes = _getIndividualReport($startDate, $endDate, $v["PersonID"]);
+		//var_dump($userRes);
+		array_push($output, Array($uname => $userRes));
+	}
+	return $output;
+}
+
+function scheduleScript($username, $startDate, $endDate){
+	//echo date("l", strtotime($startDate));
+	$personID = getPersonID($username);
+	/*
+		INSERT INTO Event ()
+	*/
+	//echo $personID;
+	$_startDate = new DateTime($startDate);
+	$_endDate = new DateTime($endDate);
+	//echo date_format($_startDate, "l");
+	while($_startDate <= $_endDate){
+		$dbQuery = sprintf("SELECT ActivityID, ThirdParty, ReportedBy, Hours FROM Schedule WHERE PersonID = '%s' AND %s = 1",
+			mysql_real_escape_string($personID),
+			mysql_real_escape_string(date_format($_startDate, "l"))
+			);
+		//echo $dbQuery;
+		$res = getDBResultsArray($dbQuery);
+		foreach($res as &$v){
+			_postEvent($personID,date_format($_startDate, "Y-m-d"), $v["ActivityID"], "Auto-reported by scheduler", $v["Hours"], $v["ThirdParty"], $v["ReportedBy"]);
+		}
+		$_startDate->modify("+1 day");
+	}	
+
 }
 
 ?>
