@@ -349,4 +349,38 @@ function scheduleScript($username, $startDate, $endDate){
 
 }
 
+function getUserTeamInfo(){
+	header("Content-type: application/json");
+	session_start();
+	if(sessionValid()){
+		_getUserTeamInfo($_SESSION["personID"]);
+	}
+	else{
+		sessionExpiredError();
+	}
+}
+
+function _getUserTeamInfo($personID){
+	$teamListQuery = sprintf("SELECT TeamID, Name FROM Team 
+		WHERE TeamID IN (SELECT TeamID From TeamMembers WHERE PersonID = '%s')",
+		 mysql_real_escape_string($personID));
+	$res = getDBResultsArray($teamListQuery);
+	foreach($res as &$v){
+		//var_dump($v);
+		$memberNameQuery = sprintf("SELECT Person.Name FROM TeamMembers 
+			NATURAL JOIN Person WHERE TeamMembers.TeamID = '%s'",
+			mysql_real_escape_string($v["TeamID"]));
+		$names = getDBResultsArray($memberNameQuery);
+		//var_dump($names);
+		$finalNames = Array();
+		foreach($names as &$n){
+			array_push($finalNames, $n["Name"]);
+		}
+		//array_push($v, Array("Members"=>$finalNames));
+		//echo "\n\n";
+		$v["Members"] = $finalNames;
+	}
+	echo json_encode($res);
+}
+
 ?>
