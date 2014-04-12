@@ -77,6 +77,7 @@ $(document).ready(function () {
     	weeksInPast+=1;
     	window.location.href = "result.html?week="+weeksInPast;
     });
+    $(this).find("#_date").text( prettifyDate(startSunday) + " - " + prettifyDate(lastSaturday));
     
     //INSERT AJAX CALL HERE
     //get this person's teams
@@ -88,9 +89,7 @@ $(document).ready(function () {
     });
     
     $("#_selectTeam").html(opt).promise().done(function(){
-    
-		$(this).find("#_date").html( prettifyDate(startSunday) + " - " + prettifyDate(lastSaturday));
-    
+		
     	info = [{"Date":"2014-04-01","MentalPoints":3,"PhysicalPoints":9,"SocialPoints":0},{"Date":"2014-04-02","MentalPoints":0,"PhysicalPoints":9,"SocialPoints":0},{"Date":"2014-04-03","MentalPoints":8,"PhysicalPoints":8,"SocialPoints":8},{"Date":"2014-04-04","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0},{"Date":"2014-04-05","MentalPoints":9,"PhysicalPoints":3,"SocialPoints":3},{"Date":"2014-04-06","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0},{"Date":"2014-04-07","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0}];
 	
 		reportsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/reports?';
