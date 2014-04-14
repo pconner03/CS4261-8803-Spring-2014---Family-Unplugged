@@ -85,7 +85,7 @@ $(document).ready(function () {
 		
 		//Add fake report
 		info.push({"EventID":"85acc5be-b220-11e3-8e6b-005056962b81","DATE":phpFormatDate,"Hours":"0.5","Note":"Running","EntryTimeStamp":"2014-03-29 14:17:12","ThirdPartyEntry":"1","ReportedBy":"FitBit, Inc.","Name":"Exercise (Heavy)"});
-		info.push({"EventID":"5108f6d8-b221-11e3-8e6b-005056962b81","DATE":phpFormatDate,"Hours":"5","Note":"Breaking Bad","EntryTimeStamp":"2014-03-29 14:17:12","ThirdPartyEntry":"1","ReportedBy":"Netflix, Inc.","Name":"Watching TV/Movie"});
+		info.push({"EventID":"5108f6d8-b221-11e3-8e6b-005056962b81","DATE":phpFormatDate,"Hours":"5.0","Note":"Breaking Bad","EntryTimeStamp":"2014-03-29 14:17:12","ThirdPartyEntry":"1","ReportedBy":"Netflix, Inc.","Name":"Watching TV/Movie"});
 	
 		// 3) fill HTML elements
 		var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
