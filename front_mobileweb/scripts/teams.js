@@ -1,7 +1,29 @@
 $(document).ready(function () {
 	//assume info is sorted with teams I lead first
-	info = [{"Name":"Jones Family","Leader":"Me", "Members": ["Me", "Jen", "Katie", "John"]},{"Name":"The Brogrammers","Leader":"Doug", "Members": ["Doug", "Steve", "Gina", "Me"]}];
+
+	info = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Members": ["Doug", "Steve", "Jack"]}];
+    var teamsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/teams';
+	var args = {};
+
+	// 2) get events from API
+	$.getJSON( teamsAPI, args).done(function( dataBack ) {
+		//testing
+		if (dataBack==undefined){
+			console.log("Error: data undefined");
+		}
+		else{
+			if (dataBack["Error"]!=undefined){
+				console.log(dataBack["Error"]);
+				info = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Members": ["Doug", "Steve", "Jack"]}];
+			}
+			else{
+				info=dataBack;
+			}
+		}
 		
+		//fake leaders for now.
+		info[0].Leader = "Me";
+
     	//set up string for adding <li/>
     	var li="";
     	if ((info[0]).Leader=="Me"){
@@ -42,6 +64,7 @@ $(document).ready(function () {
         	//refresh list to enhance its styling.
         	$(this).listview("refresh");
 
+  		});
    });
     
 });
