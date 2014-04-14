@@ -75,7 +75,26 @@ $(document).on("pagebeforeshow", "#view-page", function () {
 });
 
 $(document).on("pagebeforeshow", "#add-page", function () {
-   
+   $("form").submit(function(e){
+		e.preventDefault();
+		var name = $(this).find("#_teamname").val();
+		var emailAddresses = $(this).find("#_invitations").val();
+		//api call to create team
+		var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/eventEdit",  
+    		{
+    			"name": name
+  			}, 
+  			function(data) {
+    	})
+    	.done(function() {
+   			window.location.href = 'mailto:'+emailAddresses+'?subject=Join my team on Family Unplugged!&body=Pretty html with link to join my team here.';
+   			alert(emailAddresses);
+   			window.location.replace("teams.html");
+  		})
+  		.fail(function( jqXHR, textStatus ) {
+  			console.log( "Request failed: " + textStatus );
+		})
+   	});
 });
 
 $(document).on("pagebeforeshow", "#invite-page", function () {
