@@ -78,11 +78,30 @@ $(document).ready(function () {
     	window.location.href = "result.html?week="+weeksInPast;
     });
     $(this).find("#_date").text( prettifyDate(startSunday) + " - " + prettifyDate(lastSaturday));
-    
     //INSERT AJAX CALL HERE
     //get this person's teams
-    var teams = [{"Name": "Jones Family", "ID": "AJHGYD67", "Members": ["Katy", "John"]}, {"Name": "The Brogrammers", "ID": "AJHGYD68", "Members": ["Doug", "Steve", "Jack"]}];
-    
+    var teams = teams = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Members": ["Doug", "Steve", "Jack"]}];
+    var teamsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
+	var args = {};
+
+	// 2) get events from API
+	$.getJSON( teamsAPI, args).done(function( dataBack ) {
+		//testing
+		if (dataBack==undefined){
+			alert("error");
+		}
+		else{
+			if (dataBack["Error"]!=undefined){
+				alert(dataBack["Error"]);
+				teams = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Members": ["Doug", "Steve", "Jack"]}];
+			}
+			else{
+				//alert("Session is not expired. We are receiving data.");
+				teams=dataBack;
+			}
+		}
+	});
+     
     var opt = '<option val="me">Me</option>';
     $.each(teams, function (i, team) {
         opt+='<option val="' + team.ID + '">' + team.Name + '</option>';
