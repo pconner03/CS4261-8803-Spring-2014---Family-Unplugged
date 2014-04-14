@@ -148,28 +148,29 @@ $(document).ready(function () {
 			socialArr = new Array();
 			updateData();
    	
-   			loadChart(physicalArr);
+   			var ctx = document.getElementById("canvas").getContext("2d");
+			chartObject = new Chart(ctx);
+   			loadChart(chartObject, physicalArr);
 
-			/*
+
 			$('input[type=radio]').change(function () {
     			var whichSelected = $('input[type=radio]').filter(':checked').val();
     			if (whichSelected=="PhysicalPoints"){
-    				loadChart(physicalArr);
+    				loadChart(chartObject, physicalArr);
     			}
     			if (whichSelected=="MentalPoints"){
-    				loadChart(mentalArr);
+    				loadChart(chartObject, mentalArr);
     			}
     			if (whichSelected=="SocialPoints"){
-    				loadChart(socialArr);
+    				loadChart(chartObject, socialArr);
     			}
   			});
-  			*/
+
   	
   			});//end of getting info for chart
   		
   		}); //end of team selector filling
   	
-  		/*
   		$("#_selectTeam").change(function(){
   			//INSERT AJAX CALL HERE
   			var teamID = $("#_selectTeam").val();
@@ -193,25 +194,24 @@ $(document).ready(function () {
 						{"Date":"2014-04-06","MentalPoints":4,"PhysicalPoints":1,"SocialPoints":2},
 						{"Date":"2014-04-07","MentalPoints":9,"PhysicalPoints":1,"SocialPoints":0}];
 						updateData();
-						loadChart(physicalArr);
+						loadChart(chartObject, physicalArr);
 					}
 					else{
 						//alert("Session is not expired. We are receiving data.");
 						info=dataBack;
 						updateData();
-						loadChart(physicalArr);
+						loadChart(chartObject, physicalArr);
 					}
 				}
   			
   			});
   		});
-  		*/
   	});
   	
 });
 
-function loadChart(toggleArr){
-		
+function loadChart(chartObject, toggleArr){
+
 	var lineChartData = {
 		labels : ["S", "M", "T", "W", "T", "F", "S"],
 		datasets : [
@@ -226,12 +226,12 @@ function loadChart(toggleArr){
 	};
 
 	var arrMax = Array.max(toggleArr);
-	/*
+	
 	var arrMin = Array.min(toggleArr);
 	var absMin = Math.abs(arrMin);
 	var rangePos = (absMin > arrMax) ? absMin : arrMax;
 	var rangeNeg = (-1)*rangePos;
-	*/
+	
 
 	var options= {
 
@@ -245,11 +245,11 @@ function loadChart(toggleArr){
 
 	//** Required if scaleOverride is true **
 	//Number - The number of steps in a hard coded scale
-	scaleSteps : 10,
+	scaleSteps : 11,
 	//Number - The value jump in the hard coded scale
-	scaleStepWidth : Math.ceil(arrMax/10), //Math.ceil((Math.abs(rangeNeg)+rangePos)/10),
+	scaleStepWidth : Math.ceil((Math.abs(rangeNeg)+rangePos)/10),
 	//Number - The scale starting value
-	scaleStartValue : 0, //rangeNeg,
+	scaleStartValue : rangeNeg,
 
 	//String - Colour of the scale line	
 	scaleLineColor : "rgba(0,0,0,.1)",
@@ -318,8 +318,7 @@ function loadChart(toggleArr){
 	onAnimationComplete : null
 
 	}
-
-	var ctx = document.getElementById("canvas").getContext("2d");
-	var myLine = new Chart(ctx).Line(lineChartData, options);
+	
+	chartObject.Line(lineChartData, options);
 }
 
