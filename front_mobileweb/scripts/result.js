@@ -78,10 +78,11 @@ $(document).ready(function () {
     	window.location.href = "result.html?week="+weeksInPast;
     });
     $(this).find("#_date").text( prettifyDate(startSunday) + " - " + prettifyDate(lastSaturday));
+    
     //INSERT AJAX CALL HERE
     //get this person's teams
     var teams = teams = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Members": ["Doug", "Steve", "Jack"]}];
-    var teamsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events?';
+    var teamsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/teams';
 	var args = {};
 
 	// 2) get events from API
@@ -100,102 +101,111 @@ $(document).ready(function () {
 				teams=dataBack;
 			}
 		}
-	});
+	
      
-    var opt = '<option val="me">Me</option>';
-    $.each(teams, function (i, team) {
-        opt+='<option val="' + team.ID + '">' + team.Name + '</option>';
-    });
+    	var opt = '<option val="me">Me</option>';
+    	$.each(teams, function (i, team) {
+        	opt+='<option val="' + team.ID + '">' + team.Name + '</option>';
+    	});
     
-    $("#_selectTeam").html(opt).promise().done(function(){
+    	$("#_selectTeam").html(opt).promise().done(function(){
 		
-    	info = [{"Date":"2014-04-01","MentalPoints":3,"PhysicalPoints":9,"SocialPoints":0},{"Date":"2014-04-02","MentalPoints":0,"PhysicalPoints":9,"SocialPoints":0},{"Date":"2014-04-03","MentalPoints":8,"PhysicalPoints":8,"SocialPoints":8},{"Date":"2014-04-04","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0},{"Date":"2014-04-05","MentalPoints":9,"PhysicalPoints":3,"SocialPoints":3},{"Date":"2014-04-06","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0},{"Date":"2014-04-07","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0}];
+    		info = [{"Date":"2014-04-01","MentalPoints":3,"PhysicalPoints":9,"SocialPoints":0},{"Date":"2014-04-02","MentalPoints":1,"PhysicalPoints":9,"SocialPoints":0},{"Date":"2014-04-03","MentalPoints":8,"PhysicalPoints":8,"SocialPoints":8},{"Date":"2014-04-04","MentalPoints":2,"PhysicalPoints":0,"SocialPoints":0},{"Date":"2014-04-05","MentalPoints":9,"PhysicalPoints":3,"SocialPoints":3},{"Date":"2014-04-06","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0},{"Date":"2014-04-07","MentalPoints":0,"PhysicalPoints":0,"SocialPoints":0}];
 	
-		reportsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/reports?';
-		args = {
-			"startDate": toPHPFormat(startSunday),
-			"endDate": toPHPFormat(lastSaturday)
-		};
+			reportsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/reports?';
+			args = {
+				"startDate": toPHPFormat(startSunday),
+				"endDate": toPHPFormat(lastSaturday)
+			};
 	
-		//get their points for the graph.
-		$.getJSON( reportsAPI, args).done(function( dataBack ) {
-			//testing
-			if (dataBack==undefined){
-				alert("error");
-			}
-			else{
-				if (dataBack["Error"]!=undefined){
-				alert(dataBack["Error"]);
+			//get their points for the graph.
+			$.getJSON( reportsAPI, args).done(function( dataBack ) {
+				//testing
+				if (dataBack==undefined){
+					alert("error");
 				}
 				else{
+					if (dataBack["Error"]!=undefined){
+					alert(dataBack["Error"]);
+					}
+					else{
 					//alert("Session is not expired. We are receiving data.");
-					info=dataBack;
+						info=dataBack;
+					}
 				}
-			}
 	
-		Array.max = function( array ){
-    		return Math.max.apply( Math, array );
-		};	
+			Array.max = function( array ){
+    			return Math.max.apply( Math, array );
+			};	
+			
+			Array.min = function( array ){
+    			return Math.min.apply( Math, array );
+			};	
 	
-		//on the callback from the api call do all of the following:
-		physicalArr = new Array();
-		mentalArr = new Array();
-		socialArr = new Array();
-		updateData();
+			//on the callback from the api call do all of the following:
+			physicalArr = new Array();
+			mentalArr = new Array();
+			socialArr = new Array();
+			updateData();
    	
-   		loadChart(physicalArr);
+   			loadChart(physicalArr);
 
-		$('input[type=radio]').change(function () {
-    		var whichSelected = $('input[type=radio]').filter(':checked').val();
-    		if (whichSelected=="PhysicalPoints"){
-    			loadChart(physicalArr);
-    		}
-    		if (whichSelected=="MentalPoints"){
-    			loadChart(mentalArr);
-    		}
-    		if (whichSelected=="SocialPoints"){
-    			loadChart(socialArr);
-    		}
-  		});
+			/*
+			$('input[type=radio]').change(function () {
+    			var whichSelected = $('input[type=radio]').filter(':checked').val();
+    			if (whichSelected=="PhysicalPoints"){
+    				loadChart(physicalArr);
+    			}
+    			if (whichSelected=="MentalPoints"){
+    				loadChart(mentalArr);
+    			}
+    			if (whichSelected=="SocialPoints"){
+    				loadChart(socialArr);
+    			}
+  			});
+  			*/
   	
-  		});//end of getting info for chart
+  			});//end of getting info for chart
   		
-  	}); //end of team selector filling
+  		}); //end of team selector filling
   	
-  	$("#_selectTeam").change(function(){
-  		//INSERT AJAX CALL HERE
-  		var teamID = $("#_selectTeam").val();
+  		/*
+  		$("#_selectTeam").change(function(){
+  			//INSERT AJAX CALL HERE
+  			var teamID = $("#_selectTeam").val();
   			
-  		argsTemp = args;
-  		argsTemp["TeamID"] = teamID;
+  			argsTemp = args;
+  			argsTemp["TeamID"] = teamID;
   			
-  		$.getJSON( reportsAPI, argsTemp).done(function( dataBack ) {
-			//testing
-			if (dataBack==undefined){
-				alert("error");
-			}
-			else{
-				if (dataBack["Error"]!=undefined){
-					//alert(dataBack["Error"]);
-					info = [{"Date":"2014-04-01","MentalPoints":7,"PhysicalPoints":0,"SocialPoints":0},
-					{"Date":"2014-04-02","MentalPoints":5,"PhysicalPoints":1,"SocialPoints":0},
-					{"Date":"2014-04-03","MentalPoints":2,"PhysicalPoints":2,"SocialPoints":8},
-					{"Date":"2014-04-04","MentalPoints":0,"PhysicalPoints":9,"SocialPoints":0},
-					{"Date":"2014-04-05","MentalPoints":2,"PhysicalPoints":3,"SocialPoints":3},
-					{"Date":"2014-04-06","MentalPoints":4,"PhysicalPoints":1,"SocialPoints":0},
-					{"Date":"2014-04-07","MentalPoints":9,"PhysicalPoints":1,"SocialPoints":0}];
-					updateData();
-					loadChart(physicalArr);
+  			$.getJSON( reportsAPI, argsTemp).done(function( dataBack ) {
+				//testing
+				if (dataBack==undefined){
+					alert("error");
 				}
 				else{
-					//alert("Session is not expired. We are receiving data.");
-					info=dataBack;
-					updateData();
-					loadChart(physicalArr);
+					if (dataBack["Error"]!=undefined){
+					//alert(dataBack["Error"]);
+						info = [{"Date":"2014-04-01","MentalPoints":7,"PhysicalPoints":0,"SocialPoints":0},
+						{"Date":"2014-04-02","MentalPoints":5,"PhysicalPoints":1,"SocialPoints":0},
+						{"Date":"2014-04-03","MentalPoints":2,"PhysicalPoints":2,"SocialPoints":8},
+						{"Date":"2014-04-04","MentalPoints":3,"PhysicalPoints":9,"SocialPoints":0},
+						{"Date":"2014-04-05","MentalPoints":2,"PhysicalPoints":3,"SocialPoints":3},
+						{"Date":"2014-04-06","MentalPoints":4,"PhysicalPoints":1,"SocialPoints":2},
+						{"Date":"2014-04-07","MentalPoints":9,"PhysicalPoints":1,"SocialPoints":0}];
+						updateData();
+						loadChart(physicalArr);
+					}
+					else{
+						//alert("Session is not expired. We are receiving data.");
+						info=dataBack;
+						updateData();
+						loadChart(physicalArr);
+					}
 				}
-			}
   			
+  			});
   		});
+  		*/
   	});
   	
 });
@@ -216,6 +226,12 @@ function loadChart(toggleArr){
 	};
 
 	var arrMax = Array.max(toggleArr);
+	/*
+	var arrMin = Array.min(toggleArr);
+	var absMin = Math.abs(arrMin);
+	var rangePos = (absMin > arrMax) ? absMin : arrMax;
+	var rangeNeg = (-1)*rangePos;
+	*/
 
 	var options= {
 
@@ -231,9 +247,9 @@ function loadChart(toggleArr){
 	//Number - The number of steps in a hard coded scale
 	scaleSteps : 10,
 	//Number - The value jump in the hard coded scale
-	scaleStepWidth : Math.ceil(arrMax/10),
+	scaleStepWidth : Math.ceil(arrMax/10), //Math.ceil((Math.abs(rangeNeg)+rangePos)/10),
 	//Number - The scale starting value
-	scaleStartValue : 0,
+	scaleStartValue : 0, //rangeNeg,
 
 	//String - Colour of the scale line	
 	scaleLineColor : "rgba(0,0,0,.1)",
