@@ -214,10 +214,11 @@ function _createTeam($name, $personID){
 	//TODO - CHECK IF TEAM ALREADY EXISTS, RETURN ERROR IF TRUE
 
 	$dbQuery = sprintf("INSERT INTO Team
-		(Name, PersonID) VALUES
-		('%s', '%s')",
+		(Name, PersonID, TeamID) VALUES
+		('%s', '%s', UUID())",
 		mysql_real_escape_string($name),
 		mysql_real_escape_string($personID));
+	//echo $dbQuery;
 	if(!insertQuery($dbQuery)){
 		databaseError();
 	}
@@ -228,6 +229,8 @@ function _createTeam($name, $personID){
 			mysql_real_escape_string($name),
 			mysql_real_escape_string($personID));
 		$id = getDBResultsArray($teamIDQ)[0]['TeamID'];
+		//echo "\n";
+		//echo $id;
 		//Without triggers, there's no better way to do this
 		$insertMemberQ = sprintf("INSERT INTO TeamMembers (TeamID, PersonID) VALUES
 			('%s', '%s')",
@@ -361,8 +364,9 @@ function getUserTeamInfo(){
 }
 
 function _getUserTeamInfo($personID){
-	$teamListQuery = sprintf("SELECT TeamID, Name FROM Team 
+	$teamListQuery = sprintf("SELECT TeamID, Name, (PersonID = '%s') As Owner FROM Team 
 		WHERE TeamID IN (SELECT TeamID From TeamMembers WHERE PersonID = '%s')",
+		 mysql_real_escape_string($personID),
 		 mysql_real_escape_string($personID));
 	$res = getDBResultsArray($teamListQuery);
 	foreach($res as &$v){

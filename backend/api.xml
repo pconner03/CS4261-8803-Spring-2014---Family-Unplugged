@@ -230,6 +230,17 @@
 				]]>
 			</action>
 		</post>
+		<!--
+		<get>
+			<description>temp
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					createTeam($_GET['name']);
+				]]>
+			</action>
+		</get>
+		-->
 	</command>
 	<command id="logout" security="public">
 		<description>
