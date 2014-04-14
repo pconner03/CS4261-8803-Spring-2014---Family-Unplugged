@@ -30,7 +30,7 @@ $(document).ready(function () {
 				window.location.replace(url);
 			}
 			else{
-				alert("error");
+				console.log("Failed login.");
 			}
 		});
 		

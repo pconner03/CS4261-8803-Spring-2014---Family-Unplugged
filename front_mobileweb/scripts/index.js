@@ -42,7 +42,7 @@ function toDateObject(phpString){
 }
 
 $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
-	alert(thrownError);
+	console.log(thrownError);
 });
 
 $(document).ready(function () {
@@ -53,8 +53,6 @@ $(document).ready(function () {
 		var urlVars = getUrlVars();
  		phpFormatDate = urlVars["date"];
  		objectDate = toDateObject(phpFormatDate)
- 		
- 		//alert(objectDate.toString());
  	}else{
  		objectDate = new Date();
  		phpFormatDate = toPHPFormat(objectDate);
@@ -71,17 +69,16 @@ $(document).ready(function () {
 	$.getJSON( eventsAPI, args).done(function( dataBack ) {
 		//testing
 		if (dataBack==undefined){
-			alert("error");
+			console.log("error");
 		}
 		else{
 			if (dataBack["Error"]!=undefined){
-				alert(dataBack["Error"]);
+				console.log("Error" + dataBack["Error"]);
 				if (dataBack["Error"]=="Session Expired"){
 					//window.location.replace("login.html");
 				}
 			}
 			else{
-				//alert("Session is not expired. We are receiving data.");
 				info=dataBack;
 			}
 		}
@@ -227,12 +224,9 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
 	$("#_selectDuration").selectmenu( "refresh" );
 	
 	$("form").submit(function(){
-    	//alert("before post");
     	var note = $(this).find("#_description").val();
     	var hours = $(this).find("#_selectDuration").val();
-    	alert(hours);
     	var activity = $(this).find("#_selectActivity").val();
-    	//alert("hours = " hours);
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/eventEdit",  
     		{
     			"eventID": info.EventID,
@@ -247,7 +241,7 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
     			window.location.href = "index.html?date="+toPHPFormat(objectDate);
   			})
   			.fail(function( jqXHR, textStatus ) {
-  				alert( "Request failed: " + textStatus );
+  				console.log( "Request failed: " + textStatus );
 			})
     });
 	
@@ -257,11 +251,10 @@ $(document).on("pagebeforeshow", "#edit-page", function () {
   			url: "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events/"+info.EventID
 		})
     	.done(function() {
-    		//alert( info.EventID );
     		window.location.href = "index.html?date="+phpFormatDate;
   		})
   		.fail(function( jqXHR, textStatus ) {
-  			alert( "Request failed: " + textStatus );
+  			console.log( "Request failed: " + textStatus );
 		});
     	
     });
@@ -271,11 +264,9 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     $(this).find("#_date").html(prettifyDate(objectDate));
     
     $("form").submit(function(){
-    	//alert("before post");
     	var note = $(this).find("#_description").val();
     	var hours = $(this).find("#_duration").val();
     	var activity = $(this).find("#_selectActivity").val();
-    	//alert("hours = " hours);
     	var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/events",  
     		{
   				"date": phpFormatDate,
@@ -289,7 +280,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     			window.location.href = "index.html?date="+phpFormatDate;
   			})
   			.fail(function( jqXHR, textStatus ) {
-  				alert( "Request failed: " + textStatus );
+  				console.log( "Request failed: " + textStatus );
 			})
     });
     

@@ -55,10 +55,8 @@ $(document).ready(function () {
  		weeksInPast = parseInt(urlVars["week"]);
  		today.setDate(today.getDate()+(7*weeksInPast));
  	}
- 	//alert(today.toString());
- 	//alert("today is " + today);
+
 	var weekday = today.getDay(); //0-6 (Sunday-Saturday);
-	//alert("weekday is "+weekday);
 	var lastSaturday = new Date(today.getTime()); //effectively clones "today"
 	lastSaturday.setDate(lastSaturday.getDate() - (weekday + 1));
 	var startSunday = new Date(lastSaturday.getTime()); //effectively clones "last saturday" **what we clone is important for resetting the date
@@ -89,15 +87,14 @@ $(document).ready(function () {
 	$.getJSON( teamsAPI, args).done(function( dataBack ) {
 		//testing
 		if (dataBack==undefined){
-			alert("error");
+			console.log("Error: data undefined");
 		}
 		else{
 			if (dataBack["Error"]!=undefined){
-				alert(dataBack["Error"]);
+				console.log(dataBack["Error"]);
 				teams = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Members": ["Doug", "Steve", "Jack"]}];
 			}
 			else{
-				//alert("Session is not expired. We are receiving data.");
 				teams=dataBack;
 			}
 		}
@@ -122,14 +119,16 @@ $(document).ready(function () {
 			$.getJSON( reportsAPI, args).done(function( dataBack ) {
 				//testing
 				if (dataBack==undefined){
-					alert("error");
+					console.log("Error: data undefined");
 				}
 				else{
 					if (dataBack["Error"]!=undefined){
-					alert(dataBack["Error"]);
+						console.log(dataBack["Error"]);
+						if (dataBack["Error"]=="Session Expired"){
+							//window.location.replace("login.html");
+						}
 					}
 					else{
-					//alert("Session is not expired. We are receiving data.");
 						info=dataBack;
 					}
 				}
@@ -181,11 +180,10 @@ $(document).ready(function () {
   			$.getJSON( reportsAPI, argsTemp).done(function( dataBack ) {
 				//testing
 				if (dataBack==undefined){
-					alert("error");
+					console.log("Error: data undefined");
 				}
 				else{
 					if (dataBack["Error"]!=undefined){
-					//alert(dataBack["Error"]);
 						info = [{"Date":"2014-04-01","MentalPoints":7,"PhysicalPoints":0,"SocialPoints":0},
 						{"Date":"2014-04-02","MentalPoints":5,"PhysicalPoints":1,"SocialPoints":0},
 						{"Date":"2014-04-03","MentalPoints":2,"PhysicalPoints":2,"SocialPoints":8},
@@ -200,7 +198,6 @@ $(document).ready(function () {
 						loadChart(chartObject, physicalArr);
 					}
 					else{
-						//alert("Session is not expired. We are receiving data.");
 						info=dataBack;
 						updateData();
 						var radio = $("input[type=radio]");
