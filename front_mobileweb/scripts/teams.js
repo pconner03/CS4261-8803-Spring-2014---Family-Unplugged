@@ -88,7 +88,6 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     	})
     	.done(function() {
    			window.location.href = 'mailto:'+emailAddresses+'?subject=Join my team on Family Unplugged!&body=Pretty html with link to join my team here.';
-   			alert(emailAddresses);
    			window.location.replace("teams.html");
   		})
   		.fail(function( jqXHR, textStatus ) {
