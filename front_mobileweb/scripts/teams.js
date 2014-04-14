@@ -79,5 +79,10 @@ $(document).on("pagebeforeshow", "#add-page", function () {
 });
 
 $(document).on("pagebeforeshow", "#invite-page", function () {
-   
+	$("form").submit(function(e){
+		e.preventDefault();
+		var emailAddresses = $(this).find("#_invitations").val();
+   		window.location.href = 'mailto:'+emailAddresses+'?subject=Join my team on Family Unplugged!&body=Pretty html with link to join my team here.';
+   		window.location.replace("teams.html");
+   	});
 });
