@@ -364,7 +364,7 @@ function getUserTeamInfo(){
 }
 
 function _getUserTeamInfo($personID){
-	$teamListQuery = sprintf("SELECT TeamID, Name, (PersonID = '%s') As Owner FROM Team 
+	$teamListQuery = sprintf("SELECT TeamID, Name, (PersonID = '%s') As Owner, (SELECT Name FROM Person Where Person.PersonID = Team.PersonID) As TeamLeader FROM Team 
 		WHERE TeamID IN (SELECT TeamID From TeamMembers WHERE PersonID = '%s')",
 		 mysql_real_escape_string($personID),
 		 mysql_real_escape_string($personID));
