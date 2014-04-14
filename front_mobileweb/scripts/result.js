@@ -194,13 +194,19 @@ $(document).ready(function () {
 						{"Date":"2014-04-06","MentalPoints":4,"PhysicalPoints":1,"SocialPoints":2},
 						{"Date":"2014-04-07","MentalPoints":9,"PhysicalPoints":1,"SocialPoints":0}];
 						updateData();
+						var radio = $("input[type=radio]");
+    					radio[0].checked = true;
+    					radio.checkboxradio("refresh");
 						loadChart(chartObject, physicalArr);
 					}
 					else{
 						//alert("Session is not expired. We are receiving data.");
 						info=dataBack;
 						updateData();
-						loadChart(chartObject, physicalArr);
+						var radio = $("input[type=radio]");
+    					radio[0].checked = true;
+    					radio.checkboxradio("refresh");
+    					loadChart(chartObject, physicalArr);
 					}
 				}
   			
