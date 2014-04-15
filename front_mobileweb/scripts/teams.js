@@ -20,7 +20,7 @@ $(document).ready(function () {
 					if (enforceLogins){
 						window.location.replace("login.html");
 					}
-				}				}
+				}
 				info = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Owner":"1", "TeamLeader": "Test1", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Owner":"0", "TeamLeader": "Doug", "Members": ["Doug", "Steve", "Jack"]}];
 			}
 			else{
@@ -99,7 +99,7 @@ $(document).on("pagebeforeshow", "#view-page", function () {
      	li += arr[i];
         li += '</li>';
 	}
-	if (info.Owner=="1F"){
+	if (info.Owner=="1"){
 		li += '<li><a href="#invite-page" data-role="button" data-mini="true" data-icon="plus" data-inline="true" data-theme="a">Invite new member(s)</a></li>';
     }
     $("#member-list").html(li).promise().done(function () {
@@ -122,7 +122,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
     	})
     	.done(function() {
    			window.location.href = 'mailto:'+emailAddresses+'?subject=Join my team on Family Unplugged!&body=Pretty html with link to join my team here.';
-   			window.location.replace("teams.html");
+   			setTimeout(function(){window.location.assign("teams.html");}, 1);
   		})
   		.fail(function( jqXHR, textStatus ) {
   			console.log( "Request failed: " + textStatus );
@@ -134,7 +134,9 @@ $(document).on("pagebeforeshow", "#invite-page", function () {
 	$("form").submit(function(e){
 		e.preventDefault();
 		var emailAddresses = $(this).find("#_invitations").val();
+		//window.location.href = 'mailto...' doesn't open new tab, but it isn't working on mobile that way.
    		window.location.href = 'mailto:'+emailAddresses+'?subject=Join my team on Family Unplugged!&body=Pretty html with link to join my team here.';
-   		window.location.replace("teams.html");
+   		//need delay in order for both windows to open.
+   		setTimeout(function(){window.location.assign("teams.html");}, 1);
    	});
 });
