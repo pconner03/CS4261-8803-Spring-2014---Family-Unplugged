@@ -1,8 +1,10 @@
+enforceLogins = true; //togglable for local testing
+
 $(document).ready(function () {
 	//assume info is sorted with teams I lead first
 
-	info = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Members": ["Doug", "Steve", "Jack"]}];
-    var teamsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/teams';
+	info = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Owner":"1", "TeamLeader": "Test1", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Owner":"0", "TeamLeader": "Doug", "Members": ["Doug", "Steve", "Jack"]}];
+	var teamsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/teams';
 	var args = {};
 
 	// 2) get events from API
@@ -14,19 +16,21 @@ $(document).ready(function () {
 		else{
 			if (dataBack["Error"]!=undefined){
 				console.log(dataBack["Error"]);
-				info = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Members": ["Doug", "Steve", "Jack"]}];
+				if (dataBack["Error"]=="Session Expired"){
+					if (enforceLogins){
+						window.location.replace("login.html");
+					}
+				}				}
+				info = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Owner":"1", "TeamLeader": "Test1", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Owner":"0", "TeamLeader": "Doug", "Members": ["Doug", "Steve", "Jack"]}];
 			}
 			else{
 				info=dataBack;
 			}
 		}
-		
-		//fake leaders for now.
-		info[0].Leader = "Me";
 
     	//set up string for adding <li/>
     	var li="";
-    	if ((info[0]).Leader=="Me"){
+    	if ((info[0]).Owner=="1"){
     		li += '<li data-role="list-divider">Teams I Lead</li>';
     	}
     	flag = true;
@@ -36,7 +40,7 @@ $(document).ready(function () {
         	//note the use of += in the variable
         	//meaning I'm adding to the existing data. not replacing it.
         	//store index value in array as id of the <a> tag
-        	if (team.Leader!="Me" & flag){
+        	if (team.Owner!="1" & flag){
         		li+='<li data-role="list-divider">Teams I Joined</li>'
         		flag = false;
         	}
@@ -74,8 +78,15 @@ $(document).on("pagebeforeshow", "#view-page", function () {
     
     $(this).find("#_name").html(info.Name);
     
-    $(this).find("#_leader").html(info.Leader);
-    if (info.Leader=="Me"){
+    /*
+    var teamLead = "Me";
+    if (info.Owner!="1"){
+    	teamLead = info.TeamLeader;
+    }
+    */
+    
+    $(this).find("#_leader").html(info.TeamLeader);
+    if (info.Owner=="1"){
     	$("#_leaveteambtn").text("Delete Team");
     }else{
     	$("#_leaveteambtn").text("Leave Team");
@@ -88,7 +99,7 @@ $(document).on("pagebeforeshow", "#view-page", function () {
      	li += arr[i];
         li += '</li>';
 	}
-	if (info.Leader=="Me"){
+	if (info.Owner=="1F"){
 		li += '<li><a href="#invite-page" data-role="button" data-mini="true" data-icon="plus" data-inline="true" data-theme="a">Invite new member(s)</a></li>';
     }
     $("#member-list").html(li).promise().done(function () {
@@ -103,7 +114,7 @@ $(document).on("pagebeforeshow", "#add-page", function () {
 		var name = $(this).find("#_teamname").val();
 		var emailAddresses = $(this).find("#_invitations").val();
 		//api call to create team
-		var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/eventEdit",  
+		var jqxhr = $.post( "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/teams",  
     		{
     			"name": name
   			}, 
