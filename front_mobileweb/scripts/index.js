@@ -1,3 +1,5 @@
+enforceLogins = true; //togglable for local testing
+
 //***HELPER FUNCTIONS***//
 function getUrlVars(){
     var vars = [], hash;
@@ -75,7 +77,9 @@ $(document).ready(function () {
 			if (dataBack["Error"]!=undefined){
 				console.log("Error" + dataBack["Error"]);
 				if (dataBack["Error"]=="Session Expired"){
-					//window.location.replace("login.html");
+					if (enforceLogins){
+						window.location.replace("login.html");
+					}
 				}
 			}
 			else{

@@ -1,3 +1,5 @@
+enforceLogins = true; //togglable for local testing
+
 //***HELPER FUNCTIONS***//
 function getUrlVars(){
     var vars = [], hash;
@@ -92,6 +94,11 @@ $(document).ready(function () {
 		else{
 			if (dataBack["Error"]!=undefined){
 				console.log(dataBack["Error"]);
+				if (dataBack["Error"]=="Session Expired"){
+					if (enforceLogins){
+						window.location.replace("login.html");
+					}
+				}
 				teams = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Members": ["Doug", "Steve", "Jack"]}];
 			}
 			else{
@@ -125,7 +132,9 @@ $(document).ready(function () {
 					if (dataBack["Error"]!=undefined){
 						console.log(dataBack["Error"]);
 						if (dataBack["Error"]=="Session Expired"){
-							//window.location.replace("login.html");
+							if (enforceLogins){
+								window.location.replace("login.html");
+							}
 						}
 					}
 					else{
@@ -184,6 +193,11 @@ $(document).ready(function () {
 				}
 				else{
 					if (dataBack["Error"]!=undefined){
+						if (dataBack["Error"]=="Session Expired"){
+							if (enforceLogins){
+								window.location.replace("login.html");
+							}
+						}
 						info = [{"Date":"2014-04-01","MentalPoints":7,"PhysicalPoints":0,"SocialPoints":0},
 						{"Date":"2014-04-02","MentalPoints":5,"PhysicalPoints":1,"SocialPoints":0},
 						{"Date":"2014-04-03","MentalPoints":2,"PhysicalPoints":2,"SocialPoints":8},
