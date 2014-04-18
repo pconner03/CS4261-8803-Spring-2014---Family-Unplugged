@@ -387,4 +387,51 @@ function _getUserTeamInfo($personID){
 	echo json_encode($res);
 }
 
+function deleteTeam($teamID){
+	header("Content-type: application/json");
+	session_start();
+	if(sessionValid()){
+
+	}
+	else{
+		sessionExpiredError();
+	}
+}
+
+function _deleteTeam($teamID){
+	if(teamOwner($teamID, $_SESSION["personID"])){
+		fullDeleteTeam($teamID);
+	}
+	else{
+		removeTeamMember($teamID, $_SESSION["personID"]);
+	}
+}
+
+function fullDeleteTeam($teamID){
+	$deleteTeamMemberQuery = sprintf("DELETE FROM TeamMembers WHERE TeamID='%s'",
+		mysql_real_escape_string($teamID));
+	$deleteTeamQuery = sprintf("DELETE FROM Team WHERE TeamID='%s'",
+		mysql_real_escape_string($teamID));
+	if(execDeleteQuery($deleteTeamMemberQuery) && execDeleteQuery($deleteTeamQuery)){
+		echo json_encode(Array("Success"=>"Team ".$teamID." deleted"));
+	}
+	else{
+		databaseError();
+	}
+}
+
+function removeTeamMember($teamID, $personID){
+	$dbQuery = sprintf("DELETE FROM TeamMembers WHERE PersonID='%s' AND TeamID='%s'",
+		mysql_real_escape_string($personID),
+		mysql_real_escape_string($teamID));
+	if(execDeleteQuery($dbQuery)){
+		echo json_encode(Array("Success"=>"TeamMember ".$personID." removed from ".$teamID));
+	}
+	else{
+		databaseError();
+	}
+}
+
+
+
 ?>

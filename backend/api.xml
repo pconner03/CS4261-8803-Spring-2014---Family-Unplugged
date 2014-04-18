@@ -168,7 +168,7 @@
 				<![CDATA[
 					Delete a single event (identified by EventID, which is returned whenever an event is fetched from the database)
 
-					DELETE parameters - EventID
+					DELETE url - /api/events/EVENT-ID
 				]]>
 			</description>
 			<action file="backend.php">
@@ -230,6 +230,18 @@
 				]]>
 			</action>
 		</post>
+		<delete>
+			<description>
+				<![CDATA[
+					.../api/teams/TEAM-ID Deletes team if user is owner, otherwise, removes user from team
+				]]>
+			</description>
+			<action file="backend.php">
+				<![CDATA[
+					deleteTeam($_REST['teams']);
+				]]>
+			</action>
+		</delete>
 		<!--
 		<get>
 			<description>temp

@@ -104,7 +104,13 @@ function getUsername($personID){
 	return getDBResultsArray($dbQuery);
 }
 
-
+function teamOwner($teamID, $personID){
+	$dbQuery = sprintf("SELECT EXISTS(SELECT 1 FROM Team WHERE TeamID='%s' AND PersonID='%s')",
+		mysql_real_escape_string($teamID),
+		mysql_real_escape_string($personID));
+	$result = mysql_query($dbQuery);
+	return mysql_fetch_row($result)[0]=='1'? True: False;
+}
 
 
 ?>
