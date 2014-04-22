@@ -51,29 +51,29 @@
 		</index>
 	</command>
 	<command id="register" security="public">
+		<description>
+			Register a new user
+		</description>
+		<post>
 			<description>
-				Register a new user
+				<![CDATA[
+					POST Parameters: username, password, name, email, dateOfBirth
+
+					--"name" is full/real name
+					--Registration page will need all of these fields. You could chose to make some of them optional 
+
+					--You could also chose to require password confirmation, but that should be done client-side
+
+					--Will return an error if username already exists
+				]]>
 			</description>
-			<post>
-				<description>
-					<![CDATA[
-						POST Parameters: username, password, name, email, dateOfBirth
-
-						--"name" is full/real name
-						--Registration page will need all of these fields. You could chose to make some of them optional 
-
-						--You could also chose to require password confirmation, but that should be done client-side
-
-						--Will return an error if username already exists
-					]]>
-				</description>
-				<action file="backend.php">
-					<![CDATA[
-						registerUser($_POST['username'], $_POST['password'], $_POST['name'], $_POST['email'], $_POST['dateOfBirth']);
-					]]>
-				</action>
-			</post>
-		</command>
+			<action file="backend.php">
+				<![CDATA[
+					registerUser($_POST['username'], $_POST['password'], $_POST['name'], $_POST['email'], $_POST['dateOfBirth']);
+				]]>
+			</action>
+		</post>
+	</command>
 
 	<command id="login" security="public">
 		<description>
@@ -242,17 +242,6 @@
 				]]>
 			</action>
 		</delete>
-		<!--
-		<get>
-			<description>temp
-			</description>
-			<action file="backend.php">
-				<![CDATA[
-					createTeam($_GET['name']);
-				]]>
-			</action>
-		</get>
-		-->
 	</command>
 	<command id="logout" security="public">
 		<description>

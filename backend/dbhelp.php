@@ -55,7 +55,7 @@ function dayEventsQuery($personID, $date){
 		FROM Event, ActivityCatalog
 		WHERE PersonID =  '%s' 
 		AND DATE =  '%s' 
-		AND Event.ActivityID = ActivityCatalog.ActivityID",
+		AND Event.ActivityID = ActivityCatalog.ActivityID ORDER BY ThirdPartyEntry ASC, EntryTimeStamp DESC",
 		mysql_real_escape_string($personID),
 		mysql_real_escape_string($date));
 	return getDBResultsArray($dbQuery);

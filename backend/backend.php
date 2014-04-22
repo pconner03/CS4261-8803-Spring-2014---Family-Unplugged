@@ -391,7 +391,7 @@ function deleteTeam($teamID){
 	header("Content-type: application/json");
 	session_start();
 	if(sessionValid()){
-
+		_deleteTeam($teamID);
 	}
 	else{
 		sessionExpiredError();
