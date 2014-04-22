@@ -3,7 +3,7 @@ enforceLogins = true; //togglable for local testing
 $(document).ready(function () {
 	//assume info is sorted with teams I lead first
 
-	info = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Owner":"1", "TeamLeader": "Test1", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Owner":"0", "TeamLeader": "Doug", "Members": ["Doug", "Steve", "Jack"]}];
+	info = [{"Name": "Hardcode Team 1", "TeamID": "AJHGYD67", "Owner":"1", "TeamLeader": "Test1", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Owner":"0", "TeamLeader": "Doug", "Members": ["Doug", "Steve", "Jack"]}];
 	var teamsAPI = 'http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/teams';
 	var args = {};
 
@@ -21,7 +21,7 @@ $(document).ready(function () {
 						window.location.replace("login.html");
 					}
 				}
-				info = [{"Name": "Hardcode Team 1", "ID": "AJHGYD67", "Owner":"1", "TeamLeader": "Test1", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Owner":"0", "TeamLeader": "Doug", "Members": ["Doug", "Steve", "Jack"]}];
+				info = [{"Name": "Hardcode Team 1", "TeamID": "AJHGYD67", "Owner":"1", "TeamLeader": "Test1", "Members": ["Katy", "John"]}, {"Name": "Hardcode Team 2", "ID": "AJHGYD68", "Owner":"0", "TeamLeader": "Doug", "Members": ["Doug", "Steve", "Jack"]}];
 			}
 			else{
 				info=dataBack;
@@ -105,6 +105,21 @@ $(document).on("pagebeforeshow", "#view-page", function () {
     $("#member-list").html(li).promise().done(function () {
     	$(this).listview("refresh");
     });
+    
+    	
+    $("#_leaveteambtn").click(function(){
+		var jqxhr = $.ajax({
+  			type: "DELETE",
+  			url: "http://dev.m.gatech.edu/d/pconner3/w/4261/c/api/teams/"+info.TeamID
+		})
+    	.done(function() {
+    		window.location.href = "teams.html";
+  		})
+  		.fail(function( jqxhr, textStatus ) {
+  			console.log( "Request failed: " + textStatus );
+		});
+    	
+    });
 
 });
 
@@ -121,8 +136,13 @@ $(document).on("pagebeforeshow", "#add-page", function () {
   			function(data) {
     	})
     	.done(function() {
-   			window.location.href = 'mailto:'+emailAddresses+'?subject=Join my team on Family Unplugged!&body=Pretty html with link to join my team here.';
-   			setTimeout(function(){window.location.assign("teams.html");}, 1);
+    		if (emailAddresses.length>0){
+   				window.location.href = 'mailto:'+emailAddresses+'?subject=Join my team on Family Unplugged!&body=Pretty html with link to join my team here.';
+   				setTimeout(function(){window.location.assign("teams.html");}, 1);
+   			}
+   			else{
+   				window.location.href = "teams.html";
+   			}
   		})
   		.fail(function( jqXHR, textStatus ) {
   			console.log( "Request failed: " + textStatus );
